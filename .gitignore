@@ -1,0 +1,19 @@
+node_modules
+
+# Next.js build output and local test artifacts
+web/.next/
+web/test-results/
+web/tsconfig.tsbuildinfo
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local backend runtime state
+backend/data/orchestration-artifacts/
+backend/data/orchestration-history.jsonl
+
+# Promptfoo local install state
+promptfoo/node_modules/
