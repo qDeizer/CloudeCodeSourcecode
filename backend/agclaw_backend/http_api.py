@@ -14,6 +14,14 @@ from .mes_services import interpret_screen, list_mes_datasets, retrieve_mes_cont
 from .orchestrator import run_research_orchestration
 from .providers import ProviderConfig, ProviderError, chat_chunks, default_base_url, probe_provider
 
+# Initialize tracing if available (best-effort; optional dependency)
+try:
+    from .tracing import start_tracing  # type: ignore
+    start_tracing("agclaw-backend")
+except Exception:
+    # Tracing is optional — don't break runtime if it's not installed.
+    pass
+
 
 HOSTED_PROVIDERS = {
     ChatProvider.ANTHROPIC,
