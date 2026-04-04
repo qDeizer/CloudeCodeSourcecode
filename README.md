@@ -166,6 +166,16 @@ npm run build
 - `docs/agclaw-vision-runbook.md` for screen interpretation validation
 - `docs/repo-status.md` for current migration status
 
+---
+
+<a href="https://www.star-history.com/?repos=codeaashu%2Fclaude-code&type=date&legend=bottom-right">
+ <picture>
+	 <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=codeaashu/claude-code&type=date&theme=dark&legend=bottom-right" />
+	 <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=codeaashu/claude-code&type=date&legend=bottom-right" />
+	 <img alt="Star History Chart" src="https://api.star-history.com/image?repos=codeaashu/claude-code&type=date&legend=bottom-right" />
+ </picture>
+</a>
+
 ## Operating Rule
 
 No new AG-Claw operator-facing surface should introduce Claude-branded product naming. Upstream provider identifiers such as `anthropic` or model ids such as `claude-sonnet-*` remain acceptable only where they describe compatibility with external APIs.
