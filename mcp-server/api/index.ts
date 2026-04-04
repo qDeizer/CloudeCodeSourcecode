@@ -8,7 +8,7 @@
  *   cd mcp-server && npx vercel
  *
  * Environment variables (set in Vercel dashboard):
- *   CLAUDE_CODE_SRC_ROOT — absolute path where src/ is deployed
+ *   AGCLAW_REFERENCE_SRC_ROOT — absolute path where src/ is deployed
  *   MCP_API_KEY          — optional bearer token for auth
  *
  * NOTE: Vercel serverless functions are stateless, so the Streamable HTTP

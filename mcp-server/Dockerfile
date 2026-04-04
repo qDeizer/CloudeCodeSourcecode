@@ -20,7 +20,7 @@ COPY --from=build /app/src /app/src
 COPY --from=build /app/README.md /app/README.md
 
 ENV NODE_ENV=production
-ENV CLAUDE_CODE_SRC_ROOT=/app/src
+ENV AGCLAW_REFERENCE_SRC_ROOT=/app/src
 ENV PORT=3000
 
 EXPOSE 3000

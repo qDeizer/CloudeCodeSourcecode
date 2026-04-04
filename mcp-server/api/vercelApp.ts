@@ -27,10 +27,10 @@ app.use((req, res, next) => {
 
 // Health
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok", server: "claude-code-explorer", version: "1.1.0", srcRoot: SRC_ROOT });
+  res.json({ status: "ok", server: "agclaw-source-explorer", version: "1.1.0", srcRoot: SRC_ROOT });
 });
 app.get("/api", (_req, res) => {
-  res.json({ status: "ok", server: "claude-code-explorer", version: "1.1.0", srcRoot: SRC_ROOT });
+  res.json({ status: "ok", server: "agclaw-source-explorer", version: "1.1.0", srcRoot: SRC_ROOT });
 });
 
 // Streamable HTTP

@@ -8,7 +8,7 @@
  *
  * Environment:
  *   PORT                  — HTTP port (default: 3000)
- *   CLAUDE_CODE_SRC_ROOT  — Path to Claude Code src/ directory
+ *   AGCLAW_REFERENCE_SRC_ROOT — Path to the reference src/ directory
  *   MCP_API_KEY           — Optional bearer token for authentication
  */
 
@@ -146,7 +146,7 @@ async function main(): Promise<void> {
   app.get("/health", (_req, res) => {
     res.json({
       status: "ok",
-      server: "claude-code-explorer",
+      server: "agclaw-source-explorer",
       version: "1.1.0",
       srcRoot: SRC_ROOT,
     });
@@ -157,7 +157,7 @@ async function main(): Promise<void> {
   await startLegacySSE(app);
 
   app.listen(PORT, () => {
-    console.log(`Claude Code Explorer MCP (HTTP) listening on port ${PORT}`);
+    console.log(`AG-Claw Source Explorer MCP (HTTP) listening on port ${PORT}`);
     console.log(`  Streamable HTTP: POST/GET http://localhost:${PORT}/mcp`);
     console.log(`  Legacy SSE:      GET http://localhost:${PORT}/sse`);
     console.log(`  Health:          GET http://localhost:${PORT}/health`);
