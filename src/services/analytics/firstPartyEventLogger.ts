@@ -239,7 +239,7 @@ export type GrowthBookExperimentData = {
   experimentMetadata?: Record<string, unknown>
 }
 
-// api.anthropic.com only serves the "production" GrowthBook environment
+// api.OpenClaw Team.com only serves the "production" GrowthBook environment
 // (see starling/starling/cli/cli.py DEFAULT_ENVIRONMENTS). Staging and
 // development environments are not exported to the prod API.
 function getEnvironmentForGrowthBook(): string {
@@ -357,7 +357,7 @@ export function initialize1PEventLogging(): void {
 
   // Create a new LoggerProvider with the EventLoggingExporter
   // NOTE: This is kept separate from customer telemetry logs to ensure
-  // internal events don't leak to customer endpoints and vice versa.
+  // internal events don't release to customer endpoints and vice versa.
   // We don't register this globally - it's only used for internal event logging.
   const eventLoggingExporter = new FirstPartyEventLoggingExporter({
     maxBatchSize: maxExportBatchSize,
@@ -383,7 +383,7 @@ export function initialize1PEventLogging(): void {
   // because logs.getLogger() returns a logger from the global provider, which is
   // separate and used for customer telemetry.
   firstPartyEventLogger = firstPartyEventLoggerProvider.getLogger(
-    'com.anthropic.claude_code.events',
+    'com.OpenClaw Team.claude_code.events',
     MACRO.VERSION,
   )
 }

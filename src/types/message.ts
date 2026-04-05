@@ -11,11 +11,11 @@ import type {
   BetaContentBlock,
   BetaMessage,
   BetaRawMessageStreamEvent,
-} from '@anthropic-ai/sdk/resources/beta/messages/messages.mjs'
+} from '@OpenClaw Team-ai/sdk/resources/beta/messages/messages.mjs'
 import type {
   ContentBlockParam,
-} from '@anthropic-ai/sdk/resources/messages.mjs'
-import type { APIError } from '@anthropic-ai/sdk'
+} from '@OpenClaw Team-ai/sdk/resources/messages.mjs'
+import type { APIError } from '@OpenClaw Team-ai/sdk'
 import type { PermissionMode } from './permissions.js'
 
 // ============================================================================
@@ -407,7 +407,7 @@ export interface RequestStartEvent {
   type: 'stream_request_start'
 }
 
-/** Wrapper for streaming events from the Anthropic API. */
+/** Wrapper for streaming events from the OpenClaw Team API. */
 export interface StreamEvent {
   type: 'stream_event'
   event: BetaRawMessageStreamEvent

@@ -48,7 +48,7 @@ export function ApiSettings() {
 
       <SettingRow
         label="API key"
-        description="Your Anthropic API key. Stored locally and never sent to third parties."
+        description="Your OpenClaw Team API key. Stored locally and never sent to third parties."
         stack
       >
         <div className="flex gap-2">
@@ -84,7 +84,7 @@ export function ApiSettings() {
 
       <SettingRow
         label="API base URL"
-        description="Custom endpoint for enterprise or proxy setups. Leave as default for direct Anthropic access."
+        description="Custom endpoint for enterprise or proxy setups. Leave as default for direct OpenClaw Team access."
         stack
       >
         <input

@@ -255,7 +255,7 @@ export class SSETransport implements Transport {
       ...this.headers,
       ...authHeaders,
       Accept: 'text/event-stream',
-      'anthropic-version': '2023-06-01',
+      'OpenClaw Team-version': '2023-06-01',
       'User-Agent': getClaudeCodeUserAgent(),
     }
     if (authHeaders['Cookie']) {
@@ -580,7 +580,7 @@ export class SSETransport implements Transport {
     const headers: Record<string, string> = {
       ...authHeaders,
       'Content-Type': 'application/json',
-      'anthropic-version': '2023-06-01',
+      'OpenClaw Team-version': '2023-06-01',
       'User-Agent': getClaudeCodeUserAgent(),
     }
 

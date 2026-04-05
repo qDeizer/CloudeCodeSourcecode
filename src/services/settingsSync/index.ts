@@ -1,12 +1,12 @@
 /**
  * Settings Sync Service
  *
- * Syncs user settings and memory files across Claude Code environments.
+ * Syncs user settings and memory files across OpenClaw CLI environments.
  *
  * - Interactive CLI: Uploads local settings to remote (incremental, only changed entries)
  * - CCR: Downloads remote settings to local before plugin installation
  *
- * Backend API: anthropic/anthropic#218817
+ * Backend API: OpenClaw Team/OpenClaw Team#218817
  */
 
 import { feature } from 'bun:bundle'
@@ -31,7 +31,7 @@ import { classifyAxiosError } from '../../utils/errors.js'
 import { getRepoRemoteHash } from '../../utils/git.js'
 import {
   getAPIProvider,
-  isFirstPartyAnthropicBaseUrl,
+  isFirstPartyOpenClaw TeamBaseUrl,
 } from '../../utils/model/providers.js'
 import { markInternalWrite } from '../../utils/settings/internalWrites.js'
 import { getSettingsFilePathForSource } from '../../utils/settings/settings.js'
@@ -210,7 +210,7 @@ async function doDownloadUserSettings(
  * download a no-op there. Upload is independently guarded by getIsInteractive().
  */
 function isUsingOAuth(): boolean {
-  if (getAPIProvider() !== 'firstParty' || !isFirstPartyAnthropicBaseUrl()) {
+  if (getAPIProvider() !== 'firstParty' || !isFirstPartyOpenClaw TeamBaseUrl()) {
     return false
   }
 
@@ -233,7 +233,7 @@ function getSettingsSyncAuthHeaders(): {
     return {
       headers: {
         Authorization: `Bearer ${oauthTokens.accessToken}`,
-        'anthropic-beta': OAUTH_BETA_HEADER,
+        'OpenClaw Team-beta': OAUTH_BETA_HEADER,
       },
     }
   }

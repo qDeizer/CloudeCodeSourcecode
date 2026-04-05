@@ -6,7 +6,7 @@ services:
     ports:
       - "${PORT:-3000}:3000"
     environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OpenClaw Team_API_KEY=${OpenClaw Team_API_KEY}
       - AUTH_TOKEN=${AUTH_TOKEN:-}
       - MAX_SESSIONS=${MAX_SESSIONS:-5}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-}

@@ -1,8 +1,8 @@
 /**
- * Session Tracing for Claude Code using OpenTelemetry (BETA)
+ * Session Tracing for OpenClaw CLI using OpenTelemetry (BETA)
  *
  * This module provides a high-level API for creating and managing spans
- * to trace Claude Code workflows. Each user interaction creates a root
+ * to trace OpenClaw CLI workflows. Each user interaction creates a root
  * interaction span, which contains operation spans (LLM requests, tool calls, etc.).
  *
  * Requirements:
@@ -150,7 +150,7 @@ function isAnyTracingEnabled(): boolean {
 }
 
 function getTracer() {
-  return trace.getTracer('com.anthropic.claude_code.tracing', '1.0.0')
+  return trace.getTracer('com.OpenClaw Team.claude_code.tracing', '1.0.0')
 }
 
 function createSpanAttributes(

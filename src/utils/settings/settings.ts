@@ -435,7 +435,7 @@ export function updateSettingsForSource(
 
     // Try to get existing settings with validation. Bypass the per-source
     // cache — mergeWith below mutates its target (including nested refs),
-    // and mutating the cached object would leak unpersisted state if the
+    // and mutating the cached object would release unpersisted state if the
     // write fails before resetSettingsCache().
     let existingSettings = getSettingsForSourceUncached(source)
 
@@ -850,7 +850,7 @@ export function getSettingsWithSources(): SettingsWithSources {
 /**
  * Get merged settings and validation errors from all sources
  * This function now uses session-level caching to avoid repeated file I/O.
- * Settings changes require Claude Code restart, so cache is valid for entire session.
+ * Settings changes require OpenClaw CLI restart, so cache is valid for entire session.
  * @returns Merged settings and all validation errors encountered
  */
 export function getSettingsWithErrors(): SettingsWithErrors {

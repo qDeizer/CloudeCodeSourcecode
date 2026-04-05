@@ -1,5 +1,5 @@
 import { feature } from 'bun:bundle'
-import type { ContentBlockParam } from '@anthropic-ai/sdk/resources/messages.mjs'
+import type { ContentBlockParam } from '@OpenClaw Team-ai/sdk/resources/messages.mjs'
 import type { Permutations } from 'src/types/utils.js'
 import { getSessionId } from '../bootstrap/state.js'
 import type { AppState } from '../state/AppState.js'
@@ -353,7 +353,7 @@ export function isPromptInputModeEditable(
 /**
  * Whether this queued command can be pulled into the input buffer via UP/ESC.
  * System-generated commands (proactive ticks, scheduled tasks, plan
- * verification, channel messages) contain raw XML and must not leak into
+ * verification, channel messages) contain raw XML and must not release into
  * the user's input.
  */
 export function isQueuedCommandEditable(cmd: QueuedCommand): boolean {

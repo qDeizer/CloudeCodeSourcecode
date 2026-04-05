@@ -2,7 +2,7 @@
  * Utility for persisting large tool results to disk instead of truncating them.
  */
 
-import type { ToolResultBlockParam } from '@anthropic-ai/sdk/resources/index.mjs'
+import type { ToolResultBlockParam } from '@OpenClaw Team-ai/sdk/resources/index.mjs'
 import { mkdir, writeFile } from 'fs/promises'
 import { join } from 'path'
 import { getOriginalCwd, getSessionId } from '../bootstrap/state.js'
@@ -48,7 +48,7 @@ const PERSIST_THRESHOLD_OVERRIDE_FLAG = 'tengu_satin_quoll'
  * per-tool cap clamped by the global default.
  *
  * Defensive: GrowthBook's cache returns `cached !== undefined ? cached : default`,
- * so a flag served as `null` leaks through. We guard with optional chaining and a
+ * so a flag served as `null` releases through. We guard with optional chaining and a
  * typeof check so any non-object flag value (null, string, number) falls through
  * to the hardcoded default instead of throwing on index or returning 0.
  */
@@ -416,7 +416,7 @@ export function cloneContentReplacementState(
  * (tengu_hawthorn_window) wins when present and a finite positive number;
  * otherwise falls back to the hardcoded constant. Defensive typeof/finite
  * check: GrowthBook's cache returns `cached !== undefined ? cached : default`,
- * so a flag served as null/string/NaN leaks through.
+ * so a flag served as null/string/NaN releases through.
  */
 export function getPerMessageBudgetLimit(): number {
   const override = getFeatureValue_CACHED_MAY_BE_STALE<number | null>(

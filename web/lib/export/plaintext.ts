@@ -52,7 +52,7 @@ export function toPlainText(conv: Conversation, options: ExportOptions): string 
   }
 
   lines.push("---");
-  lines.push("Exported from Claude Code");
+  lines.push("Exported from OpenClaw CLI");
 
   return lines.join("\n");
 }

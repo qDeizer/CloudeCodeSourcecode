@@ -115,7 +115,7 @@ export async function parseCommandRaw(
       // SECURITY: Module loaded; null here = timeout/node-budget abort in
       // bashParser.ts (PARSE_TIMEOUT_MS=50, MAX_NODES=50_000).
       // Previously collapsed into `return null` → parse-unavailable → legacy
-      // path, which lacks EVAL_LIKE_BUILTINS — `trap`, `enable`, `hash` leaked.
+      // path, which lacks EVAL_LIKE_BUILTINS — `trap`, `enable`, `hash` custom.
       if (result === null) {
         logEvent('tengu_tree_sitter_parse_abort', {
           cmdLength: command.length,

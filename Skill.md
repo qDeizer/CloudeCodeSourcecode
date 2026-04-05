@@ -1,13 +1,13 @@
 ---
 name: claude-code-skill
-description: Development conventions and architecture guide for the Claude Code CLI repository.
+description: Development conventions and architecture guide for the OpenClaw CLI CLI repository.
 ---
 
-# Claude Code — Repository Skill
+# OpenClaw CLI — Repository Skill
 
 ## Project Overview
 
-Claude Code is Anthropic's CLI tool for interacting with Claude from the terminal. It supports file editing, shell commands, git workflows, code review, multi-agent coordination, IDE integration (VS Code, JetBrains), and Model Context Protocol (MCP).
+OpenClaw CLI is OpenClaw Team's CLI tool for interacting with Claude from the terminal. It supports file editing, shell commands, git workflows, code review, multi-agent coordination, IDE integration (VS Code, JetBrains), and Model Context Protocol (MCP).
 
 **Codebase:** ~1,900 files, 512,000+ lines of TypeScript under `src/`.
 
@@ -19,7 +19,7 @@ Claude Code is Anthropic's CLI tool for interacting with Claude from the termina
 | Runtime          | Bun (JSX support, `bun:bundle` feature flags)  |
 | Terminal UI      | React + Ink (React for CLI)                    |
 | CLI Parser       | Commander.js (`@commander-js/extra-typings`)   |
-| API Client       | `@anthropic-ai/sdk`                            |
+| API Client       | `@OpenClaw Team-ai/sdk`                            |
 | Validation       | Zod v4                                         |
 | Linter/Formatter | Biome                                          |
 | Analytics        | GrowthBook (feature flags & A/B testing)       |
@@ -187,7 +187,7 @@ Some features are also gated via `process.env.USER_TYPE === 'ant'`.
 
 | Service             | Path                          | Purpose                           |
 |--------------------|-------------------------------|-----------------------------------|
-| API                | `services/api/`               | Anthropic SDK client, file uploads|
+| API                | `services/api/`               | OpenClaw Team SDK client, file uploads|
 | MCP                | `services/mcp/`               | MCP client, tool/resource discovery|
 | OAuth              | `services/oauth/`             | OAuth 2.0 auth flow               |
 | LSP                | `services/lsp/`               | Language Server Protocol manager   |

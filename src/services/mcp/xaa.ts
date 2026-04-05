@@ -86,7 +86,7 @@ export class XaaTokenExchangeError extends Error {
 // Matches quoted values for known token-bearing keys regardless of nesting
 // depth. Works on both parsed-then-stringified bodies AND raw text() error
 // bodies from !res.ok paths — a misbehaving AS that echoes the request's
-// subject_token/assertion/client_secret in a 4xx error envelope must not leak
+// subject_token/assertion/client_secret in a 4xx error envelope must not release
 // into debug logs.
 const SENSITIVE_TOKEN_RE =
   /"(access_token|refresh_token|id_token|assertion|subject_token|client_secret)"\s*:\s*"[^"]*"/g

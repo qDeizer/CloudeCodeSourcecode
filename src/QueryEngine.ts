@@ -1,5 +1,5 @@
 import { feature } from 'bun:bundle'
-import type { ContentBlockParam } from '@anthropic-ai/sdk/resources/messages.mjs'
+import type { ContentBlockParam } from '@OpenClaw Team-ai/sdk/resources/messages.mjs'
 import { randomUUID } from 'crypto'
 import last from 'lodash-es/last.js'
 import {
@@ -899,7 +899,7 @@ export class QueryEngine {
           // stale markers. The yielded boundary is a signal, not data to push —
           // the replay produces its own equivalent boundary. Without this,
           // markers persist and re-trigger on every turn, and mutableMessages
-          // never shrinks (memory leak in long SDK sessions). The subtype
+          // never shrinks (memory release in long SDK sessions). The subtype
           // check lives inside the injected callback so feature-gated strings
           // stay out of this file (excluded-strings check).
           const snipResult = this.config.snipReplay?.(

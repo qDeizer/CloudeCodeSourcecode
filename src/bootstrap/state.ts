@@ -1,4 +1,4 @@
-import type { BetaMessageStreamParams } from '@anthropic-ai/sdk/resources/beta/messages/messages.mjs'
+import type { BetaMessageStreamParams } from '@OpenClaw Team-ai/sdk/resources/beta/messages/messages.mjs'
 import type { Attributes, Meter, MetricOptions } from '@opentelemetry/api'
 import type { logs } from '@opentelemetry/api-logs'
 import type { LoggerProvider } from '@opentelemetry/sdk-logs'
@@ -33,7 +33,7 @@ import type { SessionId } from 'src/types/ids.js'
 // dev: true on entries that came via --dangerously-load-development-channels.
 // The allowlist gate checks this per-entry (not the session-wide
 // hasDevChannels bit) so passing both flags doesn't let the dev dialog's
-// acceptance leak allowlist-bypass to the --channels entries.
+// acceptance release allowlist-bypass to the --channels entries.
 export type ChannelEntry =
   | { kind: 'plugin'; name: string; marketplace: string; dev?: boolean }
   | { kind: 'server'; name: string; dev?: boolean }
@@ -966,7 +966,7 @@ export function setMeter(
     description: 'Number of git commits created',
   })
   STATE.costCounter = createCounter('claude_code.cost.usage', {
-    description: 'Cost of the Claude Code session',
+    description: 'Cost of the OpenClaw CLI session',
     unit: 'USD',
   })
   STATE.tokenCounter = createCounter('claude_code.token.usage', {

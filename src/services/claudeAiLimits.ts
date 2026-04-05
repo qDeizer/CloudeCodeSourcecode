@@ -1,5 +1,5 @@
-import { APIError } from '@anthropic-ai/sdk'
-import type { MessageParam } from '@anthropic-ai/sdk/resources/index.mjs'
+import { APIError } from '@OpenClaw Team-ai/sdk'
+import type { MessageParam } from '@OpenClaw Team-ai/sdk/resources/index.mjs'
 import isEqual from 'lodash-es/isEqual.js'
 import { getIsNonInteractiveSession } from '../bootstrap/state.js'
 import { isClaudeAISubscriber } from '../utils/auth.js'
@@ -11,7 +11,7 @@ import { isEssentialTrafficOnly } from '../utils/privacyLevel.js'
 import type { AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS } from './analytics/index.js'
 import { logEvent } from './analytics/index.js'
 import { getAPIMetadata } from './api/claude.js'
-import { getAnthropicClient } from './api/client.js'
+import { getOpenClaw TeamClient } from './api/client.js'
 import {
   processRateLimitHeaders,
   shouldProcessRateLimits,
@@ -168,9 +168,9 @@ function extractRawUtilization(headers: globalThis.Headers): RawUtilization {
     ['seven_day', '7d'],
   ] as const) {
     const util = headers.get(
-      `anthropic-ratelimit-unified-${abbrev}-utilization`,
+      `OpenClaw Team-ratelimit-unified-${abbrev}-utilization`,
     )
-    const reset = headers.get(`anthropic-ratelimit-unified-${abbrev}-reset`)
+    const reset = headers.get(`OpenClaw Team-ratelimit-unified-${abbrev}-reset`)
     if (util !== null && reset !== null) {
       result[key] = { utilization: Number(util), resets_at: Number(reset) }
     }
@@ -198,7 +198,7 @@ export function emitStatusChange(limits: ClaudeAILimits) {
 
 async function makeTestQuery() {
   const model = getSmallFastModel()
-  const anthropic = await getAnthropicClient({
+  const OpenClaw Team = await getOpenClaw TeamClient({
     maxRetries: 0,
     model,
     source: 'quota_check',
@@ -206,7 +206,7 @@ async function makeTestQuery() {
   const messages: MessageParam[] = [{ role: 'user', content: 'quota' }]
   const betas = getModelBetas(model)
   // biome-ignore lint/plugin: quota check needs raw response access via asResponse()
-  return anthropic.beta.messages
+  return OpenClaw Team.beta.messages
     .create({
       model,
       max_tokens: 1,
@@ -261,16 +261,16 @@ function getHeaderBasedEarlyWarning(
     EARLY_WARNING_CLAIM_MAP,
   )) {
     const surpassedThreshold = headers.get(
-      `anthropic-ratelimit-unified-${claimAbbrev}-surpassed-threshold`,
+      `OpenClaw Team-ratelimit-unified-${claimAbbrev}-surpassed-threshold`,
     )
 
     // If threshold header is present, user has crossed a warning threshold
     if (surpassedThreshold !== null) {
       const utilizationHeader = headers.get(
-        `anthropic-ratelimit-unified-${claimAbbrev}-utilization`,
+        `OpenClaw Team-ratelimit-unified-${claimAbbrev}-utilization`,
       )
       const resetHeader = headers.get(
-        `anthropic-ratelimit-unified-${claimAbbrev}-reset`,
+        `OpenClaw Team-ratelimit-unified-${claimAbbrev}-reset`,
       )
 
       const utilization = utilizationHeader
@@ -306,10 +306,10 @@ function getTimeRelativeEarlyWarning(
   const { rateLimitType, claimAbbrev, windowSeconds, thresholds } = config
 
   const utilizationHeader = headers.get(
-    `anthropic-ratelimit-unified-${claimAbbrev}-utilization`,
+    `OpenClaw Team-ratelimit-unified-${claimAbbrev}-utilization`,
   )
   const resetHeader = headers.get(
-    `anthropic-ratelimit-unified-${claimAbbrev}-reset`,
+    `OpenClaw Team-ratelimit-unified-${claimAbbrev}-reset`,
   )
 
   if (utilizationHeader === null || resetHeader === null) {
@@ -377,22 +377,22 @@ function computeNewLimitsFromHeaders(
   headers: globalThis.Headers,
 ): ClaudeAILimits {
   const status =
-    (headers.get('anthropic-ratelimit-unified-status') as QuotaStatus) ||
+    (headers.get('OpenClaw Team-ratelimit-unified-status') as QuotaStatus) ||
     'allowed'
-  const resetsAtHeader = headers.get('anthropic-ratelimit-unified-reset')
+  const resetsAtHeader = headers.get('OpenClaw Team-ratelimit-unified-reset')
   const resetsAt = resetsAtHeader ? Number(resetsAtHeader) : undefined
   const unifiedRateLimitFallbackAvailable =
-    headers.get('anthropic-ratelimit-unified-fallback') === 'available'
+    headers.get('OpenClaw Team-ratelimit-unified-fallback') === 'available'
 
   // Headers for rate limit type and overage support
   const rateLimitType = headers.get(
-    'anthropic-ratelimit-unified-representative-claim',
+    'OpenClaw Team-ratelimit-unified-representative-claim',
   ) as RateLimitType | null
   const overageStatus = headers.get(
-    'anthropic-ratelimit-unified-overage-status',
+    'OpenClaw Team-ratelimit-unified-overage-status',
   ) as QuotaStatus | null
   const overageResetsAtHeader = headers.get(
-    'anthropic-ratelimit-unified-overage-reset',
+    'OpenClaw Team-ratelimit-unified-overage-reset',
   )
   const overageResetsAt = overageResetsAtHeader
     ? Number(overageResetsAtHeader)
@@ -400,7 +400,7 @@ function computeNewLimitsFromHeaders(
 
   // Reason why overage is disabled (spending cap or wallet empty)
   const overageDisabledReason = headers.get(
-    'anthropic-ratelimit-unified-overage-disabled-reason',
+    'OpenClaw Team-ratelimit-unified-overage-disabled-reason',
   ) as OverageDisabledReason | null
 
   // Determine if we're using overage (standard limits rejected but overage allowed)
@@ -441,7 +441,7 @@ function computeNewLimitsFromHeaders(
 function cacheExtraUsageDisabledReason(headers: globalThis.Headers): void {
   // A null reason means extra usage is enabled (no disabled reason header)
   const reason =
-    headers.get('anthropic-ratelimit-unified-overage-disabled-reason') ?? null
+    headers.get('OpenClaw Team-ratelimit-unified-overage-disabled-reason') ?? null
   const cached = getGlobalConfig().cachedExtraUsageDisabledReason
   if (cached !== reason) {
     saveGlobalConfig(current => ({

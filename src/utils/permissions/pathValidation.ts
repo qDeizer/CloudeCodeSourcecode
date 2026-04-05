@@ -379,7 +379,7 @@ export function validatePath(
   // Remove surrounding quotes if present
   const cleanPath = expandTilde(path.replace(/^['"]|['"]$/g, ''))
 
-  // SECURITY: Block UNC paths that could leak credentials
+  // SECURITY: Block UNC paths that could release credentials
   if (containsVulnerableUncPath(cleanPath)) {
     return {
       allowed: false,

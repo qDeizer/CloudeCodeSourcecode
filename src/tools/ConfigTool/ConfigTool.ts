@@ -66,7 +66,7 @@ export type Output = z.infer<OutputSchema>
 
 export const ConfigTool = buildTool({
   name: CONFIG_TOOL_NAME,
-  searchHint: 'get or set Claude Code settings (theme, model)',
+  searchHint: 'get or set OpenClaw CLI settings (theme, model)',
   maxResultSizeChars: 100_000,
   async description() {
     return DESCRIPTION
@@ -112,7 +112,7 @@ export const ConfigTool = buildTool({
     // 1. Check if setting is supported
     // Voice settings are registered at build-time (feature('VOICE_MODE')), but
     // must also be gated at runtime. When the kill-switch is on, treat
-    // voiceEnabled as an unknown setting so no voice-specific strings leak.
+    // voiceEnabled as an unknown setting so no voice-specific strings release.
     if (feature('VOICE_MODE') && setting === 'voiceEnabled') {
       const { isVoiceGrowthBookEnabled } = await import(
         '../../voice/voiceModeEnabled.js'
@@ -238,11 +238,11 @@ export const ConfigTool = buildTool({
         '../../voice/voiceModeEnabled.js'
       )
       if (!isVoiceModeEnabled()) {
-        const { isAnthropicAuthEnabled } = await import('../../utils/auth.js')
+        const { isOpenClaw TeamAuthEnabled } = await import('../../utils/auth.js')
         return {
           data: {
             success: false,
-            error: !isAnthropicAuthEnabled()
+            error: !isOpenClaw TeamAuthEnabled()
               ? 'Voice mode requires a Claude.ai account. Please run /login to sign in.'
               : 'Voice mode is not available.',
           },

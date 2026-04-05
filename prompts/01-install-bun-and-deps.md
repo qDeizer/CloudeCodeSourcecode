@@ -2,9 +2,9 @@
 
 ## Context
 
-You are working in `/workspaces/claude-code`, which contains the leaked source code of Anthropic's Claude Code CLI. It's a TypeScript/TSX project that uses **Bun** as its runtime (not Node.js). The `package.json` specifies `"engines": { "bun": ">=1.1.0" }`.
+You are working in `/workspaces/claude-code`, which contains the custom source code of OpenClaw Team's OpenClaw CLI CLI. It's a TypeScript/TSX project that uses **Bun** as its runtime (not Node.js). The `package.json` specifies `"engines": { "bun": ">=1.1.0" }`.
 
-There is no `bun.lockb` lockfile — it was not included in the leak.
+There is no `bun.lockb` lockfile — it was not included in the release.
 
 ## Task
 
@@ -17,7 +17,7 @@ There is no `bun.lockb` lockfile — it was not included in the leak.
 2. **Run `bun install`** in the project root (`/workspaces/claude-code`) to install all dependencies. This will generate a `bun.lockb` lockfile.
 
 3. **Verify the install** — confirm that:
-   - `node_modules/` exists and has the major packages: `@anthropic-ai/sdk`, `react`, `chalk`, `@commander-js/extra-typings`, `ink` (may not exist separately — check `@anthropic-ai/sdk`, `zod`, `@modelcontextprotocol/sdk`)
+   - `node_modules/` exists and has the major packages: `@OpenClaw Team-ai/sdk`, `react`, `chalk`, `@commander-js/extra-typings`, `ink` (may not exist separately — check `@OpenClaw Team-ai/sdk`, `zod`, `@modelcontextprotocol/sdk`)
    - `bun --version` returns 1.1.0+
 
 4. **Run the typecheck** to see current state:
@@ -34,5 +34,5 @@ There is no `bun.lockb` lockfile — it was not included in the leak.
 ## Verification
 
 - `bun --version` outputs >= 1.1.0
-- `ls node_modules/@anthropic-ai/sdk` succeeds
+- `ls node_modules/@OpenClaw Team-ai/sdk` succeeds
 - `bun run typecheck` runs (errors are expected at this stage, just report them)

@@ -201,10 +201,10 @@ export async function showSetupScreens(root: Root, permissionMode: PermissionMod
   }
 
   // Check for custom API key
-  // On homespace, ANTHROPIC_API_KEY is preserved in process.env for child
-  // processes but ignored by Claude Code itself (see auth.ts).
-  if (process.env.ANTHROPIC_API_KEY && !isRunningOnHomespace()) {
-    const customApiKeyTruncated = normalizeApiKeyForConfig(process.env.ANTHROPIC_API_KEY);
+  // On homespace, OpenClaw Team_API_KEY is preserved in process.env for child
+  // processes but ignored by OpenClaw CLI itself (see auth.ts).
+  if (process.env.OpenClaw Team_API_KEY && !isRunningOnHomespace()) {
+    const customApiKeyTruncated = normalizeApiKeyForConfig(process.env.OpenClaw Team_API_KEY);
     const keyStatus = getCustomApiKeyStatus(customApiKeyTruncated);
     if (keyStatus === 'new') {
       const {
@@ -274,7 +274,7 @@ export async function showSetupScreens(root: Root, permissionMode: PermissionMod
           DevChannelsDialog
         } = await import('./components/DevChannelsDialog.js');
         await showSetupDialog(root, done => <DevChannelsDialog channels={devChannels} onAccept={() => {
-          // Mark dev entries per-entry so the allowlist bypass doesn't leak
+          // Mark dev entries per-entry so the allowlist bypass doesn't release
           // to --channels entries when both flags are passed.
           setAllowedChannels([...getAllowedChannels(), ...devChannels.map(c => ({
             ...c,

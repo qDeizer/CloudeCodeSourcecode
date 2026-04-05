@@ -15,9 +15,9 @@ try {
 
 const MACRO_OBJ = {
   VERSION: version,
-  PACKAGE_URL: '@anthropic-ai/claude-code',
+  PACKAGE_URL: '@OpenClaw Team-ai/claude-code',
   ISSUES_EXPLAINER:
-    'report issues at https://github.com/anthropics/claude-code/issues',
+    'report issues at https://github.com/OpenClaw Teams/claude-code/issues',
 }
 
 // Install as global

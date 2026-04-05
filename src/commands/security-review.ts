@@ -83,7 +83,7 @@ SECURITY CATEGORIES TO EXAMINE:
 **Data Exposure:**
 - Sensitive data logging or storage
 - PII handling violations
-- API endpoint data leakage
+- API endpoint data releaseage
 - Debug information exposure
 
 Additional notes:
@@ -164,8 +164,8 @@ FALSE POSITIVE FILTERING:
 > 1. Logging high value secrets in plaintext is a vulnerability. Logging URLs is assumed to be safe.
 > 2. UUIDs can be assumed to be unguessable and do not need to be validated.
 > 3. Environment variables and CLI flags are trusted values. Attackers are generally not able to modify them in a secure environment. Any attack that relies on controlling an environment variable is invalid.
-> 4. Resource management issues such as memory or file descriptor leaks are not valid.
-> 5. Subtle or low impact web vulnerabilities such as tabnabbing, XS-Leaks, prototype pollution, and open redirects should not be reported unless they are extremely high confidence.
+> 4. Resource management issues such as memory or file descriptor releases are not valid.
+> 5. Subtle or low impact web vulnerabilities such as tabnabbing, XS-releases, prototype pollution, and open redirects should not be reported unless they are extremely high confidence.
 > 6. React and Angular are generally secure against XSS. These frameworks do not need to sanitize or escape user input unless it is using dangerouslySetInnerHTML, bypassSecurityTrustHtml, or similar methods. Do not report XSS vulnerabilities in React or Angular components or tsx files unless they are using unsafe methods.
 > 7. Most vulnerabilities in github action workflows are not exploitable in practice. Before validating a github action workflow vulnerability ensure it is concrete and has a very specific attack path.
 > 8. A lack of permission checking or authentication in client-side JS/TS code is not a vulnerability. Client-side code is not trusted and does not need to implement these checks, they are handled on the server-side. The same applies to all flows that send untrusted data to the backend, the backend is responsible for validating and sanitizing all inputs.

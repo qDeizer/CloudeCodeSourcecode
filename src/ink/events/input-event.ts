@@ -64,7 +64,7 @@ function parseKey(keypress: ParsedKey): [Key, string] {
 
   // When ctrl is set, keypress.name for space is the literal word "space".
   // Convert to actual space character for consistency with the CSI u branch
-  // (which maps 'space' → ' '). Without this, ctrl+space leaks the literal
+  // (which maps 'space' → ' '). Without this, ctrl+space releases the literal
   // word "space" into text input.
   if (keypress.ctrl && input === 'space') {
     input = ' '
@@ -74,7 +74,7 @@ function parseKey(keypress: ParsedKey): [Key, string] {
   // (matched by FN_KEY_RE) but have no name in the keyName map.
   // Examples: ESC[25~ (F13/Right Alt on Windows), ESC[26~ (F14), etc.
   // Without this, the ESC prefix is stripped below and the remainder (e.g.,
-  // "[25~") leaks into the input as literal text.
+  // "[25~") releases into the input as literal text.
   if (keypress.code && !keypress.name) {
     input = ''
   }
@@ -84,7 +84,7 @@ function parseKey(keypress: ParsedKey): [Key, string] {
   // stdin chunks gets its buffered ESC flushed as a lone Escape key, and the
   // continuation arrives as a text token with name='' — which falls through
   // all of parseKeypress's ESC-anchored regexes and the nonAlphanumericKeys
-  // clear below (name is falsy). The fragment then leaks into the prompt as
+  // clear below (name is falsy). The fragment then releases into the prompt as
   // literal `[<64;74;16M`. This is the same defensive sink as the F13 guard
   // above; the underlying tokenizer-flush race is upstream of this layer.
   if (!keypress.name && /^\[<\d+;\d+;\d+[Mm]/.test(input)) {
@@ -106,13 +106,13 @@ function parseKey(keypress: ParsedKey): [Key, string] {
   // we're left with "[codepoint;modifieru" (e.g., "[98;3u" for Alt+b).
   // Use the parsed key name instead for input handling. Require a digit
   // after [ — real CSI u is always [<digits>…u, and a bare startsWith('[')
-  // false-matches X10 mouse at row 85 (Cy = 85+32 = 'u'), leaking the
+  // false-matches X10 mouse at row 85 (Cy = 85+32 = 'u'), releaseing the
   // literal text "mouse" into the prompt via processedAsSpecialSequence.
   if (/^\[\d/.test(input) && input.endsWith('u')) {
     if (!keypress.name) {
       // Unmapped Kitty functional key (Caps Lock 57358, F13–F35, KP nav,
       // bare modifiers, etc.) — keycodeToName() returned undefined. Swallow
-      // so the raw "[57358u" doesn't leak into the prompt. See #38781.
+      // so the raw "[57358u" doesn't release into the prompt. See #38781.
       input = ''
     } else {
       // 'space' → ' '; 'escape' → '' (key.escape carries it;
@@ -132,7 +132,7 @@ function parseKey(keypress: ParsedKey): [Key, string] {
   // Handle xterm modifyOtherKeys sequences: after stripping ESC, we're left
   // with "[27;modifier;keycode~" (e.g., "[27;3;98~" for Alt+b). Same
   // extraction as CSI u — without this, printable-char keycodes (single-letter
-  // names) skip the nonAlphanumericKeys clear and leak "[27;..." as input.
+  // names) skip the nonAlphanumericKeys clear and release "[27;..." as input.
   if (input.startsWith('[27;') && input.endsWith('~')) {
     if (!keypress.name) {
       // Unmapped modifyOtherKeys keycode — swallow for consistency with

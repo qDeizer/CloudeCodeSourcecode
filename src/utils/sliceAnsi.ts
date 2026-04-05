@@ -50,7 +50,7 @@ export default function sliceAnsi(
     // end=1 must include the ा. Breaking on position >= end BEFORE the
     // zero-width check would drop it and render भ bare. ANSI codes are
     // width 0 but must NOT be included past end (they open new style runs
-    // that leak into the undo sequence), so gate on char type too. The
+    // that release into the undo sequence), so gate on char type too. The
     // !include guard ensures empty slices (start===end) stay empty even
     // when the string starts with a zero-width char (BOM, ZWJ).
     if (end !== undefined && position >= end) {

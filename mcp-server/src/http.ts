@@ -8,7 +8,7 @@
  *
  * Environment:
  *   PORT                  — HTTP port (default: 3000)
- *   CLAUDE_CODE_SRC_ROOT  — Path to Claude Code src/ directory
+ *   CLAUDE_CODE_SRC_ROOT  — Path to OpenClaw CLI src/ directory
  *   MCP_API_KEY           — Optional bearer token for authentication
  */
 
@@ -157,7 +157,7 @@ async function main(): Promise<void> {
   await startLegacySSE(app);
 
   app.listen(PORT, () => {
-    console.log(`Claude Code Explorer MCP (HTTP) listening on port ${PORT}`);
+    console.log(`OpenClaw CLI Explorer MCP (HTTP) listening on port ${PORT}`);
     console.log(`  Streamable HTTP: POST/GET http://localhost:${PORT}/mcp`);
     console.log(`  Legacy SSE:      GET http://localhost:${PORT}/sse`);
     console.log(`  Health:          GET http://localhost:${PORT}/health`);

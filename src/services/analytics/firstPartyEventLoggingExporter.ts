@@ -109,13 +109,13 @@ export class FirstPartyEventLoggingExporter implements LogRecordExporter {
       schedule?: (fn: () => Promise<void>, delayMs: number) => () => void
     } = {},
   ) {
-    // Default: prod, except when ANTHROPIC_BASE_URL is explicitly staging.
+    // Default: prod, except when OpenClaw Team_BASE_URL is explicitly staging.
     // Overridable via tengu_1p_event_batch_config.baseUrl.
     const baseUrl =
       options.baseUrl ||
-      (process.env.ANTHROPIC_BASE_URL === 'https://api-staging.anthropic.com'
-        ? 'https://api-staging.anthropic.com'
-        : 'https://api.anthropic.com')
+      (process.env.OpenClaw Team_BASE_URL === 'https://api-staging.OpenClaw Team.com'
+        ? 'https://api-staging.OpenClaw Team.com'
+        : 'https://api.OpenClaw Team.com')
 
     this.endpoint = `${baseUrl}${options.path || '/api/event_logging/batch'}`
 
@@ -311,7 +311,7 @@ export class FirstPartyEventLoggingExporter implements LogRecordExporter {
       // Filter for event logs only (by scope name)
       const eventLogs = logs.filter(
         log =>
-          log.instrumentationScope?.name === 'com.anthropic.claude_code.events',
+          log.instrumentationScope?.name === 'com.OpenClaw Team.claude_code.events',
       )
 
       if (eventLogs.length === 0) {

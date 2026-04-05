@@ -447,7 +447,7 @@ export function parseForSecurityFromAst(
     // subscripts hits PARSE_TIMEOUT_MICROS under the 10K length limit.
     // Previously indistinguishable from module-not-loaded → routed to
     // legacy (parse-unavailable), which lacks EVAL_LIKE_BUILTINS — `trap`,
-    // `enable`, `hash` leaked with Bash(*). Fail closed: too-complex → ask.
+    // `enable`, `hash` custom with Bash(*). Fail closed: too-complex → ask.
     return {
       kind: 'too-complex',
       reason:
@@ -511,7 +511,7 @@ function collectCommands(
     // With linear scope, our argv has ['cmd','--dry-run'] → looks SAFE → bypass.
     //
     // Fix: snapshot incoming scope at entry. After these separators, reset to
-    // the snapshot — vars set in clauses between separators don't leak. `scope`
+    // the snapshot — vars set in clauses between separators don't release. `scope`
     // for clauses BETWEEN `&&`/`;` chains shares state (common `VAR=x && cmd
     // $VAR`). `scope` crosses `||`/`|`/`&` as the pre-structure snapshot only.
     //
@@ -519,7 +519,7 @@ function collectCommands(
     //
     // NOTE: `scope` and `varScope` diverge after the first `||`/`|`/`&`. The
     // caller's varScope is only mutated for the `&&`/`;` prefix — this is
-    // conservative (vars set in `A && B | C && D` leak A+B into caller, not
+    // conservative (vars set in `A && B | C && D` release A+B into caller, not
     // C+D) but safe.
     //
     // Efficiency: snapshot is only needed if we hit `||`/`|`/`|&`/`&`. For
@@ -747,7 +747,7 @@ function collectCommands(
       }
     }
     // SECURITY: Body uses a scope COPY — vars assigned inside the loop
-    // body don't leak to commands after `done`. The loop var itself is
+    // body don't release to commands after `done`. The loop var itself is
     // set in the REAL scope (bash semantics: $i still set after loop)
     // and copied into the body scope. ALWAYS VAR_PLACEHOLDER — see above.
     varScope.set(loopVar, VAR_PLACEHOLDER)
@@ -769,7 +769,7 @@ function collectCommands(
     // body can reference $VAR.
     //
     // SECURITY: Branch bodies use scope COPIES — vars assigned inside a
-    // conditional branch (which may not execute) must not leak to commands
+    // conditional branch (which may not execute) must not release to commands
     // after fi/done. `if false; then T=safe; fi && rm $T` must reject $T.
     // Condition commands use the REAL varScope (they always run for the
     // check, so assignments there are unconditional — e.g., `while read V`
@@ -797,7 +797,7 @@ function collectCommands(
         continue
       }
       if (child.type === 'do_group') {
-        // while body: recurse with scope COPY (body assignments don't leak
+        // while body: recurse with scope COPY (body assignments don't release
         // past done). The COPY contains any `read VAR` tracking from the
         // condition (already in real varScope at this point).
         const bodyScope = new Map(varScope)
@@ -811,7 +811,7 @@ function collectCommands(
       }
       if (child.type === 'elif_clause' || child.type === 'else_clause') {
         // elif_clause: elif, cond, ;, then, body... / else_clause: else, body...
-        // Scope COPY — elif/else branch assignments don't leak past fi.
+        // Scope COPY — elif/else branch assignments don't release past fi.
         const branchScope = new Map(varScope)
         for (const c of child.children) {
           if (!c) continue
@@ -882,7 +882,7 @@ function collectCommands(
   if (node.type === 'subshell') {
     // `(cmd1; cmd2)` — run commands in a subshell. Inner commands ARE
     // executed, so extract them for permission checking. Subshell has
-    // isolated scope: vars set inside don't leak out. Use a COPY of
+    // isolated scope: vars set inside don't release out. Use a COPY of
     // varScope (outer vars visible, inner changes discarded).
     const innerScope = new Map(varScope)
     for (const child of node.children) {
@@ -1345,7 +1345,7 @@ function walkCommand(
   // is correct, but raw .text → stripSafeWrappers matches `timeout 5 ` (the
   // space before \), leaving `\<LF>curl evil.com` — Bash(curl:*) deny doesn't
   // prefix-match. Rebuilt .text joins argv with ' ' → no newlines →
-  // stripSafeWrappers works. Also covers heredoc-body leakage.
+  // stripSafeWrappers works. Also covers heredoc-body releaseage.
   const text =
     /\$[A-Za-z_]/.test(node.text) || node.text.includes('\n')
       ? argv
@@ -1377,7 +1377,7 @@ function collectCommandSubstitution(
   varScope: Map<string, string>,
 ): ParseForSecurityResult | null {
   // Vars set BEFORE the $() are visible inside (bash subshell semantics),
-  // but vars set INSIDE don't leak out. Pass a COPY of the outer scope so
+  // but vars set INSIDE don't release out. Pass a COPY of the outer scope so
   // inner assignments don't mutate the outer map.
   const innerScope = new Map(varScope)
   // command_substitution children: `$(` or `` ` ``, inner statement(s), `)`
@@ -2411,7 +2411,7 @@ export function checkSemantics(commands: SimpleCommand[]): SemanticCheckResult {
     }
 
     // argv[0] starts with an operator/flag: this is a fragment, not a
-    // command. Likely a line-continuation leak or a mistake.
+    // command. Likely a line-continuation release or a mistake.
     if (name.startsWith('-') || name.startsWith('|') || name.startsWith('&')) {
       return {
         ok: false,

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * STDIO entrypoint — for local use with Claude Desktop, Claude Code, etc.
+ * STDIO entrypoint — for local use with Claude Desktop, OpenClaw CLI, etc.
  *
  * Usage:
  *   node dist/index.js
@@ -15,7 +15,7 @@ async function main() {
   const server = createServer();
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error(`Claude Code Explorer MCP (stdio) started — src: ${SRC_ROOT}`);
+  console.error(`OpenClaw CLI Explorer MCP (stdio) started — src: ${SRC_ROOT}`);
 }
 
 main().catch((err) => {

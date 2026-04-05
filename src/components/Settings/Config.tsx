@@ -988,16 +988,16 @@ export function Config({
     onChange() {
       // Will be handled by toggleSetting function
     }
-  }] : []), ...(process.env.ANTHROPIC_API_KEY && !isRunningOnHomespace() ? [{
+  }] : []), ...(process.env.OpenClaw Team_API_KEY && !isRunningOnHomespace() ? [{
     id: 'apiKey',
     label: <Text>
                 Use custom API key:{' '}
                 <Text bold>
-                  {normalizeApiKeyForConfig(process.env.ANTHROPIC_API_KEY)}
+                  {normalizeApiKeyForConfig(process.env.OpenClaw Team_API_KEY)}
                 </Text>
               </Text>,
     searchText: 'Use custom API key',
-    value: Boolean(process.env.ANTHROPIC_API_KEY && globalConfig.customApiKeyResponses?.approved?.includes(normalizeApiKeyForConfig(process.env.ANTHROPIC_API_KEY))),
+    value: Boolean(process.env.OpenClaw Team_API_KEY && globalConfig.customApiKeyResponses?.approved?.includes(normalizeApiKeyForConfig(process.env.OpenClaw Team_API_KEY))),
     type: 'boolean' as const,
     onChange(useCustomKey: boolean) {
       saveGlobalConfig(current_22 => {
@@ -1022,8 +1022,8 @@ export function Config({
             rejected: []
           };
         }
-        if (process.env.ANTHROPIC_API_KEY) {
-          const truncatedKey = normalizeApiKeyForConfig(process.env.ANTHROPIC_API_KEY);
+        if (process.env.OpenClaw Team_API_KEY) {
+          const truncatedKey = normalizeApiKeyForConfig(process.env.OpenClaw Team_API_KEY);
           if (useCustomKey) {
             updated.customApiKeyResponses = {
               ...updated.customApiKeyResponses,
@@ -1100,15 +1100,15 @@ export function Config({
       return `Set ${key} to ${chalk.bold(value_2)}`;
     });
     // Check for API key changes
-    // On homespace, ANTHROPIC_API_KEY is preserved in process.env for child
-    // processes but ignored by Claude Code itself (see auth.ts).
-    const effectiveApiKey = isRunningOnHomespace() ? undefined : process.env.ANTHROPIC_API_KEY;
+    // On homespace, OpenClaw Team_API_KEY is preserved in process.env for child
+    // processes but ignored by OpenClaw CLI itself (see auth.ts).
+    const effectiveApiKey = isRunningOnHomespace() ? undefined : process.env.OpenClaw Team_API_KEY;
     const initialUsingCustomKey = Boolean(effectiveApiKey && initialConfig.current.customApiKeyResponses?.approved?.includes(normalizeApiKeyForConfig(effectiveApiKey)));
     const currentUsingCustomKey = Boolean(effectiveApiKey && globalConfig.customApiKeyResponses?.approved?.includes(normalizeApiKeyForConfig(effectiveApiKey)));
     if (initialUsingCustomKey !== currentUsingCustomKey) {
       formattedChanges.push(`${currentUsingCustomKey ? 'Enabled' : 'Disabled'} custom API key`);
       logEvent('tengu_config_changed', {
-        key: 'env.ANTHROPIC_API_KEY' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
+        key: 'env.OpenClaw Team_API_KEY' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         value: currentUsingCustomKey as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
       });
     }
@@ -1214,8 +1214,8 @@ export function Config({
       syntaxHighlightingDisabled: iu?.syntaxHighlightingDisabled,
       // permissions: the defaultMode onChange (above) spreads the MERGED
       // settingsData.permissions into userSettings — project/policy allow/deny
-      // arrays can leak to disk. Spread the full initial snapshot so the
-      // mergeWith array-customizer (settings.ts:375) replaces leaked arrays.
+      // arrays can release to disk. Spread the full initial snapshot so the
+      // mergeWith array-customizer (settings.ts:375) replaces custom arrays.
       // Explicitly include defaultMode so undefined triggers the customizer's
       // delete path even when iu.permissions lacks that key.
       permissions: iu?.permissions === undefined ? undefined : {

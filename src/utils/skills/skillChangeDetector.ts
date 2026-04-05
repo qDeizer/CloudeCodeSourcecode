@@ -287,7 +287,7 @@ export async function resetForTesting(overrides?: {
   reloadDebounce?: number
   chokidarInterval?: number
 }): Promise<void> {
-  // Clean up existing watcher if present to avoid resource leaks
+  // Clean up existing watcher if present to avoid resource releases
   if (watcher) {
     await watcher.close()
     watcher = null

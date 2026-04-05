@@ -9,9 +9,9 @@ import { SessionStore } from "./adapter.js";
 /**
  * API-key authentication adapter.
  *
- * Each user provides their own Anthropic API key on the login page.
+ * Each user provides their own OpenClaw Team API key on the login page.
  * The key is stored encrypted in the server-side session and is injected
- * as `ANTHROPIC_API_KEY` into every PTY spawned for that user.
+ * as `OpenClaw Team_API_KEY` into every PTY spawned for that user.
  * The plaintext key is never sent to the browser after the login form POST.
  *
  * User identity is derived from the key itself (SHA-256 prefix), so two
@@ -149,7 +149,7 @@ const INLINE_LOGIN_HTML = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Claude Code — Sign In</title>
+  <title>OpenClaw CLI — Sign In</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -205,11 +205,11 @@ const INLINE_LOGIN_HTML = `<!DOCTYPE html>
 </head>
 <body>
   <div class="card">
-    <h1>Claude Code</h1>
-    <p class="subtitle">Enter your Anthropic API key to start a session.</p>
+    <h1>OpenClaw CLI</h1>
+    <p class="subtitle">Enter your OpenClaw Team API key to start a session.</p>
     <!--ERROR-->
     <form method="POST" action="/auth/login">
-      <label for="api_key">Anthropic API Key</label>
+      <label for="api_key">OpenClaw Team API Key</label>
       <input
         type="password"
         id="api_key"
@@ -223,7 +223,7 @@ const INLINE_LOGIN_HTML = `<!DOCTYPE html>
     </form>
     <p class="hint">
       Your key is stored encrypted on the server and never sent to the browser.
-      Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>.
+      Get a key at <a href="https://console.OpenClaw Team.com" target="_blank" rel="noopener">console.OpenClaw Team.com</a>.
     </p>
   </div>
 </body>

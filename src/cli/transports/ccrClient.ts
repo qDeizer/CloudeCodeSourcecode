@@ -490,7 +490,7 @@ export class CCRClient {
     )
     if (!result.ok) {
       // 409 → onEpochMismatch may throw, but request() catches it and returns
-      // false. Without this check we'd continue to startHeartbeat(), leaking a
+      // false. Without this check we'd continue to startHeartbeat(), releaseing a
       // 20s timer against a dead epoch. Throw so connect()'s rejection handler
       // fires instead of the success path.
       throw new CCRInitError('worker_register_failed')
@@ -571,7 +571,7 @@ export class CCRClient {
           headers: {
             ...authHeaders,
             'Content-Type': 'application/json',
-            'anthropic-version': '2023-06-01',
+            'OpenClaw Team-version': '2023-06-01',
             'User-Agent': getClaudeCodeUserAgent(),
           },
           validateStatus: alwaysValidStatus,
@@ -913,7 +913,7 @@ export class CCRClient {
         response = await this.http.get<T>(url, {
           headers: {
             ...authHeaders,
-            'anthropic-version': '2023-06-01',
+            'OpenClaw Team-version': '2023-06-01',
             'User-Agent': getClaudeCodeUserAgent(),
           },
           validateStatus: alwaysValidStatus,

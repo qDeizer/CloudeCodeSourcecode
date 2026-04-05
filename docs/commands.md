@@ -1,6 +1,6 @@
 # Commands Reference
 
-> Complete catalog of all slash commands in Claude Code.
+> Complete catalog of all slash commands in OpenClaw CLI.
 
 ---
 
@@ -71,7 +71,7 @@ const command = {
 
 | Command | Source | Description |
 |---------|--------|-------------|
-| `/config` | `config/` | View or modify Claude Code settings |
+| `/config` | `config/` | View or modify OpenClaw CLI settings |
 | `/permissions` | `permissions/` | Manage tool permission rules |
 | `/theme` | `theme/` | Change the terminal color theme |
 | `/output-style` | `output-style/` | Change output formatting style |
@@ -105,7 +105,7 @@ const command = {
 
 | Command | Source | Description |
 |---------|--------|-------------|
-| `/login` | `login/` | Authenticate with Anthropic |
+| `/login` | `login/` | Authenticate with OpenClaw Team |
 | `/logout` | `logout/` | Sign out |
 | `/oauth-refresh` | `oauth-refresh/` | Refresh OAuth tokens |
 
@@ -126,7 +126,7 @@ const command = {
 | `/status` | `status/` | Show system and session status |
 | `/stats` | `stats/` | Show session statistics |
 | `/cost` | `cost/` | Display token usage and estimated cost |
-| `/version` | `version.ts` | Show Claude Code version |
+| `/version` | `version.ts` | Show OpenClaw CLI version |
 | `/usage` | `usage/` | Show detailed API usage |
 | `/extra-usage` | `extra-usage/` | Show extended usage details |
 | `/rate-limit-options` | `rate-limit-options/` | View rate limit configuration |
@@ -135,7 +135,7 @@ const command = {
 
 | Command | Source | Description |
 |---------|--------|-------------|
-| `/install` | `install.tsx` | Install or update Claude Code |
+| `/install` | `install.tsx` | Install or update OpenClaw CLI |
 | `/upgrade` | `upgrade/` | Upgrade to the latest version |
 | `/init` | `init.ts` | Initialize a project (create CLAUDE.md) |
 | `/init-verifiers` | `init-verifiers.ts` | Set up verifier hooks |
@@ -167,9 +167,9 @@ const command = {
 | Command | Source | Description |
 |---------|--------|-------------|
 | `/help` | `help/` | Show help and available commands |
-| `/exit` | `exit/` | Exit Claude Code |
+| `/exit` | `exit/` | Exit OpenClaw CLI |
 | `/copy` | `copy/` | Copy content to clipboard |
-| `/feedback` | `feedback/` | Send feedback to Anthropic |
+| `/feedback` | `feedback/` | Send feedback to OpenClaw Team |
 | `/release-notes` | `release-notes/` | View release notes |
 | `/rename` | `rename/` | Rename the current session |
 | `/tag` | `tag/` | Tag the current session |
@@ -189,7 +189,7 @@ const command = {
 
 | Command | Source | Description |
 |---------|--------|-------------|
-| `/ant-trace` | `ant-trace/` | Anthropic-internal tracing |
+| `/ant-trace` | `ant-trace/` | OpenClaw Team-internal tracing |
 | `/autofix-pr` | `autofix-pr/` | Auto-fix PR issues |
 | `/backfill-sessions` | `backfill-sessions/` | Backfill session data |
 | `/break-cache` | `break-cache/` | Invalidate caches |

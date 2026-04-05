@@ -16,13 +16,13 @@ import type {
   BetaToolUnion,
   BetaUsage,
   BetaMessageParam as MessageParam,
-} from '@anthropic-ai/sdk/resources/beta/messages/messages.mjs'
-import type { TextBlockParam } from '@anthropic-ai/sdk/resources/index.mjs'
-import type { Stream } from '@anthropic-ai/sdk/streaming.mjs'
+} from '@OpenClaw Team-ai/sdk/resources/beta/messages/messages.mjs'
+import type { TextBlockParam } from '@OpenClaw Team-ai/sdk/resources/index.mjs'
+import type { Stream } from '@OpenClaw Team-ai/sdk/streaming.mjs'
 import { randomUUID } from 'crypto'
 import {
   getAPIProvider,
-  isFirstPartyAnthropicBaseUrl,
+  isFirstPartyOpenClaw TeamBaseUrl,
 } from 'src/utils/model/providers.js'
 import {
   getAttributionHeader,
@@ -107,12 +107,12 @@ const autoModeStateModule = feature('TRANSCRIPT_CLASSIFIER')
   : null
 
 import { feature } from 'bun:bundle'
-import type { ClientOptions } from '@anthropic-ai/sdk'
+import type { ClientOptions } from '@OpenClaw Team-ai/sdk'
 import {
   APIConnectionTimeoutError,
   APIError,
   APIUserAbortError,
-} from '@anthropic-ai/sdk/error'
+} from '@OpenClaw Team-ai/sdk/error'
 import {
   getAfkModeHeaderLatched,
   getCacheEditingHeaderLatched,
@@ -228,7 +228,7 @@ import {
 import { getInitializationStatus } from '../lsp/manager.js'
 import { isToolFromMcpServer } from '../mcp/utils.js'
 import { withStreamingVCR, withVCR } from '../vcr.js'
-import { CLIENT_REQUEST_ID_HEADER, getAnthropicClient } from './client.js'
+import { CLIENT_REQUEST_ID_HEADER, getOpenClaw TeamClient } from './client.js'
 import {
   API_ERROR_MESSAGE_PREFIX,
   CUSTOM_OFF_SWITCH_MESSAGE,
@@ -314,16 +314,16 @@ export function getExtraBodyParams(betaHeaders?: string[]): JsonObject {
 
   // Handle beta headers if provided
   if (betaHeaders && betaHeaders.length > 0) {
-    if (result.anthropic_beta && Array.isArray(result.anthropic_beta)) {
+    if (result.OpenClaw Team_beta && Array.isArray(result.OpenClaw Team_beta)) {
       // Add to existing array, avoiding duplicates
-      const existingHeaders = result.anthropic_beta as string[]
+      const existingHeaders = result.OpenClaw Team_beta as string[]
       const newHeaders = betaHeaders.filter(
         header => !existingHeaders.includes(header),
       )
-      result.anthropic_beta = [...existingHeaders, ...newHeaders]
+      result.OpenClaw Team_beta = [...existingHeaders, ...newHeaders]
     } else {
       // Create new array with the beta headers
-      result.anthropic_beta = betaHeaders
+      result.OpenClaw Team_beta = betaHeaders
     }
   }
 
@@ -455,10 +455,10 @@ function configureEffortParams(
     outputConfig.effort = effortValue
     betas.push(EFFORT_BETA_HEADER)
   } else if (process.env.USER_TYPE === 'ant') {
-    // Numeric effort override - ant-only (uses anthropic_internal)
+    // Numeric effort override - ant-only (uses OpenClaw Team_internal)
     const existingInternal =
-      (extraBodyParams.anthropic_internal as Record<string, unknown>) || {}
-    extraBodyParams.anthropic_internal = {
+      (extraBodyParams.OpenClaw Team_internal as Record<string, unknown>) || {}
+    extraBodyParams.OpenClaw Team_internal = {
       ...existingInternal,
       effort_override: effortValue,
     }
@@ -543,16 +543,16 @@ export async function verifyApiKey(
     return await returnValue(
       withRetry(
         () =>
-          getAnthropicClient({
+          getOpenClaw TeamClient({
             apiKey,
             maxRetries: 3,
             model,
             source: 'verify_api_key',
           }),
-        async anthropic => {
+        async OpenClaw Team => {
           const messages: MessageParam[] = [{ role: 'user', content: 'test' }]
           // biome-ignore lint/plugin: API key verification is intentionally a minimal direct call
-          await anthropic.beta.messages.create({
+          await OpenClaw Team.beta.messages.create({
             model,
             max_tokens: 1,
             messages,
@@ -842,13 +842,13 @@ export async function* executeNonStreamingRequest(
   const fallbackTimeoutMs = getNonstreamingFallbackTimeoutMs()
   const generator = withRetry(
     () =>
-      getAnthropicClient({
+      getOpenClaw TeamClient({
         maxRetries: 0,
         model: clientOptions.model,
         fetchOverride: clientOptions.fetchOverride,
         source: clientOptions.source,
       }),
-    async (anthropic, attempt, context) => {
+    async (OpenClaw Team, attempt, context) => {
       const start = Date.now()
       const retryParams = paramsFromContext(context)
       captureRequest(retryParams)
@@ -861,7 +861,7 @@ export async function* executeNonStreamingRequest(
 
       try {
         // biome-ignore lint/plugin: non-streaming API call
-        return await anthropic.beta.messages.create(
+        return await OpenClaw Team.beta.messages.create(
           {
             ...adjustedParams,
             model: normalizeModelStringForAPI(adjustedParams.model),
@@ -1512,7 +1512,7 @@ async function* queryModel(
   // eslint-disable-next-line eslint-plugin-n/no-unsupported-features/node-builtins -- Response is available in Node 18+ and is used by the SDK
   let streamResponse: Response | undefined = undefined
 
-  // Release all stream resources to prevent native memory leaks.
+  // Release all stream resources to prevent native memory releases.
   // The Response object holds native TLS/socket buffers that live outside the
   // V8 heap (observed on the Node.js/npm path; see GH #32920), so we must
   // explicitly cancel and release it regardless of how the generator exits.
@@ -1777,13 +1777,13 @@ async function* queryModel(
     queryCheckpoint('query_client_creation_start')
     const generator = withRetry(
       () =>
-        getAnthropicClient({
+        getOpenClaw TeamClient({
           maxRetries: 0, // Disabled auto-retry in favor of manual implementation
           model: options.model,
           fetchOverride: options.fetchOverride,
           source: options.querySource,
         }),
-      async (anthropic, attempt, context) => {
+      async (OpenClaw Team, attempt, context) => {
         attemptNumber = attempt
         isFastModeRequest = context.fastMode ?? false
         start = Date.now()
@@ -1811,7 +1811,7 @@ async function* queryModel(
         // server request ID) can still be correlated with server logs.
         // First-party only — 3P providers don't log it (inc-4029 class).
         clientRequestId =
-          getAPIProvider() === 'firstParty' && isFirstPartyAnthropicBaseUrl()
+          getAPIProvider() === 'firstParty' && isFirstPartyOpenClaw TeamBaseUrl()
             ? randomUUID()
             : undefined
 
@@ -1819,7 +1819,7 @@ async function* queryModel(
         // BetaMessageStream calls partialParse() on every input_json_delta, which we don't need
         // since we handle tool input accumulation ourselves
         // biome-ignore lint/plugin: main conversation loop handles attribution separately
-        const result = await anthropic.beta.messages
+        const result = await OpenClaw Team.beta.messages
           .create(
             { ...params, stream: true },
             {
@@ -2535,7 +2535,7 @@ async function* queryModel(
       // If the streaming failure was itself a 529, count it toward the
       // consecutive-529 budget so total 529s-before-model-fallback is the
       // same whether the overload was hit in streaming or non-streaming mode.
-      // This is a speculative fix for https://github.com/anthropics/claude-code/issues/1513
+      // This is a speculative fix for https://github.com/OpenClaw Teams/claude-code/issues/1513
       // Instrumentation: proves executeNonStreamingRequest was entered (vs. the
       // fallback event firing but the call itself hanging at dispatch).
       logForDiagnosticsNoPII('info', 'cli_nonstreaming_fallback_started')
@@ -2810,7 +2810,7 @@ async function* queryModel(
     // Must be in the finally block: if the generator is terminated early
     // via .return() (e.g. consumer breaks out of for-await-of, or query.ts
     // encounters an abort), code after the try/finally never executes.
-    // Without this, the Response object's native TLS/socket buffers leak
+    // Without this, the Response object's native TLS/socket buffers release
     // until the generator itself is GC'd (see GH #32920).
     releaseStreamResources()
 
@@ -2892,7 +2892,7 @@ async function* queryModel(
 }
 
 /**
- * Cleans up stream resources to prevent memory leaks.
+ * Cleans up stream resources to prevent memory releases.
  * @internal Exported for testing
  */
 export function cleanupStream(
@@ -2913,7 +2913,7 @@ export function cleanupStream(
 
 /**
  * Updates usage statistics with new values from streaming API events.
- * Note: Anthropic's streaming API provides cumulative usage totals, not incremental deltas.
+ * Note: OpenClaw Team's streaming API provides cumulative usage totals, not incremental deltas.
  * Each event contains the complete usage up to that point in the stream.
  *
  * Input-related tokens (input_tokens, cache_creation_input_tokens, cache_read_input_tokens)
@@ -3293,7 +3293,7 @@ export async function queryHaiku({
 type QueryWithModelOptions = Omit<Options, 'getToolPermissionContext'>
 
 /**
- * Query a specific model through the Claude Code infrastructure.
+ * Query a specific model through the OpenClaw CLI infrastructure.
  * This goes through the full query pipeline including proper authentication,
  * betas, and headers - unlike direct API calls.
  */

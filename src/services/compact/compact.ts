@@ -7,7 +7,7 @@ const sessionTranscriptModule = feature('KAIROS')
   ? (require('../sessionTranscript/sessionTranscript.js') as typeof import('../sessionTranscript/sessionTranscript.js'))
   : null
 
-import { APIUserAbortError } from '@anthropic-ai/sdk'
+import { APIUserAbortError } from '@OpenClaw Team-ai/sdk'
 import { markPostCompaction } from 'src/bootstrap/state.js'
 import { getInvokedSkillsForAgent } from '../../bootstrap/state.js'
 import type { QuerySource } from '../../constants/querySource.js'
@@ -1489,7 +1489,7 @@ export function createPlanAttachmentIfNeeded(
  * Creates an attachment for invoked skills to preserve their content across compaction.
  * Only includes skills scoped to the given agent (or main session when agentId is null/undefined).
  * This ensures skill guidelines remain available after the conversation is summarized
- * without leaking skills from other agent contexts.
+ * without releaseing skills from other agent contexts.
  */
 export function createSkillAttachmentIfNeeded(
   agentId?: string,

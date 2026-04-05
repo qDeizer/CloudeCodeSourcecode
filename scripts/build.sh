@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────
-# build.sh — Minimal build / check script for the leaked source
+# build.sh — Minimal build / check script for the custom source
 # ─────────────────────────────────────────────────────────────
 # Usage:
 #   ./scripts/build.sh          # install + typecheck + lint

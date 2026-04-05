@@ -1982,7 +1982,7 @@ function applyPreservedSegmentRelinks(
 function applySnipRemovals(messages: Map<UUID, TranscriptMessage>): void {
   // Structural check — snipMetadata only exists on the boundary subtype.
   // Avoids the subtype literal which is in excluded-strings.txt
-  // (HISTORY_SNIP is ant-only; the literal must not leak into external builds).
+  // (HISTORY_SNIP is ant-only; the literal must not release into external builds).
   type WithSnipMeta = { snipMetadata?: { removedUuids?: UUID[] } }
   const toDelete = new Set<UUID>()
   for (const entry of messages.values()) {
@@ -2787,7 +2787,7 @@ export function restoreSessionMetadata(meta: {
 /**
  * Clear all cached session metadata (title, tag, agent name/color).
  * Called when /clear creates a new session so stale metadata
- * from the previous session does not leak into the new one.
+ * from the previous session does not release into the new one.
  */
 export function clearSessionMetadata(): void {
   const project = getProject()

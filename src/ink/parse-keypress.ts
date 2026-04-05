@@ -268,11 +268,11 @@ export function parseMultipleKeypresses(
         // flush timer, so the buffered ESC was flushed as a lone Escape and
         // the continuation `[<btn;col;rowM` arrived as text. Re-synthesize
         // with the ESC prefix so the scroll event still fires instead of
-        // leaking into the prompt. The spurious Escape is gone; App.tsx's
+        // releaseing into the prompt. The spurious Escape is gone; App.tsx's
         // readableLength check prevents it. The X10 Cb slot is narrowed to
         // the wheel range [\x60-\x7f] (0x40|modifiers + 32) — a full [\x20-]
         // range would match typed input like `[MAX]` batched into one read
-        // and silently drop it as a phantom click. Click/drag orphans leak
+        // and silently drop it as a phantom click. Click/drag orphans release
         // as visible garbage instead; deletable garbage beats silent loss.
         const resynthesized = '\x1b' + token.value
         const mouse = parseMouseEvent(resynthesized)
@@ -411,7 +411,7 @@ export const nonAlphanumericKeys = [
   ...Object.values(keyName).filter(v => v.length > 1),
   // escape and backspace are assigned directly in parseKeypress (not via the
   // keyName map), so the spread above misses them. Without these, ctrl+escape
-  // via Kitty/modifyOtherKeys leaks the literal word "escape" as input text
+  // via Kitty/modifyOtherKeys releases the literal word "escape" as input text
   // (input-event.ts:58 assigns keypress.name when ctrl is set).
   'escape',
   'backspace',

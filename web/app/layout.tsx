@@ -30,8 +30,8 @@ const jetbrainsMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Claude Code",
-  description: "Claude Code — AI-powered development assistant",
+  title: "OpenClaw CLI",
+  description: "OpenClaw CLI — AI-powered development assistant",
   icons: {
     icon: "/favicon.ico",
   },

@@ -135,7 +135,7 @@ export function ChatInput({ conversationId }: ChatInputProps) {
               adjustHeight();
             }}
             onKeyDown={handleKeyDown}
-            placeholder="Message Claude Code..."
+            placeholder="Message OpenClaw CLI..."
             rows={1}
             aria-label="Message"
             className={cn(

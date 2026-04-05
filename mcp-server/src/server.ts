@@ -1,7 +1,7 @@
 /**
  * Shared MCP server definition — transport-agnostic.
  *
- * Exposes tools and resources for exploring the Claude Code source code.
+ * Exposes tools and resources for exploring the OpenClaw CLI source code.
  * This module is imported by both the STDIO and HTTP entrypoints.
  */
 
@@ -165,7 +165,7 @@ export function createServer(): Server {
         uri: "claude-code://architecture",
         name: "Architecture Overview",
         description:
-          "High-level overview of the Claude Code source architecture",
+          "High-level overview of the OpenClaw CLI source architecture",
         mimeType: "text/markdown",
       },
       {
@@ -191,7 +191,7 @@ export function createServer(): Server {
           uriTemplate: "claude-code://source/{path}",
           name: "Source file",
           description:
-            "Read a source file from the Claude Code src/ directory",
+            "Read a source file from the OpenClaw CLI src/ directory",
           mimeType: "text/plain",
         },
       ],
@@ -259,19 +259,19 @@ export function createServer(): Server {
       {
         name: "list_tools",
         description:
-          "List all Claude Code agent tools (BashTool, FileReadTool, etc.) with their source files.",
+          "List all OpenClaw CLI agent tools (BashTool, FileReadTool, etc.) with their source files.",
         inputSchema: { type: "object" as const, properties: {} },
       },
       {
         name: "list_commands",
         description:
-          "List all Claude Code slash commands (/commit, /review, /mcp, etc.) with their source files.",
+          "List all OpenClaw CLI slash commands (/commit, /review, /mcp, etc.) with their source files.",
         inputSchema: { type: "object" as const, properties: {} },
       },
       {
         name: "get_tool_source",
         description:
-          "Read the full source code of a specific Claude Code tool implementation.",
+          "Read the full source code of a specific OpenClaw CLI tool implementation.",
         inputSchema: {
           type: "object" as const,
           properties: {
@@ -291,7 +291,7 @@ export function createServer(): Server {
       {
         name: "get_command_source",
         description:
-          "Read the source code of a specific Claude Code slash command.",
+          "Read the source code of a specific OpenClaw CLI slash command.",
         inputSchema: {
           type: "object" as const,
           properties: {
@@ -310,7 +310,7 @@ export function createServer(): Server {
       {
         name: "read_source_file",
         description:
-          "Read any source file from the Claude Code src/ directory by relative path.",
+          "Read any source file from the OpenClaw CLI src/ directory by relative path.",
         inputSchema: {
           type: "object" as const,
           properties: {
@@ -333,7 +333,7 @@ export function createServer(): Server {
       {
         name: "search_source",
         description:
-          "Search for a regex pattern across the Claude Code source. Returns matching lines with paths and line numbers.",
+          "Search for a regex pattern across the OpenClaw CLI source. Returns matching lines with paths and line numbers.",
         inputSchema: {
           type: "object" as const,
           properties: {
@@ -370,7 +370,7 @@ export function createServer(): Server {
       {
         name: "get_architecture",
         description:
-          "Get a high-level architecture overview of Claude Code.",
+          "Get a high-level architecture overview of OpenClaw CLI.",
         inputSchema: { type: "object" as const, properties: {} },
       },
     ],
@@ -606,7 +606,7 @@ export function createServer(): Server {
           const tools = await getToolList();
           const commands = await getCommandList();
 
-          const overview = `# Claude Code Architecture Overview
+          const overview = `# OpenClaw CLI Architecture Overview
 
 ## Source Root
 ${SRC_ROOT}
@@ -632,7 +632,7 @@ ${commands.map((c) => `- **${c.name}** ${c.isDirectory ? "(directory)" : "(file)
 - **bridge/** — IDE integration (VS Code, JetBrains)
 - **coordinator/** — Multi-agent orchestration
 - **services/mcp/** — MCP client connections
-- **services/api/** — Anthropic API client
+- **services/api/** — OpenClaw Team API client
 - **plugins/** — Plugin system
 - **skills/** — Skill system
 - **tasks/** — Background task management
@@ -654,7 +654,7 @@ ${commands.map((c) => `- **${c.name}** ${c.isDirectory ? "(directory)" : "(file)
       {
         name: "explain_tool",
         description:
-          "Explain how a specific Claude Code tool works, including its input schema, permissions, and execution flow.",
+          "Explain how a specific OpenClaw CLI tool works, including its input schema, permissions, and execution flow.",
         arguments: [
           {
             name: "toolName",
@@ -665,7 +665,7 @@ ${commands.map((c) => `- **${c.name}** ${c.isDirectory ? "(directory)" : "(file)
       },
       {
         name: "explain_command",
-        description: "Explain how a specific Claude Code slash command works.",
+        description: "Explain how a specific OpenClaw CLI slash command works.",
         arguments: [
           {
             name: "commandName",
@@ -677,12 +677,12 @@ ${commands.map((c) => `- **${c.name}** ${c.isDirectory ? "(directory)" : "(file)
       {
         name: "architecture_overview",
         description:
-          "Get a guided tour of the Claude Code architecture with explanations of each subsystem.",
+          "Get a guided tour of the OpenClaw CLI architecture with explanations of each subsystem.",
       },
       {
         name: "how_does_it_work",
         description:
-          "Explain how a specific feature or subsystem of Claude Code works.",
+          "Explain how a specific feature or subsystem of OpenClaw CLI works.",
         arguments: [
           {
             name: "feature",
@@ -695,7 +695,7 @@ ${commands.map((c) => `- **${c.name}** ${c.isDirectory ? "(directory)" : "(file)
       {
         name: "compare_tools",
         description:
-          "Compare two Claude Code tools side by side — purpose, inputs, permissions, implementation.",
+          "Compare two OpenClaw CLI tools side by side — purpose, inputs, permissions, implementation.",
         arguments: [
           { name: "tool1", description: "First tool name", required: true },
           { name: "tool2", description: "Second tool name", required: true },
@@ -734,7 +734,7 @@ ${commands.map((c) => `- **${c.name}** ${c.isDirectory ? "(directory)" : "(file)
                 role: "user" as const,
                 content: {
                   type: "text" as const,
-                  text: `Analyze and explain this Claude Code tool implementation. Cover:\n1. Purpose\n2. Input Schema\n3. Permissions\n4. Execution Flow\n5. Output\n6. Safety characteristics\n\nFiles in tools/${toolName}/: ${files.join(", ")}\n\nMain source (${mainFile ?? "not found"}):\n\`\`\`typescript\n${source}\n\`\`\``,
+                  text: `Analyze and explain this OpenClaw CLI tool implementation. Cover:\n1. Purpose\n2. Input Schema\n3. Permissions\n4. Execution Flow\n5. Output\n6. Safety characteristics\n\nFiles in tools/${toolName}/: ${files.join(", ")}\n\nMain source (${mainFile ?? "not found"}):\n\`\`\`typescript\n${source}\n\`\`\``,
                 },
               },
             ],
@@ -790,7 +790,7 @@ ${commands.map((c) => `- **${c.name}** ${c.isDirectory ? "(directory)" : "(file)
                 role: "user" as const,
                 content: {
                   type: "text" as const,
-                  text: `Analyze and explain this Claude Code slash command. Cover:\n1. Purpose\n2. Type (prompt vs action)\n3. Allowed Tools\n4. Arguments\n5. Implementation\n\nFiles: ${fileList}\n\nSource:\n\`\`\`typescript\n${source}\n\`\`\``,
+                  text: `Analyze and explain this OpenClaw CLI slash command. Cover:\n1. Purpose\n2. Type (prompt vs action)\n3. Allowed Tools\n4. Arguments\n5. Implementation\n\nFiles: ${fileList}\n\nSource:\n\`\`\`typescript\n${source}\n\`\`\``,
                 },
               },
             ],
@@ -809,13 +809,13 @@ ${commands.map((c) => `- **${c.name}** ${c.isDirectory ? "(directory)" : "(file)
           const tools = await getToolList();
           const commands = await getCommandList();
           return {
-            description: "Architecture overview of Claude Code",
+            description: "Architecture overview of OpenClaw CLI",
             messages: [
               {
                 role: "user" as const,
                 content: {
                   type: "text" as const,
-                  text: `Give a comprehensive guided tour of the Claude Code architecture.\n\n## README\n${readme}\n\n## src/ entries\n${topLevel.join("\n")}\n\n## Tools (${tools.length})\n${tools.map((t) => `- ${t.name}: ${t.files.join(", ")}`).join("\n")}\n\n## Commands (${commands.length})\n${commands.map((c) => `- ${c.name} ${c.isDirectory ? "(dir)" : "(file)"}`).join("\n")}`,
+                  text: `Give a comprehensive guided tour of the OpenClaw CLI architecture.\n\n## README\n${readme}\n\n## src/ entries\n${topLevel.join("\n")}\n\n## Tools (${tools.length})\n${tools.map((t) => `- ${t.name}: ${t.files.join(", ")}`).join("\n")}\n\n## Commands (${commands.length})\n${commands.map((c) => `- ${c.name} ${c.isDirectory ? "(dir)" : "(file)"}`).join("\n")}`,
                 },
               },
             ],
@@ -879,13 +879,13 @@ ${commands.map((c) => `- **${c.name}** ${c.isDirectory ? "(directory)" : "(file)
             }
           }
           return {
-            description: `How ${feature} works in Claude Code`,
+            description: `How ${feature} works in OpenClaw CLI`,
             messages: [
               {
                 role: "user" as const,
                 content: {
                   type: "text" as const,
-                  text: `Explain how "${feature}" works in the Claude Code CLI.\n${contextFiles || "(No specific files mapped — use search_source and read_source_file to find relevant code.)"}`,
+                  text: `Explain how "${feature}" works in the OpenClaw CLI CLI.\n${contextFiles || "(No specific files mapped — use search_source and read_source_file to find relevant code.)"}`,
                 },
               },
             ],
@@ -926,7 +926,7 @@ ${commands.map((c) => `- **${c.name}** ${c.isDirectory ? "(directory)" : "(file)
                 role: "user" as const,
                 content: {
                   type: "text" as const,
-                  text: `Compare these two Claude Code tools:\n\n## ${tool1}\n\`\`\`typescript\n${sources[0]}\n\`\`\`\n\n## ${tool2}\n\`\`\`typescript\n${sources[1]}\n\`\`\``,
+                  text: `Compare these two OpenClaw CLI tools:\n\n## ${tool1}\n\`\`\`typescript\n${sources[0]}\n\`\`\`\n\n## ${tool2}\n\`\`\`typescript\n${sources[1]}\n\`\`\``,
                 },
               },
             ],
@@ -946,7 +946,7 @@ ${commands.map((c) => `- **${c.name}** ${c.isDirectory ? "(directory)" : "(file)
 export async function validateSrcRoot(): Promise<void> {
   if (!(await dirExists(SRC_ROOT))) {
     console.error(
-      `Error: Claude Code src/ directory not found at ${SRC_ROOT}`
+      `Error: OpenClaw CLI src/ directory not found at ${SRC_ROOT}`
     );
     console.error(
       "Set CLAUDE_CODE_SRC_ROOT environment variable to the src/ directory path."

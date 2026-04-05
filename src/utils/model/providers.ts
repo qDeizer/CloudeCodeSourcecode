@@ -18,20 +18,20 @@ export function getAPIProviderForStatsig(): AnalyticsMetadata_I_VERIFIED_THIS_IS
 }
 
 /**
- * Check if ANTHROPIC_BASE_URL is a first-party Anthropic API URL.
- * Returns true if not set (default API) or points to api.anthropic.com
- * (or api-staging.anthropic.com for ant users).
+ * Check if OpenClaw Team_BASE_URL is a first-party OpenClaw Team API URL.
+ * Returns true if not set (default API) or points to api.OpenClaw Team.com
+ * (or api-staging.OpenClaw Team.com for ant users).
  */
-export function isFirstPartyAnthropicBaseUrl(): boolean {
-  const baseUrl = process.env.ANTHROPIC_BASE_URL
+export function isFirstPartyOpenClaw TeamBaseUrl(): boolean {
+  const baseUrl = process.env.OpenClaw Team_BASE_URL
   if (!baseUrl) {
     return true
   }
   try {
     const host = new URL(baseUrl).host
-    const allowedHosts = ['api.anthropic.com']
+    const allowedHosts = ['api.OpenClaw Team.com']
     if (process.env.USER_TYPE === 'ant') {
-      allowedHosts.push('api-staging.anthropic.com')
+      allowedHosts.push('api-staging.OpenClaw Team.com')
     }
     return allowedHosts.includes(host)
   } catch {

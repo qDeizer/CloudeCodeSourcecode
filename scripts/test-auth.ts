@@ -1,17 +1,17 @@
 // scripts/test-auth.ts
-// Quick test that the API key is configured and can reach Anthropic
+// Quick test that the API key is configured and can reach OpenClaw Team
 // Usage: bun scripts/test-auth.ts
 
-import Anthropic from '@anthropic-ai/sdk'
+import OpenClaw Team from '@OpenClaw Team-ai/sdk'
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
+const client = new OpenClaw Team({
+  apiKey: process.env.OpenClaw Team_API_KEY,
 })
 
 async function main() {
   try {
     const msg = await client.messages.create({
-      model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-20250514',
+      model: process.env.OpenClaw Team_MODEL || 'claude-sonnet-4-20250514',
       max_tokens: 50,
       messages: [{ role: 'user', content: 'Say "hello" and nothing else.' }],
     })

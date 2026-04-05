@@ -7,7 +7,7 @@ import { useExitOnCtrlCDWithKeybindings } from '../../hooks/useExitOnCtrlCDWithK
 import type { KeyboardEvent } from '../../ink/events/keyboard-event.js';
 import { Box } from '../../ink.js';
 import type { LocalJSXCommandOnDone } from '../../types/command.js';
-import { getAnthropicApiKey, isAnthropicAuthEnabled } from '../../utils/auth.js';
+import { getOpenClaw TeamApiKey, isOpenClaw TeamAuthEnabled } from '../../utils/auth.js';
 import { openBrowser } from '../../utils/browser.js';
 import { execFileNoThrow } from '../../utils/execFileNoThrow.js';
 import { getGithubRepo } from '../../utils/git.js';
@@ -36,7 +36,7 @@ const INITIAL_STATE: State = {
   currentWorkflowInstallStep: 0,
   warnings: [],
   secretExists: false,
-  secretName: 'ANTHROPIC_API_KEY',
+  secretName: 'OpenClaw Team_API_KEY',
   useExistingSecret: true,
   workflowExists: false,
   selectedWorkflows: ['claude', 'claude-review'] as Workflow[],
@@ -46,11 +46,11 @@ const INITIAL_STATE: State = {
 function InstallGitHubApp(props: {
   onDone: (message: string) => void;
 }): React.ReactNode {
-  const [existingApiKey] = useState(() => getAnthropicApiKey());
+  const [existingApiKey] = useState(() => getOpenClaw TeamApiKey());
   const [state, setState] = useState({
     ...INITIAL_STATE,
     useExistingKey: !!existingApiKey,
-    selectedApiKeyOption: (existingApiKey ? 'existing' : isAnthropicAuthEnabled() ? 'oauth' : 'new') as 'existing' | 'new' | 'oauth'
+    selectedApiKeyOption: (existingApiKey ? 'existing' : isOpenClaw TeamAuthEnabled() ? 'oauth' : 'new') as 'existing' | 'new' | 'oauth'
   });
   useExitOnCtrlCDWithKeybindings();
   React.useEffect(() => {
@@ -219,10 +219,10 @@ function InstallGitHubApp(props: {
     const checkSecretsResult = await execFileNoThrow('gh', ['secret', 'list', '--app', 'actions', '--repo', state.selectedRepoName]);
     if (checkSecretsResult.code === 0) {
       const lines = checkSecretsResult.stdout.split('\n');
-      const hasAnthropicKey = lines.some((line: string) => {
-        return /^ANTHROPIC_API_KEY\s+/.test(line);
+      const hasOpenClaw TeamKey = lines.some((line: string) => {
+        return /^OpenClaw Team_API_KEY\s+/.test(line);
       });
-      if (hasAnthropicKey) {
+      if (hasOpenClaw TeamKey) {
         setState(prev_6 => ({
           ...prev_6,
           secretExists: true,
@@ -287,7 +287,7 @@ function InstallGitHubApp(props: {
           repoWarnings.push({
             title: 'Invalid GitHub URL format',
             message: 'The repository URL format appears to be invalid.',
-            instructions: ['Use format: owner/repo or https://github.com/owner/repo', 'Example: anthropics/claude-cli']
+            instructions: ['Use format: owner/repo or https://github.com/owner/repo', 'Example: OpenClaw Teams/claude-cli']
           });
         } else {
           repoName_1 = match[1]?.replace(/\.git$/, '') || '';
@@ -297,7 +297,7 @@ function InstallGitHubApp(props: {
         repoWarnings.push({
           title: 'Repository format warning',
           message: 'Repository should be in format "owner/repo"',
-          instructions: ['Use format: owner/repo', 'Example: anthropics/claude-cli']
+          instructions: ['Use format: owner/repo', 'Example: OpenClaw Teams/claude-cli']
         });
       }
       const permissionCheck = await checkRepositoryPermissions(repoName_1);
@@ -395,14 +395,14 @@ function InstallGitHubApp(props: {
         useExistingKey: state.selectedApiKeyOption === 'existing'
       }));
 
-      // Check if ANTHROPIC_API_KEY secret already exists
+      // Check if OpenClaw Team_API_KEY secret already exists
       const checkSecretsResult_0 = await execFileNoThrow('gh', ['secret', 'list', '--app', 'actions', '--repo', state.selectedRepoName]);
       if (checkSecretsResult_0.code === 0) {
         const lines_0 = checkSecretsResult_0.stdout.split('\n');
-        const hasAnthropicKey_0 = lines_0.some((line_0: string) => {
-          return /^ANTHROPIC_API_KEY\s+/.test(line_0);
+        const hasOpenClaw TeamKey_0 = lines_0.some((line_0: string) => {
+          return /^OpenClaw Team_API_KEY\s+/.test(line_0);
         });
-        if (hasAnthropicKey_0) {
+        if (hasOpenClaw TeamKey_0) {
           logEvent('tengu_install_github_app_step_completed', {
             step: 'api-key' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
           });
@@ -497,7 +497,7 @@ function InstallGitHubApp(props: {
     setState(prev_28 => ({
       ...prev_28,
       useExistingSecret,
-      secretName: useExistingSecret ? 'ANTHROPIC_API_KEY' : ''
+      secretName: useExistingSecret ? 'OpenClaw Team_API_KEY' : ''
     }));
   };
   const handleWorkflowAction = async (action: 'update' | 'skip' | 'exit') => {
@@ -546,7 +546,7 @@ function InstallGitHubApp(props: {
     case 'check-existing-secret':
       return <CheckExistingSecretStep useExistingSecret={state.useExistingSecret} secretName={state.secretName} onToggleUseExistingSecret={handleToggleUseExistingSecret} onSecretNameChange={handleSecretNameChange} onSubmit={handleSubmit} />;
     case 'api-key':
-      return <ApiKeyStep existingApiKey={existingApiKey} useExistingKey={state.useExistingKey} apiKeyOrOAuthToken={state.apiKeyOrOAuthToken} onApiKeyChange={handleApiKeyChange} onToggleUseExistingKey={handleToggleUseExistingKey} onSubmit={handleSubmit} onCreateOAuthToken={isAnthropicAuthEnabled() ? handleCreateOAuthToken : undefined} selectedOption={state.selectedApiKeyOption} onSelectOption={handleApiKeyOptionChange} />;
+      return <ApiKeyStep existingApiKey={existingApiKey} useExistingKey={state.useExistingKey} apiKeyOrOAuthToken={state.apiKeyOrOAuthToken} onApiKeyChange={handleApiKeyChange} onToggleUseExistingKey={handleToggleUseExistingKey} onSubmit={handleSubmit} onCreateOAuthToken={isOpenClaw TeamAuthEnabled() ? handleCreateOAuthToken : undefined} selectedOption={state.selectedApiKeyOption} onSelectOption={handleApiKeyOptionChange} />;
     case 'creating':
       return <CreatingStep currentWorkflowInstallStep={state.currentWorkflowInstallStep} secretExists={state.secretExists} useExistingSecret={state.useExistingSecret} secretName={state.secretName} skipWorkflow={state.workflowAction === 'skip'} selectedWorkflows={state.selectedWorkflows} />;
     case 'success':

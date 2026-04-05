@@ -36,7 +36,7 @@ export type ShellCommand = {
   status: 'running' | 'backgrounded' | 'completed' | 'killed'
   /**
    * Cleans up stream resources (event listeners).
-   * Should be called after the command completes or is killed to prevent memory leaks.
+   * Should be called after the command completes or is killed to prevent memory releases.
    */
   cleanup: () => void
   onTimeout?: (

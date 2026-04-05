@@ -296,7 +296,7 @@ export async function* runAgent({
   availableTools: Tools
   /** Tool permission rules to add to the agent's session allow rules.
    * When provided, replaces ALL allow rules so the agent only has what's
-   * explicitly listed (parent approvals don't leak through). */
+   * explicitly listed (parent approvals don't release through). */
   allowedTools?: string[]
   /** Optional callback invoked with CacheSafeParams after constructing the agent's
    * system prompt, context, and tools. Used by background summarization to fork
@@ -465,7 +465,7 @@ export async function* runAgent({
     // Scope tool permissions: when allowedTools is provided, use them as session rules.
     // IMPORTANT: Preserve cliArg rules (from SDK's --allowedTools) since those are
     // explicit permissions from the SDK consumer that should apply to all agents.
-    // Only clear session-level rules from the parent to prevent unintended leakage.
+    // Only clear session-level rules from the parent to prevent unintended releaseage.
     if (allowedTools !== undefined) {
       toolPermissionContext = {
         ...toolPermissionContext,
@@ -835,7 +835,7 @@ export async function* runAgent({
     // Release this agent's todos entry. Without this, every subagent that
     // called TodoWrite leaves a key in AppState.todos forever (even after all
     // items complete, the value is [] but the key stays). Whale sessions
-    // spawn hundreds of agents; each orphaned key is a small leak that adds up.
+    // spawn hundreds of agents; each orphaned key is a small release that adds up.
     rootSetAppState(prev => {
       if (!(agentId in prev.todos)) return prev
       const { [agentId]: _removed, ...todos } = prev.todos

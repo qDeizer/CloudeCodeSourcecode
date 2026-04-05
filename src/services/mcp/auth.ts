@@ -214,7 +214,7 @@ function createAuthFetch(): FetchLike {
     init.signal.addEventListener('abort', abort)
     timeoutSignal.addEventListener('abort', abort)
 
-    // Cleanup to prevent event listener leaks after fetch completes
+    // Cleanup to prevent event listener releases after fetch completes
     const cleanup = () => {
       init.signal?.removeEventListener('abort', abort)
       timeoutSignal.removeEventListener('abort', abort)
@@ -365,7 +365,7 @@ export function hasMcpDiscoveryButNoToken(
 /**
  * Revokes a single token on the OAuth server.
  *
- * Per RFC 7009, public clients (like Claude Code) should authenticate by including
+ * Per RFC 7009, public clients (like OpenClaw CLI) should authenticate by including
  * client_id in the request body, NOT via an Authorization header. The Bearer token
  * in an Authorization header is meant for resource owner authentication, not client
  * authentication.
@@ -1142,7 +1142,7 @@ export async function performMCPOAuthFlow(
           if (code) {
             res.writeHead(200, { 'Content-Type': 'text/html' })
             res.end(
-              `<h1>Authentication Successful</h1><p>You can close this window. Return to Claude Code.</p>`,
+              `<h1>Authentication Successful</h1><p>You can close this window. Return to OpenClaw CLI.</p>`,
             )
             cleanup()
             resolveOnce(code)
@@ -1349,7 +1349,7 @@ export async function performMCPOAuthFlow(
  * retry → 403 again → aborts with "Server returned 403 after trying upscoping",
  * never reaching redirectToAuthorization where step-up scope is persisted.
  * With this flag set, tokens() omits refresh_token so the SDK falls through
- * to the PKCE flow. See github.com/anthropics/claude-code/issues/28258.
+ * to the PKCE flow. See github.com/OpenClaw Teams/claude-code/issues/28258.
  */
 export function wrapFetchWithStepUpDetection(
   baseFetch: FetchLike,
@@ -1416,7 +1416,7 @@ export class ClaudeAuthProvider implements OAuthClientProvider {
 
   get clientMetadata(): OAuthClientMetadata {
     const metadata: OAuthClientMetadata = {
-      client_name: `Claude Code (${this.serverName})`,
+      client_name: `OpenClaw CLI (${this.serverName})`,
       redirect_uris: [this.redirectUri],
       grant_types: ['authorization_code', 'refresh_token'],
       response_types: ['code'],

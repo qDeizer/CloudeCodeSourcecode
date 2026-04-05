@@ -59,9 +59,9 @@ export const fetchClaudeAIMcpConfigsIfEligible = memoize(
       }
 
       // Check for user:mcp_servers scope directly instead of isClaudeAISubscriber().
-      // In non-interactive mode, isClaudeAISubscriber() returns false when ANTHROPIC_API_KEY
+      // In non-interactive mode, isClaudeAISubscriber() returns false when OpenClaw Team_API_KEY
       // is set (even with valid OAuth tokens) because preferThirdPartyAuthentication() causes
-      // isAnthropicAuthEnabled() to return false. Checking the scope directly allows users
+      // isOpenClaw TeamAuthEnabled() to return false. Checking the scope directly allows users
       // with both API keys and OAuth tokens to access claude.ai MCPs in print mode.
       if (!tokens.scopes?.includes('user:mcp_servers')) {
         logForDebugging(
@@ -83,8 +83,8 @@ export const fetchClaudeAIMcpConfigsIfEligible = memoize(
         headers: {
           Authorization: `Bearer ${tokens.accessToken}`,
           'Content-Type': 'application/json',
-          'anthropic-beta': MCP_SERVERS_BETA_HEADER,
-          'anthropic-version': '2023-06-01',
+          'OpenClaw Team-beta': MCP_SERVERS_BETA_HEADER,
+          'OpenClaw Team-version': '2023-06-01',
         },
         timeout: FETCH_TIMEOUT_MS,
       })

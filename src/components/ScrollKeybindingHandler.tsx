@@ -164,7 +164,7 @@ export type WheelAccelState = {
   wheelMode: boolean;
   /** Consecutive <5ms events. Trackpad flick produces 100+ at <5ms; mouse
    *  produces ≤3 (verified in /tmp/wheel-tune.txt). 5+ in a row → trackpad
-   *  signature → disengage wheel mode so device-switch doesn't leak mouse
+   *  signature → disengage wheel mode so device-switch doesn't release mouse
    *  accel to trackpad. */
   burstCount: number;
 };
@@ -894,7 +894,7 @@ export type ModalPagerAction = 'lineUp' | 'lineDown' | 'halfPageUp' | 'halfPageD
  * Key-repeat: stdin coalesces held-down printables into one multi-char
  * string (e.g. 'ggg'). Only uniform-char batches are handled — mixed input
  * like 'gG' isn't key-repeat. g/G are idempotent absolute jumps, so the
- * count is irrelevant (consuming the batch just prevents it from leaking
+ * count is irrelevant (consuming the batch just prevents it from releaseing
  * to the selection-clear-on-printable handler).
  */
 export function modalPagerAction(input: string, key: Pick<Key, 'ctrl' | 'meta' | 'shift' | 'upArrow' | 'downArrow' | 'home' | 'end'>): ModalPagerAction | null {

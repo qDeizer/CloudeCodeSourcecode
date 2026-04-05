@@ -1,12 +1,12 @@
 # Architecture
 
-> Deep-dive into how Claude Code is structured internally.
+> Deep-dive into how OpenClaw CLI is structured internally.
 
 ---
 
 ## High-Level Overview
 
-Claude Code is a terminal-native AI coding assistant built as a single-binary CLI. The architecture follows a pipeline model:
+OpenClaw CLI is a terminal-native AI coding assistant built as a single-binary CLI. The architecture follows a pipeline model:
 
 ```
 User Input → CLI Parser → Query Engine → LLM API → Tool Execution Loop → Terminal UI
@@ -33,16 +33,16 @@ The CLI parser is built with [Commander.js](https://github.com/tj/commander.js) 
 |------|------|
 | `cli.tsx` | CLI session orchestration — the main path from launch to REPL |
 | `init.ts` | Config, telemetry, OAuth, MDM policy initialization |
-| `mcp.ts` | MCP server mode entrypoint (Claude Code as an MCP server) |
-| `sdk/` | Agent SDK — programmatic API for embedding Claude Code |
+| `mcp.ts` | MCP server mode entrypoint (OpenClaw CLI as an MCP server) |
+| `sdk/` | Agent SDK — programmatic API for embedding OpenClaw CLI |
 
 Startup performs parallel initialization: MDM policy reads, Keychain prefetch, feature flag checks, then core init.
 
 ### 3. Query Engine (`src/QueryEngine.ts`, ~46K lines)
 
-The heart of Claude Code. Handles:
+The heart of OpenClaw CLI. Handles:
 
-- **Streaming responses** from the Anthropic API
+- **Streaming responses** from the OpenClaw Team API
 - **Tool-call loops** — when the LLM requests a tool, execute it and feed the result back
 - **Thinking mode** — extended thinking with budget management
 - **Retry logic** — automatic retries with backoff for transient failures
@@ -80,7 +80,7 @@ See [Commands Reference](commands.md) for the complete catalog.
 
 ## State Management
 
-Claude Code uses a **React context + custom store** pattern:
+OpenClaw CLI uses a **React context + custom store** pattern:
 
 | Component | Location | Purpose |
 |-----------|----------|---------|
@@ -146,7 +146,7 @@ Handles config format changes between versions — reads old configs and transfo
 
 ### Bun Runtime
 
-Claude Code runs on [Bun](https://bun.sh) (not Node.js). Key implications:
+OpenClaw CLI runs on [Bun](https://bun.sh) (not Node.js). Key implications:
 
 - Native JSX/TSX support without a transpilation step
 - `bun:bundle` feature flags for dead-code elimination
@@ -207,7 +207,7 @@ The `Doctor.tsx` screen runs environment checks: API connectivity, authenticatio
 
 ## Concurrency Model
 
-Claude Code uses a **single-threaded event loop** (Bun/Node.js model) with:
+OpenClaw CLI uses a **single-threaded event loop** (Bun/Node.js model) with:
 
 - Async/await for I/O operations
 - React's concurrent rendering for UI updates

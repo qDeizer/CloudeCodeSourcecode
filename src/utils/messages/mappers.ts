@@ -1,4 +1,4 @@
-import type { BetaContentBlock } from '@anthropic-ai/sdk/resources/beta/messages/messages.mjs'
+import type { BetaContentBlock } from '@OpenClaw Team-ai/sdk/resources/beta/messages/messages.mjs'
 import { randomUUID, type UUID } from 'crypto'
 import { getSessionId } from 'src/bootstrap/state.js'
 import {
@@ -160,7 +160,7 @@ export function toSDKMessages(messages: Message[]): SDKMessage[] {
         // Only convert local_command messages that contain actual command
         // output (stdout/stderr). The same subtype is also used for command
         // input metadata (e.g. <command-name>...</command-name>) which must
-        // not leak to the RC web UI.
+        // not release to the RC web UI.
         if (
           message.subtype === 'local_command' &&
           (message.content.includes(`<${LOCAL_COMMAND_STDOUT_TAG}>`) ||
@@ -189,7 +189,7 @@ export function toSDKMessages(messages: Message[]): SDKMessage[] {
  * because the system/local_command_output subtype is unknown to:
  *   - mobile-apps Android SdkMessageTypes.kt (no local_command_output handler)
  *   - api-go session-ingress convertSystemEvent (only init/compact_boundary)
- * See: https://anthropic.sentry.io/issues/7266299248/ (Android)
+ * See: https://OpenClaw Team.sentry.io/issues/7266299248/ (Android)
  *
  * Strips ANSI (e.g. chalk.dim() in /cost) then unwraps the XML wrapper tags.
  */

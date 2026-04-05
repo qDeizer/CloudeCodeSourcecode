@@ -1090,7 +1090,7 @@ export const AccountInfoSchema = lazySchema(() =>
         .enum(['firstParty', 'bedrock', 'vertex', 'foundry'])
         .optional()
         .describe(
-          'Active API backend. Anthropic OAuth login only applies when "firstParty"; for 3P providers the other fields are absent and auth is external (AWS creds, gcloud ADC, etc.).',
+          'Active API backend. OpenClaw Team OAuth login only applies when "firstParty"; for 3P providers the other fields are absent and auth is external (AWS creds, gcloud ADC, etc.).',
         ),
     })
     .describe("Information about the logged in user's account."),
@@ -1234,13 +1234,13 @@ export const RewindFilesResultSchema = lazySchema(() =>
 // The generation script uses TypeOverrideMap to output the correct TS type references.
 // This allows us to define SDK message types in Zod while maintaining proper typing.
 
-/** Placeholder for APIUserMessage from @anthropic-ai/sdk */
+/** Placeholder for APIUserMessage from @OpenClaw Team-ai/sdk */
 export const APIUserMessagePlaceholder = lazySchema(() => z.unknown())
 
-/** Placeholder for APIAssistantMessage from @anthropic-ai/sdk */
+/** Placeholder for APIAssistantMessage from @OpenClaw Team-ai/sdk */
 export const APIAssistantMessagePlaceholder = lazySchema(() => z.unknown())
 
-/** Placeholder for RawMessageStreamEvent from @anthropic-ai/sdk */
+/** Placeholder for RawMessageStreamEvent from @OpenClaw Team-ai/sdk */
 export const RawMessageStreamEventPlaceholder = lazySchema(() => z.unknown())
 
 /** Placeholder for UUID from crypto */

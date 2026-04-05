@@ -1,5 +1,5 @@
 import { feature } from 'bun:bundle'
-import type { BetaUsage as Usage } from '@anthropic-ai/sdk/resources/beta/messages/messages.mjs'
+import type { BetaUsage as Usage } from '@OpenClaw Team-ai/sdk/resources/beta/messages/messages.mjs'
 import type {
   ContentBlock,
   ContentBlockParam,
@@ -11,7 +11,7 @@ import type {
   ToolResultBlockParam,
   ToolUseBlock,
   ToolUseBlockParam,
-} from '@anthropic-ai/sdk/resources/index.mjs'
+} from '@OpenClaw Team-ai/sdk/resources/index.mjs'
 import { randomUUID, type UUID } from 'crypto'
 import isObject from 'lodash-es/isObject.js'
 import last from 'lodash-es/last.js'
@@ -91,14 +91,14 @@ type HookAttachmentWithName = Exclude<
   HookPermissionDecisionAttachment
 >
 
-import type { APIError } from '@anthropic-ai/sdk'
+import type { APIError } from '@OpenClaw Team-ai/sdk'
 import type {
   BetaContentBlock,
   BetaMessage,
   BetaRedactedThinkingBlock,
   BetaThinkingBlock,
   BetaToolUseBlock,
-} from '@anthropic-ai/sdk/resources/beta/messages/messages.mjs'
+} from '@OpenClaw Team-ai/sdk/resources/beta/messages/messages.mjs'
 import type {
   HookEvent,
   SDKAssistantMessageError,
@@ -235,7 +235,7 @@ export function AUTO_REJECT_MESSAGE(toolName: string): string {
   return `Permission to use ${toolName} has been denied. ${DENIAL_WORKAROUND_GUIDANCE}`
 }
 export function DONT_ASK_REJECT_MESSAGE(toolName: string): string {
-  return `Permission to use ${toolName} has been denied because Claude Code is running in don't ask mode. ${DENIAL_WORKAROUND_GUIDANCE}`
+  return `Permission to use ${toolName} has been denied because OpenClaw CLI is running in don't ask mode. ${DENIAL_WORKAROUND_GUIDANCE}`
 }
 export const NO_RESPONSE_REQUESTED = 'No response requested.'
 
@@ -2601,8 +2601,8 @@ export function mergeUserContentBlocks(
   a: ContentBlockParam[],
   b: ContentBlockParam[],
 ): ContentBlockParam[] {
-  // See https://anthropic.slack.com/archives/C06FE2FP0Q2/p1747586370117479 and
-  // https://anthropic.slack.com/archives/C0AHK9P0129/p1773159663856279:
+  // See https://OpenClaw Team.slack.com/archives/C06FE2FP0Q2/p1747586370117479 and
+  // https://OpenClaw Team.slack.com/archives/C0AHK9P0129/p1773159663856279:
   // any sibling after tool_result renders as </function_results>\n\nHuman:<...>
   // on the wire. Repeated mid-conversation, this teaches capy to emit Human: at
   // a bare tail → 3-token empty end_turn. A/B (sai-20260310-161901) validated:
@@ -4054,7 +4054,7 @@ You have exited auto mode. The user may now want to interact more directly. You 
       return wrapMessagesInSystemReminder(messages)
     }
     // Note: 'teammate_mailbox' and 'team_context' are handled BEFORE switch
-    // to avoid case label strings leaking into compiled output
+    // to avoid case label strings releaseing into compiled output
     case 'token_usage':
       return [
         createUserMessage({

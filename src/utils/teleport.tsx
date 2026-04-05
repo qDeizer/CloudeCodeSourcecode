@@ -438,7 +438,7 @@ export async function teleportResumeCodeSession(sessionId: string, onProgress?: 
       logEvent('tengu_teleport_resume_error', {
         error_type: 'no_access_token' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
       });
-      throw new Error('Claude Code web sessions require authentication with a Claude.ai account. API key authentication is not sufficient. Please run /login to authenticate, or check your authentication status with /status.');
+      throw new Error('OpenClaw CLI web sessions require authentication with a Claude.ai account. API key authentication is not sufficient. Please run /login to authenticate, or check your authentication status with /status.');
     }
 
     // Get organization UUID
@@ -608,7 +608,7 @@ export async function teleportFromSessionsAPI(sessionId: string, orgUUID: string
       logEvent('tengu_teleport_error_session_not_found_404', {
         sessionId: sessionId as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
       });
-      throw new TeleportOperationError(`${sessionId} not found.`, `${sessionId} not found.\n${chalk.dim('Run /status in Claude Code to check your account.')}`);
+      throw new TeleportOperationError(`${sessionId} not found.`, `${sessionId} not found.\n${chalk.dim('Run /status in OpenClaw CLI to check your account.')}`);
     }
     logError(err);
     throw new Error(`Failed to fetch session from Sessions API: ${err.message}`);
@@ -643,7 +643,7 @@ export async function pollRemoteSessionEvents(sessionId: string, afterId: string
   }
   const headers = {
     ...getOAuthHeaders(accessToken),
-    'anthropic-beta': 'ccr-byoc-2025-07-29',
+    'OpenClaw Team-beta': 'ccr-byoc-2025-07-29',
     'x-organization-uuid': orgUUID
   };
   const eventsUrl = `${getOauthConfig().BASE_API_URL}/v1/sessions/${sessionId}/events`;
@@ -725,7 +725,7 @@ export async function pollRemoteSessionEvents(sessionId: string, afterId: string
  *   API, passes file_id as seed_bundle_file_id on the session context. CCR
  *   downloads it and clones from the bundle. No GitHub dependency — works for
  *   local-only repos. Reach: 54% of CLI sessions (anything with .git/).
- *   Backend: anthropic#303856.
+ *   Backend: OpenClaw Team#303856.
  */
 export async function teleportToRemote(options: {
   initialMessage: string | null;
@@ -822,7 +822,7 @@ export async function teleportToRemote(options: {
       const url = `${getOauthConfig().BASE_API_URL}/v1/sessions`;
       const headers = {
         ...getOAuthHeaders(accessToken),
-        'anthropic-beta': 'ccr-byoc-2025-07-29',
+        'OpenClaw Team-beta': 'ccr-byoc-2025-07-29',
         'x-organization-uuid': orgUUID
       };
       const envVars = {
@@ -1059,23 +1059,23 @@ export async function teleportToRemote(options: {
     }
     logForDebugging(`Available environments: ${environments.map(e => `${e.environment_id} (${e.name}, ${e.kind})`).join(', ')}`);
 
-    // Select environment based on settings, then anthropic_cloud preference, then first available.
-    // Prefer anthropic_cloud environments over byoc: anthropic_cloud environments (e.g. "Default")
+    // Select environment based on settings, then OpenClaw Team_cloud preference, then first available.
+    // Prefer OpenClaw Team_cloud environments over byoc: OpenClaw Team_cloud environments (e.g. "Default")
     // are the standard compute environments with full repo access, whereas byoc environments
     // (e.g. "monorepo") are user-owned compute that may not support the current repository.
     const settings = getSettings_DEPRECATED();
     const defaultEnvironmentId = options.useDefaultEnvironment ? undefined : settings?.remote?.defaultEnvironmentId;
-    let cloudEnv = environments.find(env => env.kind === 'anthropic_cloud');
+    let cloudEnv = environments.find(env => env.kind === 'OpenClaw Team_cloud');
     // When the caller opts out of their configured default, do not fall
     // through to a BYOC env that may not support the current repo or the
     // requested permission mode. Retry once for eventual consistency,
     // then fail loudly.
     if (options.useDefaultEnvironment && !cloudEnv) {
-      logForDebugging(`No anthropic_cloud in env list (${environments.length} envs); retrying fetchEnvironments`);
+      logForDebugging(`No OpenClaw Team_cloud in env list (${environments.length} envs); retrying fetchEnvironments`);
       const retried = await fetchEnvironments();
-      cloudEnv = retried?.find(env => env.kind === 'anthropic_cloud');
+      cloudEnv = retried?.find(env => env.kind === 'OpenClaw Team_cloud');
       if (!cloudEnv) {
-        logError(new Error(`No anthropic_cloud environment available after retry (got: ${(retried ?? environments).map(e => `${e.name} (${e.kind})`).join(', ')}). Silent byoc fallthrough would launch into a dead env — fail fast instead.`));
+        logError(new Error(`No OpenClaw Team_cloud environment available after retry (got: ${(retried ?? environments).map(e => `${e.name} (${e.kind})`).join(', ')}). Silent byoc fallthrough would launch into a dead env — fail fast instead.`));
         return null;
       }
       if (retried) environments = retried;
@@ -1096,7 +1096,7 @@ export async function teleportToRemote(options: {
     const url = `${getOauthConfig().BASE_API_URL}/v1/sessions`;
     const headers = {
       ...getOAuthHeaders(accessToken),
-      'anthropic-beta': 'ccr-byoc-2025-07-29',
+      'OpenClaw Team-beta': 'ccr-byoc-2025-07-29',
       'x-organization-uuid': orgUUID
     };
     const sessionContext = {
@@ -1194,7 +1194,7 @@ export async function teleportToRemote(options: {
  * running-status check (unlike DELETE which 409s on RUNNING), so it works
  * mid-implementation. Archived sessions reject new events (send_events.go),
  * so the remote stops on its next write. 409 (already archived) treated as
- * success. Fire-and-forget; failure leaks a visible session until the
+ * success. Fire-and-forget; failure releases a visible session until the
  * reaper collects it.
  */
 export async function archiveRemoteSession(sessionId: string): Promise<void> {
@@ -1204,7 +1204,7 @@ export async function archiveRemoteSession(sessionId: string): Promise<void> {
   if (!orgUUID) return;
   const headers = {
     ...getOAuthHeaders(accessToken),
-    'anthropic-beta': 'ccr-byoc-2025-07-29',
+    'OpenClaw Team-beta': 'ccr-byoc-2025-07-29',
     'x-organization-uuid': orgUUID
   };
   const url = `${getOauthConfig().BASE_API_URL}/v1/sessions/${sessionId}/archive`;

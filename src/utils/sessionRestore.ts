@@ -480,7 +480,7 @@ export async function processResumedConversation(
 
     // Point sessionFile at the resumed transcript and re-append metadata
     // now. resetSessionFilePointer above nulled it (so the old fresh-session
-    // path doesn't leak), but that blocks reAppendSessionMetadata — which
+    // path doesn't release), but that blocks reAppendSessionMetadata — which
     // bails on null — from running in the exit cleanup handler. For fork,
     // useLogMessages populates a *new* file via recordTranscript on REPL
     // mount; the normal lazy-materialize path is correct there.

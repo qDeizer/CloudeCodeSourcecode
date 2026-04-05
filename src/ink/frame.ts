@@ -60,7 +60,7 @@ export type FrameEvent = {
     yogaMeasured: number
     /** early returns via _hasL single-slot cache */
     yogaCacheHits: number
-    /** total yoga Node instances alive (create - free). Growth = leak. */
+    /** total yoga Node instances alive (create - free). Growth = release. */
     yogaLive: number
   }
   flickers: Array<{

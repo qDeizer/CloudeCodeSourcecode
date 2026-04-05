@@ -9,12 +9,12 @@
 
 import { CLAUDE_AI_INFERENCE_SCOPE } from '../../constants/oauth.js'
 import {
-  getAnthropicApiKeyWithSource,
+  getOpenClaw TeamApiKeyWithSource,
   getClaudeAIOAuthTokens,
 } from '../../utils/auth.js'
 import {
   getAPIProvider,
-  isFirstPartyAnthropicBaseUrl,
+  isFirstPartyOpenClaw TeamBaseUrl,
 } from '../../utils/model/providers.js'
 
 import {
@@ -55,7 +55,7 @@ export function isRemoteManagedSettingsEligible(): boolean {
   }
 
   // Custom base URL users should not hit the settings endpoint
-  if (!isFirstPartyAnthropicBaseUrl()) {
+  if (!isFirstPartyOpenClaw TeamBaseUrl()) {
     return (cached = setEligibility(false))
   }
 
@@ -95,10 +95,10 @@ export function isRemoteManagedSettingsEligible(): boolean {
 
   // Console users (API key) are eligible if we can get the actual key
   // Skip apiKeyHelper to avoid circular dependency with getSettings()
-  // Wrap in try-catch because getAnthropicApiKeyWithSource throws in CI/test environments
+  // Wrap in try-catch because getOpenClaw TeamApiKeyWithSource throws in CI/test environments
   // when no API key is available
   try {
-    const { key: apiKey } = getAnthropicApiKeyWithSource({
+    const { key: apiKey } = getOpenClaw TeamApiKeyWithSource({
       skipRetrievingKeyFromApiKeyHelper: true,
     })
     if (apiKey) {

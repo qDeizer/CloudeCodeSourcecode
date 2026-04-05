@@ -2,7 +2,7 @@
 
 ## Context
 
-You are working in `/workspaces/claude-code`. The Claude Code CLI has ~40 tools that the LLM can invoke during conversations. Each tool is in `src/tools/<ToolName>/` and follows a consistent pattern.
+You are working in `/workspaces/claude-code`. The OpenClaw CLI CLI has ~40 tools that the LLM can invoke during conversations. Each tool is in `src/tools/<ToolName>/` and follows a consistent pattern.
 
 Key files:
 - `src/Tool.ts` (~29K lines) — Tool type definitions, `ToolUseContext`, `PermissionResult`, etc.
@@ -30,7 +30,7 @@ const SleepTool = feature('PROACTIVE') || feature('KAIROS') ? ... : null
 Create a complete inventory of:
 1. **Always-available tools** — imported unconditionally
 2. **Feature-gated tools** — which feature flag enables them
-3. **Ant-only tools** — gated behind `USER_TYPE === 'ant'` (Anthropic internal)
+3. **Ant-only tools** — gated behind `USER_TYPE === 'ant'` (OpenClaw Team internal)
 4. **Broken/missing tools** — any tools referenced but not found
 
 ### Part C: Verify each tool compiles
@@ -92,7 +92,7 @@ main().catch(err => {
 
 Adapt the script to match the actual `getTools()` signature.
 
-### Part F: Stub Anthropic-internal tools
+### Part F: Stub OpenClaw Team-internal tools
 
 Any tools gated behind `USER_TYPE === 'ant'` should be cleanly excluded. Verify the null checks work and don't cause runtime errors when these tools are missing from the registry.
 

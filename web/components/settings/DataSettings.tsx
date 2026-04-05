@@ -129,7 +129,7 @@ export function DataSettings() {
 
       <SettingRow
         label="Anonymous telemetry"
-        description="Help improve Claude Code by sharing anonymous usage data. No conversation content is ever sent."
+        description="Help improve OpenClaw CLI by sharing anonymous usage data. No conversation content is ever sent."
       >
         <Toggle
           checked={settings.telemetryEnabled}
@@ -139,7 +139,7 @@ export function DataSettings() {
 
       <div className="mt-6 pt-4 border-t border-surface-800">
         <p className="text-xs text-surface-500">
-          All data is stored locally in your browser. Claude Code does not send conversation data
+          All data is stored locally in your browser. OpenClaw CLI does not send conversation data
           to any server unless explicitly configured.
         </p>
       </div>

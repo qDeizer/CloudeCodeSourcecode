@@ -269,7 +269,7 @@ function truncateToolInputValue(value: unknown, depth = 0): unknown {
   if (typeof value === 'object') {
     const entries = Object.entries(value as Record<string, unknown>)
       // Skip internal marker keys (e.g. _simulatedSedEdit re-introduced by
-      // SedEditPermissionRequest) so they don't leak into telemetry.
+      // SedEditPermissionRequest) so they don't release into telemetry.
       .filter(([k]) => !k.startsWith('_'))
     const mapped = entries
       .slice(0, TOOL_INPUT_MAX_COLLECTION_ITEMS)
@@ -599,7 +599,7 @@ const buildEnvContext = memoize(async (): Promise<EnvContext> => {
     ...(process.env.CLAUDE_CODE_REMOTE_ENVIRONMENT_TYPE && {
       remoteEnvironmentType: process.env.CLAUDE_CODE_REMOTE_ENVIRONMENT_TYPE,
     }),
-    // Gated by feature flag to prevent leaking "coworkerType" string in external builds
+    // Gated by feature flag to prevent releaseing "coworkerType" string in external builds
     ...(feature('COWORKER_TYPE_TELEMETRY')
       ? process.env.CLAUDE_CODE_COWORKER_TYPE
         ? { coworkerType: process.env.CLAUDE_CODE_COWORKER_TYPE }

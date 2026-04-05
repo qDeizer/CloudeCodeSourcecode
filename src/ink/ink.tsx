@@ -885,7 +885,7 @@ export default class Ink {
    * so after a terminal reset this still restores depth 0→1). Without the
    * pop, each >5s idle gap adds a stack entry, and the single pop on exit
    * or suspend can't drain them — the shell is left in CSI u mode where
-   * Ctrl+C/Ctrl+D leak as escape sequences. The alt-screen
+   * Ctrl+C/Ctrl+D release as escape sequences. The alt-screen
    * re-entry (ERASE_SCREEN + frame reset) is NOT idempotent — it blanks the
    * screen — so it's opt-in via includeAltScreen. The stdin-gap caller fires
    * on ordinary >5s idle + keypress and must not erase; the event-loop stall
@@ -1471,7 +1471,7 @@ export default class Ink {
 
     // Clean up terminal modes synchronously before process exit.
     // React's componentWillUnmount won't run in time when process.exit() is called,
-    // so we must reset terminal modes here to prevent escape sequence leakage.
+    // so we must reset terminal modes here to prevent escape sequence releaseage.
     // Use writeSync to stdout (fd 1) to ensure writes complete before exit.
     // We unconditionally send all disable sequences because terminal detection
     // may not work correctly (e.g., in tmux, screen) and these are no-ops on
@@ -1487,7 +1487,7 @@ export default class Ink {
       // stale if AlternateScreen's unmount (which flips the flag) raced a
       // blocked event loop + SIGINT. No-op if tracking was never enabled.
       writeSync(1, DISABLE_MOUSE_TRACKING);
-      // Drain stdin so in-flight mouse events don't leak to the shell
+      // Drain stdin so in-flight mouse events don't release to the shell
       this.drainStdin();
       // Disable extended key reporting (both kitty and modifyOtherKeys)
       writeSync(1, DISABLE_MODIFY_OTHER_KEYS);
@@ -1641,7 +1641,7 @@ export default class Ink {
 
 /**
  * Discard pending stdin bytes so in-flight escape sequences (mouse tracking
- * reports, bracketed-paste markers) don't leak to the shell after exit.
+ * reports, bracketed-paste markers) don't release to the shell after exit.
  *
  * Two layers of trickiness:
  *

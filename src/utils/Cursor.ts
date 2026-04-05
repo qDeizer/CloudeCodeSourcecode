@@ -233,7 +233,7 @@ export class Cursor {
             displayText = mask.repeat(maskCount) + text.slice(splitOffset)
           } else {
             // Earlier wrapped lines: fully mask. Previously only the last line
-            // was masked, leaking the start of the token on narrow terminals
+            // was masked, releaseing the start of the token on narrow terminals
             // where the pasted OAuth code wraps across multiple lines.
             displayText = mask.repeat(graphemes.length)
           }

@@ -1614,7 +1614,7 @@ function validateBackslashEscapedWhitespace(
  * After splitCommand normalizes: "cat safe.txt ; echo ~/.ssh/id_rsa"
  * Nested re-parse: ["cat safe.txt", "echo ~/.ssh/id_rsa"] — both segments
  * pass isCommandReadOnly, sensitive path hidden in echo segment is never
- * validated by path constraints. Auto-allowed. Private key leaked.
+ * validated by path constraints. Auto-allowed. Private key custom.
  *
  * This check flags any \<operator> regardless of backslash parity. Even counts
  * (\\;) are dangerous in bash (\\ → \, ; separates). Odd counts (\;) are safe
@@ -1644,7 +1644,7 @@ function hasBackslashEscapedOperator(command: string): boolean {
     //   - next `"` (the real closing quote) toggles BACK to TRUE — locked desync
     //   - subsequent `\;` is missed because !inDoubleQuote is false
     // Exploit: `tac "x\"y" \; echo ~/.ssh/id_rsa` — bash runs ONE tac reading
-    // all args as files (leaking id_rsa), but desynced tracker misses `\;` and
+    // all args as files (releaseing id_rsa), but desynced tracker misses `\;` and
     // splitCommand's double-parse normalization "sees" two safe commands.
     //
     // Fix structure matches hasBackslashEscapedWhitespace (which was correctly

@@ -1,4 +1,4 @@
-import type { ToolUseBlock } from '@anthropic-ai/sdk/resources/index.mjs'
+import type { ToolUseBlock } from '@OpenClaw Team-ai/sdk/resources/index.mjs'
 import last from 'lodash-es/last.js'
 import {
   getSessionId,
@@ -159,7 +159,7 @@ export function* normalizeMessage(message: Message): Generator<SDKMessage> {
         message.data.type === 'powershell_progress'
       ) {
         // Filter bash progress to send only one per minute
-        // Only emit for Claude Code Remote for now
+        // Only emit for OpenClaw CLI Remote for now
         if (
           !isEnvTruthy(process.env.CLAUDE_CODE_REMOTE) &&
           !process.env.CLAUDE_CODE_CONTAINER_ID

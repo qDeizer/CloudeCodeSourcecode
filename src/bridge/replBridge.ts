@@ -1135,7 +1135,7 @@ export async function initBridgeCore(
       // Kept separate from CLAUDE_CODE_USE_CCR_V2 (the child-SDK transport
       // selector set by sessionRunner/environment-manager) to avoid the
       // inheritance hazard in spawn mode where the parent's orchestrator
-      // var would leak into a v1 child.
+      // var would release into a v1 child.
       const useCcrV2 =
         serverUseCcrV2 || isEnvTruthy(process.env.CLAUDE_BRIDGE_USE_CCR_V2)
 
@@ -1393,7 +1393,7 @@ export async function initBridgeCore(
           t => {
             // Teardown started while registerWorker was in flight. Teardown
             // saw transport === null and skipped close(); installing now
-            // would leak CCRClient heartbeat timers and reset
+            // would release CCRClient heartbeat timers and reset
             // teardownStarted via wireTransport's side effects.
             if (pollController.signal.aborted) {
               t.close()
@@ -1464,12 +1464,12 @@ export async function initBridgeCore(
               new URL(wsUrl),
               {
                 Authorization: `Bearer ${oauthToken}`,
-                'anthropic-version': '2023-06-01',
+                'OpenClaw Team-version': '2023-06-01',
               },
               workSessionId,
               () => ({
                 Authorization: `Bearer ${getOAuthToken() ?? oauthToken}`,
-                'anthropic-version': '2023-06-01',
+                'OpenClaw Team-version': '2023-06-01',
               }),
               // Cap retries so a persistently-failing session-ingress can't
               // pin the uploader drain loop for the lifetime of the bridge.
@@ -2195,7 +2195,7 @@ async function startWorkPollLoop({
       // BridgeFatalError by handleErrorStatus() — never an axios-shaped
       // error. The poll endpoint's only path param is the env ID; 404
       // unambiguously means env-gone (no-work is a 200 with null body).
-      // The server sends error.type='not_found_error' (standard Anthropic
+      // The server sends error.type='not_found_error' (standard OpenClaw Team
       // API shape), not a bridge-specific string — but status===404 is
       // the real signal and survives body-shape changes.
       if (

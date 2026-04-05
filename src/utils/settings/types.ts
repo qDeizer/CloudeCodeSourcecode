@@ -63,7 +63,7 @@ export const PermissionsSchema = lazySchema(() =>
             : EXTERNAL_PERMISSION_MODES,
         )
         .optional()
-        .describe('Default permission mode when Claude Code needs access'),
+        .describe('Default permission mode when OpenClaw CLI needs access'),
       disableBypassPermissionsMode: z
         .enum(['disable'])
         .optional()
@@ -258,7 +258,7 @@ export const SettingsSchema = lazySchema(() =>
       $schema: z
         .literal(CLAUDE_CODE_SETTINGS_SCHEMA_URL)
         .optional()
-        .describe('JSON Schema reference for Claude Code settings'),
+        .describe('JSON Schema reference for OpenClaw CLI settings'),
       apiKeyHelper: z
         .string()
         .optional()
@@ -291,7 +291,7 @@ export const SettingsSchema = lazySchema(() =>
                   .describe('IdP issuer URL for OIDC discovery'),
                 clientId: z
                   .string()
-                  .describe("Claude Code's client_id registered at the IdP"),
+                  .describe("OpenClaw CLI's client_id registered at the IdP"),
                 callbackPort: z
                   .number()
                   .int()
@@ -332,7 +332,7 @@ export const SettingsSchema = lazySchema(() =>
         ),
       env: EnvironmentVariablesSchema()
         .optional()
-        .describe('Environment variables to set for Claude Code sessions'),
+        .describe('Environment variables to set for OpenClaw CLI sessions'),
       // Attribution for commits and PRs
       attribution: z
         .object({
@@ -354,7 +354,7 @@ export const SettingsSchema = lazySchema(() =>
         .optional()
         .describe(
           'Customize attribution text for commits and PRs. ' +
-            'Each field defaults to the standard Claude Code attribution if not set.',
+            'Each field defaults to the standard OpenClaw CLI attribution if not set.',
         ),
       includeCoAuthoredBy: z
         .boolean()
@@ -375,7 +375,7 @@ export const SettingsSchema = lazySchema(() =>
       model: z
         .string()
         .optional()
-        .describe('Override the default model used by Claude Code'),
+        .describe('Override the default model used by OpenClaw CLI'),
       // Enterprise allowlist of models
       availableModels: z
         .array(z.string())
@@ -392,7 +392,7 @@ export const SettingsSchema = lazySchema(() =>
         .record(z.string(), z.string())
         .optional()
         .describe(
-          'Override mapping from Anthropic model ID (e.g. "claude-opus-4-6") to provider-specific ' +
+          'Override mapping from OpenClaw Team model ID (e.g. "claude-opus-4-6") to provider-specific ' +
             'model ID (e.g. a Bedrock inference profile ARN). Typically set in managed settings by ' +
             'enterprise administrators.',
         ),
@@ -563,7 +563,7 @@ export const SettingsSchema = lazySchema(() =>
         )
         .optional()
         .describe(
-          'Enabled plugins using plugin-id@marketplace-id format. Example: { "formatter@anthropic-tools": true }. Also supports extended format with version constraints.',
+          'Enabled plugins using plugin-id@marketplace-id format. Example: { "formatter@OpenClaw Team-tools": true }. Also supports extended format with version constraints.',
         ),
       // Extra marketplaces for this repository (usually for project settings)
       extraKnownMarketplaces: z
@@ -902,7 +902,7 @@ export const SettingsSchema = lazySchema(() =>
             'Set true to allow; users then select servers via --channels.',
         ),
       // Org-level channel plugin allowlist. When set, REPLACES the
-      // Anthropic ledger — admin owns the trust decision. Undefined means
+      // OpenClaw Team ledger — admin owns the trust decision. Undefined means
       // fall back to the ledger. Plugin-only entry shape (same as the
       // ledger); server-kind entries still need the dev flag.
       allowedChannelPlugins: z
@@ -915,7 +915,7 @@ export const SettingsSchema = lazySchema(() =>
         .optional()
         .describe(
           'Teams/Enterprise allowlist of channel plugins. When set, ' +
-            'replaces the default Anthropic allowlist — admins decide which ' +
+            'replaces the default OpenClaw Team allowlist — admins decide which ' +
             'plugins may push inbound messages. Undefined falls back to the default. ' +
             'Requires channelsEnabled: true.',
         ),

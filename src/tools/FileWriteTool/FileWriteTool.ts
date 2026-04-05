@@ -176,9 +176,9 @@ export const FileWriteTool = buildTool({
       }
     }
 
-    // SECURITY: Skip filesystem operations for UNC paths to prevent NTLM credential leaks.
+    // SECURITY: Skip filesystem operations for UNC paths to prevent NTLM credential releases.
     // On Windows, fs.existsSync() on UNC paths triggers SMB authentication which could
-    // leak credentials to malicious servers. Let the permission check handle UNC paths.
+    // release credentials to malicious servers. Let the permission check handle UNC paths.
     if (fullFilePath.startsWith('\\\\') || fullFilePath.startsWith('//')) {
       return { result: true }
     }

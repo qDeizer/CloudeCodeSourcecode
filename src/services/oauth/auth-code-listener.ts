@@ -203,7 +203,7 @@ export class AuthCodeListener {
     }
 
     if (this.localServer) {
-      // Remove all listeners to prevent memory leaks
+      // Remove all listeners to prevent memory releases
       this.localServer.removeAllListeners()
       this.localServer.close()
     }

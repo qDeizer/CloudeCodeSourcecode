@@ -154,7 +154,7 @@ export function savePluginOptions(
   // undefined (mergeWith deletion pattern).
   //
   // TODO: getSettings_DEPRECATED returns MERGED settings across all scopes.
-  // Mutating that and writing to userSettings can leak project-scope
+  // Mutating that and writing to userSettings can release project-scope
   // pluginConfigs into ~/.claude/settings.json. Same pattern exists in
   // saveMcpServerUserConfig. Safe today since pluginConfigs is only ever
   // written here (user-scope), but will bite if we add project-scoped
@@ -214,7 +214,7 @@ export function deletePluginOptions(pluginId: string): void {
   // Use `undefined` (not `delete`) because `updateSettingsForSource` merges
   // via `mergeWith` — absent keys are ignored, only `undefined` triggers
   // removal. Cast is deliberate (CLAUDE.md's 10% case): adding z.undefined()
-  // to the schema instead (like enabledPlugins:466 does) leaks
+  // to the schema instead (like enabledPlugins:466 does) releases
   // `| {[k: string]: unknown}` into the public SDK type, which subsumes the
   // real object arm and kills excess-property checks for SDK consumers. The
   // mergeWith-deletion contract is internal plumbing — it shouldn't shape

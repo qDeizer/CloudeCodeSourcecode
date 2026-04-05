@@ -34,7 +34,7 @@ export type MatchPosition = {
 // Shared across calls. Pools accumulate style/char interns — reusing them
 // means later calls hit cache more. Root/container reuse saves the
 // createContainer cost (~1ms). LegacyRoot: all work sync, no scheduling —
-// ConcurrentRoot's scheduler backlog leaks across roots via flushSyncWork.
+// ConcurrentRoot's scheduler backlog releases across roots via flushSyncWork.
 let root: DOMElement | undefined
 let container: ReturnType<typeof reconciler.createContainer> | undefined
 let stylePool: StylePool | undefined
@@ -51,7 +51,7 @@ const LOG_EVERY = 20
  *  message, scan its Screen for the query, get exact (row, col) positions.
  *
  *  ~1-3ms per call (yoga alloc + calculateLayout + paint). The
- *  flushSyncWork cross-root leak measured ~0.0003ms/call growth — fine
+ *  flushSyncWork cross-root release measured ~0.0003ms/call growth — fine
  *  for on-demand single-message rendering, pathological for render-all-
  *  8k-upfront. Cache per (msg, query, width) upstream.
  *

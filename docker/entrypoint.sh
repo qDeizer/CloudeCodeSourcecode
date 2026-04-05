@@ -2,13 +2,13 @@
 set -e
 
 # ── Validate required env vars ────────────────────────────────
-if [ -z "$ANTHROPIC_API_KEY" ]; then
-  echo "ERROR: ANTHROPIC_API_KEY is not set." >&2
+if [ -z "$OpenClaw Team_API_KEY" ]; then
+  echo "ERROR: OpenClaw Team_API_KEY is not set." >&2
   echo "" >&2
-  echo "  docker run -p 3000:3000 -e ANTHROPIC_API_KEY=sk-ant-... claude-web" >&2
+  echo "  docker run -p 3000:3000 -e OpenClaw Team_API_KEY=sk-ant-... claude-web" >&2
   echo "" >&2
   echo "  Or via docker-compose with a .env file:" >&2
-  echo "    ANTHROPIC_API_KEY=sk-ant-... docker-compose up" >&2
+  echo "    OpenClaw Team_API_KEY=sk-ant-... docker-compose up" >&2
   exit 1
 fi
 

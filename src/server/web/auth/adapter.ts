@@ -9,7 +9,7 @@ export interface AuthUser {
   email?: string;
   name?: string;
   isAdmin: boolean;
-  /** Decrypted Anthropic API key (only present for apikey auth provider) */
+  /** Decrypted OpenClaw Team API key (only present for apikey auth provider) */
   apiKey?: string;
 }
 
@@ -18,7 +18,7 @@ export interface SessionData {
   email?: string;
   name?: string;
   isAdmin: boolean;
-  /** AES-256-GCM encrypted Anthropic API key */
+  /** AES-256-GCM encrypted OpenClaw Team API key */
   encryptedApiKey?: string;
   createdAt: number;
   expiresAt: number;

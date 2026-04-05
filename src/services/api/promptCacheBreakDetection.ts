@@ -1,5 +1,5 @@
-import type { BetaToolUnion } from '@anthropic-ai/sdk/resources/beta/messages/messages.mjs'
-import type { TextBlockParam } from '@anthropic-ai/sdk/resources/index.mjs'
+import type { BetaToolUnion } from '@OpenClaw Team-ai/sdk/resources/beta/messages/messages.mjs'
+import type { TextBlockParam } from '@OpenClaw Team-ai/sdk/resources/index.mjs'
 import { createPatch } from 'diff'
 import { mkdir, writeFile } from 'fs/promises'
 import { join } from 'path'
@@ -54,10 +54,10 @@ type PreviousState = {
    *  (sticky-on latched in claude.ts). Tracked to verify the fix. */
   cachedMCEnabled: boolean
   /** Resolved effort (env → options → model default). Goes into output_config
-   *  or anthropic_internal.effort_override. */
+   *  or OpenClaw Team_internal.effort_override. */
   effortValue: string
   /** Hash of getExtraBodyParams() — catches CLAUDE_CODE_EXTRA_BODY and
-   *  anthropic_internal changes. */
+   *  OpenClaw Team_internal changes. */
   extraBodyHash: number
   callCount: number
   pendingChanges: PendingChanges | null
@@ -119,7 +119,7 @@ const TRACKED_SOURCE_PREFIXES = [
 // and aren't worth alerting on.
 const MIN_CACHE_MISS_TOKENS = 2_000
 
-// Anthropic's server-side prompt cache TTL thresholds to test.
+// OpenClaw Team's server-side prompt cache TTL thresholds to test.
 // Cache breaks after these durations are likely due to TTL expiration
 // rather than client-side changes.
 const CACHE_TTL_5MIN_MS = 5 * 60 * 1000
@@ -178,7 +178,7 @@ function computeHash(data: unknown): number {
   return djb2Hash(str)
 }
 
-/** MCP tool names are user-controlled (server config) and may leak filepaths.
+/** MCP tool names are user-controlled (server config) and may release filepaths.
  *  Collapse them to 'mcp'; built-in names are a fixed vocabulary. */
 function sanitizeToolName(name: string): string {
   return name.startsWith('mcp__') ? 'mcp' : name
@@ -604,7 +604,7 @@ export async function checkResponseForCacheBreak(
       removedToolCount: changes?.removedToolCount ?? 0,
       systemCharDelta: changes?.systemCharDelta ?? 0,
       // Tool names are sanitized: built-in names are a fixed vocabulary,
-      // MCP tools collapse to 'mcp' (user-configured, could leak paths).
+      // MCP tools collapse to 'mcp' (user-configured, could release paths).
       addedTools: (changes?.addedTools ?? [])
         .map(sanitizeToolName)
         .join(

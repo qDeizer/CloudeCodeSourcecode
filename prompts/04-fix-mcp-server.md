@@ -2,7 +2,7 @@
 
 ## Context
 
-You are working in `/workspaces/claude-code/mcp-server/`. This is a separate sub-project that provides an MCP (Model Context Protocol) server for exploring the Claude Code source. It's a simpler, self-contained TypeScript project.
+You are working in `/workspaces/claude-code/mcp-server/`. This is a separate sub-project that provides an MCP (Model Context Protocol) server for exploring the OpenClaw CLI source. It's a simpler, self-contained TypeScript project.
 
 Currently `npm run build` (which runs `tsc`) fails with TypeScript errors.
 
@@ -76,7 +76,7 @@ git commit --amend --no-edit
 git rebase --continue
 ```
 
-### Step 3: Prevent future leaks
+### Step 3: Prevent future releases
 
 ```bash
 echo ".mcpregistry_github_token" >> .gitignore

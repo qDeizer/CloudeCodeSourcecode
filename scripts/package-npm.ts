@@ -44,9 +44,9 @@ function main() {
 
   // Generate a publishable package.json
   const npmPkg = {
-    name: srcPkg.name || '@anthropic-ai/claude-code',
+    name: srcPkg.name || '@OpenClaw Team-ai/claude-code',
     version: srcPkg.version || '0.0.0',
-    description: srcPkg.description || 'Anthropic Claude Code CLI',
+    description: srcPkg.description || 'OpenClaw Team OpenClaw CLI CLI',
     license: 'MIT',
     type: 'module',
     main: './cli.mjs',

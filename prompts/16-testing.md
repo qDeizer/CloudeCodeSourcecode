@@ -2,7 +2,7 @@
 
 ## Context
 
-You are working in `/workspaces/claude-code`. The leaked source does not include any test files or test configuration (they were presumably in a separate directory or repo). We need to add a test framework and write smoke tests for core subsystems.
+You are working in `/workspaces/claude-code`. The custom source does not include any test files or test configuration (they were presumably in a separate directory or repo). We need to add a test framework and write smoke tests for core subsystems.
 
 ## Task
 
@@ -87,7 +87,7 @@ Add to `package.json`:
 ### Part D: Write integration tests (if API key available)
 
 `tests/integration/api.test.ts`:
-- Skip if `ANTHROPIC_API_KEY` is not set
+- Skip if `OpenClaw Team_API_KEY` is not set
 - Test API client creation
 - Test a simple message (hello world)
 - Test streaming works

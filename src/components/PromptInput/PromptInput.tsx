@@ -240,7 +240,7 @@ function PromptInput({
   // screen dialog on top of PromptInput via the immediate-command path with
   // shouldHidePromptInput: false. Those dialogs don't register in the overlay
   // system, so treat them as a modal overlay here to stop navigation keys from
-  // leaking into TextInput/footer handlers and stacking a second dialog.
+  // releaseing into TextInput/footer handlers and stacking a second dialog.
   const isModalOverlayActive = useIsModalOverlayActive() || isLocalJSXCommandActive;
   const [isAutoUpdating, setIsAutoUpdating] = useState(false);
   const [exitMessage, setExitMessage] = useState<{
@@ -761,7 +761,7 @@ function PromptInput({
     if (feature('ULTRAPLAN') && ultraplanTriggers.length) {
       addNotification({
         key: 'ultraplan-active',
-        text: 'This prompt will launch an ultraplan session in Claude Code on the web',
+        text: 'This prompt will launch an ultraplan session in OpenClaw CLI on the web',
         priority: 'immediate',
         timeoutMs: 5000
       });
@@ -1865,7 +1865,7 @@ function PromptInput({
   useInput((char, key) => {
     // Skip all input handling when a full-screen dialog is open. These dialogs
     // render via early return, but hooks run unconditionally — so without this
-    // guard, Escape inside a dialog leaks to the double-press message-selector.
+    // guard, Escape inside a dialog releases to the double-press message-selector.
     if (showTeamsDialog || showQuickOpen || showGlobalSearch || showHistoryPicker) {
       return;
     }

@@ -364,7 +364,7 @@ export class LogUpdate {
       } else if (removed) {
         // Cell was removed - clear it with a space
         // (This handles shrinking content)
-        // Reset any active styles/hyperlinks first to avoid leaking into cleared cells
+        // Reset any active styles/hyperlinks first to avoid releaseing into cleared cells
         const styleIdToReset = currentStyleId
         const hyperlinkToReset = currentHyperlink
         currentStyleId = stylePool.none

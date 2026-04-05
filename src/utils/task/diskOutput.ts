@@ -16,7 +16,7 @@ import { getProjectTempDir } from '../permissions/filesystem.js'
 
 // SECURITY: O_NOFOLLOW prevents following symlinks when opening task output files.
 // Without this, an attacker in the sandbox could create symlinks in the tasks directory
-// pointing to arbitrary files, causing Claude Code on the host to write to those files.
+// pointing to arbitrary files, causing OpenClaw CLI on the host to write to those files.
 // O_NOFOLLOW is not available on Windows, but the sandbox attack vector is Unix-only.
 const O_NOFOLLOW = fsConstants.O_NOFOLLOW ?? 0
 
@@ -236,7 +236,7 @@ const outputs = new Map<string, DiskTaskOutput>()
  * Test helper — cancel pending writes, await in-flight ops, clear the map.
  * backgroundShells.test.ts and other task tests spawn real shells that
  * write through this module without afterEach cleanup; their entries
- * leak into diskOutput.test.ts on the same shard.
+ * release into diskOutput.test.ts on the same shard.
  *
  * Awaits all tracked promises until the set stabilizes — a settling promise
  * may spawn another (initTaskOutputAsSymlink's catch → initTaskOutput).

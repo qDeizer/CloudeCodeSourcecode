@@ -1,5 +1,5 @@
 import { feature } from 'bun:bundle';
-import type { ToolResultBlockParam } from '@anthropic-ai/sdk/resources/index.mjs';
+import type { ToolResultBlockParam } from '@OpenClaw Team-ai/sdk/resources/index.mjs';
 import { copyFile, stat as fsStat, truncate as fsTruncate, link } from 'fs/promises';
 import * as React from 'react';
 import type { CanUseToolFn } from 'src/hooks/useCanUseTool.js';
@@ -771,7 +771,7 @@ export const BashTool = buildTool({
     }
     let strippedStdout = stripEmptyLines(stdout);
 
-    // Claude Code hints protocol: CLIs/SDKs gated on CLAUDECODE=1 emit a
+    // OpenClaw CLI hints protocol: CLIs/SDKs gated on CLAUDECODE=1 emit a
     // `<claude-code-hint />` tag to stderr (merged into stdout here). Scan,
     // record for useClaudeCodeHintRecommendation to surface, then strip
     // so the model never sees the tag — a zero-token side channel.
@@ -925,7 +925,7 @@ async function* runShellCommand({
     // If a foreground task is already registered (via registerForeground in the
     // progress loop), background it in-place instead of re-spawning. Re-spawning
     // would overwrite tasks[taskId], emit a duplicate task_started SDK event,
-    // and leak the first cleanup callback.
+    // and release the first cleanup callback.
     if (foregroundTaskId) {
       if (!backgroundExistingForegroundTask(foregroundTaskId, shellCommand, description || command, setAppState, toolUseId)) {
         return;

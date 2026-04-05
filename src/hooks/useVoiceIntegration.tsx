@@ -104,7 +104,7 @@ type StripOpts = {
   // Capture the voice prefix/suffix anchor at the stripped position.
   anchor?: boolean;
   // Minimum trailing count to leave behind — prevents stripping the
-  // intentional warmup chars when defensively cleaning up leaks.
+  // intentional warmup chars when defensively cleaning up releases.
   floor?: number;
 };
 type UseVoiceIntegrationResult = {
@@ -138,7 +138,7 @@ export function useVoiceIntegration({
   const lastSetInputRef = useRef<string | null>(null);
 
   // Strip trailing hold-key chars (and optionally capture the voice
-  // anchor). Called during warmup (to clean up chars that leaked past
+  // anchor). Called during warmup (to clean up chars that custom past
   // stopImmediatePropagation — listener order is not guaranteed) and
   // on activation (with anchor=true to capture the prefix/suffix around
   // the cursor for interim transcript placement). The caller passes the
@@ -146,7 +146,7 @@ export function useVoiceIntegration({
   // boundary are preserved (e.g. the "v" in "hav" when hold-key is "v").
   // The floor option sets a minimum trailing count to leave behind
   // (during warmup this is the count we intentionally let through, so
-  // defensive cleanup only removes leaks). Returns the number of
+  // defensive cleanup only removes releases). Returns the number of
   // trailing chars remaining after stripping. When nothing changes, no
   // state update is performed.
   const stripTrailing = useCallback((maxStrip: number, {
@@ -430,7 +430,7 @@ export function useVoiceKeybindingHandler({
   const rapidCountRef = useRef(0);
   // How many rapid chars we intentionally let through to the text
   // input (the first WARMUP_THRESHOLD). The activation strip removes
-  // up to this many + the activation event's potential leak. For the
+  // up to this many + the activation event's potential release. For the
   // default (space) this is precise — pre-existing trailing spaces are
   // rare. For letter bindings (validation warns) this may over-strip
   // one pre-existing char if the input already ended in the bound
@@ -439,7 +439,7 @@ export function useVoiceKeybindingHandler({
   const charsInInputRef = useRef(0);
   // Trailing-char count remaining after the activation strip — these
   // belong to the user's anchored prefix and must be preserved during
-  // recording's defensive leak cleanup.
+  // recording's defensive release cleanup.
   const recordingFloorRef = useRef(0);
   // True when the current recording was started by key-hold (not focus).
   // Used to avoid swallowing keypresses during focus-mode recording.
@@ -565,11 +565,11 @@ export function useVoiceKeybindingHandler({
         };
       });
       if (bareChar !== null) {
-        // Strip the intentional warmup chars plus this event's leak
+        // Strip the intentional warmup chars plus this event's release
         // (if text input fired first). Cap covers both; min(trailing)
-        // handles the no-leak case. Anchor the voice prefix here.
+        // handles the no-release case. Anchor the voice prefix here.
         // The return value (remaining) becomes the floor for
-        // recording-time leak cleanup.
+        // recording-time release cleanup.
         recordingFloorRef.current = stripTrailing(charsInInputRef.current + repeatCount, {
           char: bareChar,
           anchor: true
@@ -607,7 +607,7 @@ export function useVoiceKeybindingHandler({
     // with the warmup UI. Strip defensively (listener order is not
     // guaranteed — text input may have already added the char). The
     // floor preserves the intentional warmup chars; the strip is a
-    // no-op when nothing leaked. Check countBefore so the event that
+    // no-op when nothing custom. Check countBefore so the event that
     // crosses the threshold still flows through (terminal batching).
     if (countBefore >= WARMUP_THRESHOLD) {
       e.stopImmediatePropagation();
@@ -655,7 +655,7 @@ export function useVoiceKeybindingHandler({
     handleKeyDown(kbEvent);
     // handleKeyDown stopped the adapter event, not the InputEvent the
     // emitter actually checks — forward it so the text input's useInput
-    // listener is skipped and held spaces don't leak into the prompt.
+    // listener is skipped and held spaces don't release into the prompt.
     if (kbEvent.didStopImmediatePropagation()) {
       event.stopImmediatePropagation();
     }

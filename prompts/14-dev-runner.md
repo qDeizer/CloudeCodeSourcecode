@@ -111,11 +111,11 @@ Or use Bun's built-in `.env` loading (Bun automatically reads `.env` files).
 
 ### Part E: Test the development runner
 
-1. Set `ANTHROPIC_API_KEY` in `.env`
+1. Set `OpenClaw Team_API_KEY` in `.env`
 2. Run `bun run dev --version` → should print version
 3. Run `bun run dev --help` → should print help text
 4. Run `bun run dev` → should start the interactive REPL (will need working Ink UI)
-5. Run `ANTHROPIC_API_KEY=sk-ant-... bun run dev -p "say hello"` → should make one API call and print response
+5. Run `OpenClaw Team_API_KEY=sk-ant-... bun run dev -p "say hello"` → should make one API call and print response
 
 ### Part F: Add debug mode
 

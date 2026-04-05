@@ -16,7 +16,7 @@ import { resetUserCache } from '../../utils/user.js';
 export async function performLogout({
   clearOnboarding = false
 }): Promise<void> {
-  // Flush telemetry BEFORE clearing credentials to prevent org data leakage
+  // Flush telemetry BEFORE clearing credentials to prevent org data releaseage
   const {
     flushTelemetry
   } = await import('../../utils/telemetry/instrumentation.js');
@@ -73,7 +73,7 @@ export async function call(): Promise<React.ReactNode> {
   await performLogout({
     clearOnboarding: true
   });
-  const message = <Text>Successfully logged out from your Anthropic account.</Text>;
+  const message = <Text>Successfully logged out from your OpenClaw Team account.</Text>;
   setTimeout(() => {
     gracefulShutdownSync(0, 'logout');
   }, 200);

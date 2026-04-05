@@ -5,7 +5,7 @@
  * - GIT_READ_ONLY_COMMANDS: all git subcommands with safe flags and callbacks
  * - GH_READ_ONLY_COMMANDS: ant-only gh CLI commands (network-dependent)
  * - EXTERNAL_READONLY_COMMANDS: cross-shell commands that work in both bash and PowerShell
- * - containsVulnerableUncPath: UNC path detection for credential leak prevention
+ * - containsVulnerableUncPath: UNC path detection for credential release prevention
  * - outputLimits are in outputLimits.ts
  */
 
@@ -1117,7 +1117,7 @@ export const GH_READ_ONLY_COMMANDS: Record<string, ExternalCommandConfig> = {
     additionalCommandIsDangerousCallback: ghIsDangerousCallback,
   },
   // gh auth status is read-only — displays authentication state
-  // NOTE: --show-token/-t intentionally excluded (leaks secrets)
+  // NOTE: --show-token/-t intentionally excluded (releases secrets)
   'gh auth status': {
     safeFlags: {
       '--active': 'none', // Display active account only
@@ -1548,7 +1548,7 @@ export const EXTERNAL_READONLY_COMMANDS: readonly string[] = [
 
 /**
  * Check if a path or command contains a UNC path that could trigger network
- * requests (NTLM/Kerberos credential leakage, WebDAV attacks).
+ * requests (NTLM/Kerberos credential releaseage, WebDAV attacks).
  *
  * This function detects:
  * - Basic UNC paths: \\server\share, \\foo.com\file

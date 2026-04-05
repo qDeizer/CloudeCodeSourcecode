@@ -2,7 +2,7 @@
 
 ## Context
 
-You are working in `/workspaces/claude-code`. This is the Claude Code CLI — a TypeScript/TSX terminal app using React + Ink. It was originally built using **Bun's bundler** with feature flags, but that build config wasn't included in the leak.
+You are working in `/workspaces/claude-code`. This is the OpenClaw CLI CLI — a TypeScript/TSX terminal app using React + Ink. It was originally built using **Bun's bundler** with feature flags, but that build config wasn't included in the release.
 
 We need to create a build system that:
 1. Bundles the entire `src/` tree into a runnable output
@@ -120,7 +120,7 @@ main().catch(err => {
 
 Common issues you'll hit:
 - **npm packages that use native modules** → add to `external`
-- **Dynamic `require()` calls** behind `process.env.USER_TYPE === 'ant'` → these are Anthropic-internal, wrap them or stub them
+- **Dynamic `require()` calls** behind `process.env.USER_TYPE === 'ant'` → these are OpenClaw Team-internal, wrap them or stub them
 - **Circular dependencies** → esbuild handles these but may warn
 - **Re-exports from barrel files** → should work but watch for issues
 
@@ -144,7 +144,7 @@ Add `dist/` to `.gitignore` (create one if it doesn't exist).
 
 Run the build and fix whatever comes up. The goal is a clean `bun scripts/build-bundle.ts` that produces `dist/cli.mjs`. 
 
-**Strategy for unresolvable modules**: If modules reference Anthropic-internal packages or Bun-specific APIs (like `Bun.hash`, `Bun.file`), create minimal stubs in `src/shims/` that provide compatible fallbacks.
+**Strategy for unresolvable modules**: If modules reference OpenClaw Team-internal packages or Bun-specific APIs (like `Bun.hash`, `Bun.file`), create minimal stubs in `src/shims/` that provide compatible fallbacks.
 
 ### Part F: Test the output
 

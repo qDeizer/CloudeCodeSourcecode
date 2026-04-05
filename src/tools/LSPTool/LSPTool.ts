@@ -167,7 +167,7 @@ export const LSPTool = buildTool({
     const fs = getFsImplementation()
     const absolutePath = expandPath(input.filePath)
 
-    // SECURITY: Skip filesystem operations for UNC paths to prevent NTLM credential leaks.
+    // SECURITY: Skip filesystem operations for UNC paths to prevent NTLM credential releases.
     if (absolutePath.startsWith('\\\\') || absolutePath.startsWith('//')) {
       return { result: true }
     }

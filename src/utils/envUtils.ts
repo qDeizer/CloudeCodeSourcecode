@@ -49,7 +49,7 @@ export function isEnvDefinedFalsy(
 /**
  * --bare / CLAUDE_CODE_SIMPLE — skip hooks, LSP, plugin sync, skill dir-walk,
  * attribution, background prefetches, and ALL keychain/credential reads.
- * Auth is strictly ANTHROPIC_API_KEY env or apiKeyHelper from --settings.
+ * Auth is strictly OpenClaw Team_API_KEY env or apiKeyHelper from --settings.
  * Explicit CLI flags (--plugin-dir, --add-dir, --mcp-config) still honored.
  * ~30 gates across the codebase.
  *
@@ -91,7 +91,7 @@ export function parseEnvVars(
 
 /**
  * Get the AWS region with fallback to default
- * Matches the Anthropic Bedrock SDK's region behavior
+ * Matches the OpenClaw Team Bedrock SDK's region behavior
  */
 export function getAWSRegion(): string {
   return process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-east-1'
@@ -123,7 +123,7 @@ export function isRunningOnHomespace(): boolean {
 }
 
 /**
- * Conservative check for whether Claude Code is running inside a protected
+ * Conservative check for whether OpenClaw CLI is running inside a protected
  * (privileged or ASL3+) COO namespace or cluster.
  *
  * Conservative means: when signals are ambiguous, assume protected. We would

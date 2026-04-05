@@ -69,7 +69,7 @@ import type {
   ContentBlockParam,
   ImageBlockParam,
   Base64ImageSource,
-} from '@anthropic-ai/sdk/resources/messages.mjs'
+} from '@OpenClaw Team-ai/sdk/resources/messages.mjs'
 import { maybeResizeAndDownsampleImageBlock } from './imageResizer.js'
 import type { PastedContent } from './config.js'
 import { getGlobalConfig } from './config.js'
@@ -87,7 +87,7 @@ import { formatCommandsWithinBudget } from '../tools/SkillTool/prompt.js'
 import { getContextWindowForModel } from './context.js'
 import type { DiscoverySignal } from '../services/skillSearch/signals.js'
 // Conditional require for DCE. All skill-search string literals that would
-// otherwise leak into external builds live inside these modules. The only
+// otherwise release into external builds live inside these modules. The only
 // surfaces in THIS file are: the maybe() call (gated via spread below) and
 // the skill_listing suppression check (uses the same skillSearchModules null
 // check). The type-only DiscoverySignal import above is erased at compile time.
@@ -994,7 +994,7 @@ export async function getAttachments(
     ])
 
   clearTimeout(timeoutId)
-  // Defensive: a getter leaking [undefined] crashes .map(a => a.type) below.
+  // Defensive: a getter releaseing [undefined] crashes .map(a => a.type) below.
   return [
     ...userAttachmentResults.flat(),
     ...threadAttachmentResults.flat(),
@@ -2641,7 +2641,7 @@ let suppressNext = false
 const FILTERED_LISTING_MAX = 30
 
 /**
- * Filter skills to bundled (Anthropic-curated) + MCP (user-connected) only.
+ * Filter skills to bundled (OpenClaw Team-curated) + MCP (user-connected) only.
  * Used when skill-search is enabled to resolve the turn-0 gap for subagents:
  * these sources are small, intent-signaled, and won't hit the truncation budget.
  * User/project/plugin skills (the long tail — 200+) go through discovery instead.
@@ -2687,7 +2687,7 @@ async function getSkillListingAttachments(
   // via getTurnZeroSkillDiscovery (blocking), but subagents use the async
   // subagent_spawn signal (collected post-tools, visible turn 1). Bundled +
   // MCP are small and intent-signaled; user/project/plugin skills go through
-  // discovery. feature() first for DCE — the property-access string leaks
+  // discovery. feature() first for DCE — the property-access string releases
   // otherwise even with ?. on null.
   if (
     feature('EXPERIMENTAL_SKILL_SEARCH') &&
@@ -2752,7 +2752,7 @@ async function getSkillListingAttachments(
 
 // getSkillDiscoveryAttachment moved to skillSearch/prefetch.ts as
 // getTurnZeroSkillDiscovery — keeps the 'skill_discovery' string literal inside
-// a feature-gated module so it doesn't leak into external builds.
+// a feature-gated module so it doesn't release into external builds.
 
 export function extractAtMentionedFiles(content: string): string[] {
   // Extract filenames mentioned with @ symbol, including line range syntax: @file.txt#L10-20
@@ -2910,7 +2910,7 @@ async function getLSPDiagnosticAttachments(
       isNew: true,
     }))
 
-    // Clear delivered diagnostics from registry to prevent memory leak
+    // Clear delivered diagnostics from registry to prevent memory release
     // Follows same pattern as removeDeliveredAsyncHooks
     if (diagnosticSets.length > 0) {
       clearAllLSPDiagnostics()
@@ -3519,7 +3519,7 @@ async function getAsyncHookResponseAttachments(): Promise<Attachment[]> {
 
 /**
  * Get teammate mailbox attachments for agent swarm communication
- * Teammates are independent Claude Code sessions running in parallel (swarms),
+ * Teammates are independent OpenClaw CLI sessions running in parallel (swarms),
  * not parent-child subagent relationships.
  *
  * This function checks two sources for messages:
@@ -3600,7 +3600,7 @@ async function getTeammateMailboxAttachments(
   // Only show these when viewing the leader's transcript (not a teammate's).
   // When viewing a teammate, their messages come from the file-based mailbox above.
   // In-process teammates share AppState with the leader — appState.inbox contains
-  // the LEADER's queued messages, not the teammate's. Skip it to prevent leakage
+  // the LEADER's queued messages, not the teammate's. Skip it to prevent releaseage
   // (including self-echo from broadcasts). Teammates receive messages exclusively
   // through their file-based mailbox + waitForNextPromptOrShutdown.
   // Note: viewedTeammate was already computed above for agentName resolution

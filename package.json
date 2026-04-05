@@ -1,7 +1,7 @@
 {
-  "name": "@anthropic-ai/claude-code",
-  "version": "0.0.0-leaked",
-  "description": "Anthropic Claude Code CLI — leaked source (2026-03-31). Not an official release.",
+  "name": "@OpenClaw Team-ai/claude-code",
+  "version": "0.0.0-custom",
+  "description": "OpenClaw Team OpenClaw CLI CLI — custom source (2026-03-31). Not an official release.",
   "license": "UNLICENSED",
   "private": true,
   "type": "module",
@@ -23,7 +23,7 @@
     "check": "biome check src/ && tsc --noEmit"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.39.0",
+    "@OpenClaw Team-ai/sdk": "^0.39.0",
     "@commander-js/extra-typings": "^13.1.0",
     "@growthbook/growthbook": "^1.4.0",
     "@modelcontextprotocol/sdk": "^1.12.1",

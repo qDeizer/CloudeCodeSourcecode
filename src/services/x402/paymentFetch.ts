@@ -10,7 +10,7 @@
  * 4. Retry the request with the X-Payment header
  *
  * This integrates at the fetch level so it works transparently with
- * both the Anthropic SDK client and the WebFetchTool.
+ * both the OpenClaw Team SDK client and the WebFetchTool.
  */
 
 import type { AxiosInstance, AxiosResponse } from 'axios'
@@ -23,7 +23,7 @@ import { X402_HEADERS } from './types.js'
 /**
  * Create a fetch wrapper that intercepts 402 responses and handles x402 payment.
  *
- * Usage with the Anthropic SDK client:
+ * Usage with the OpenClaw Team SDK client:
  *   const wrappedFetch = wrapFetchWithX402(originalFetch)
  *   // Pass wrappedFetch as the `fetch` option to the SDK
  *

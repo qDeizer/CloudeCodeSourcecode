@@ -49,7 +49,7 @@ const KNOWN_PUBLIC_HOSTS = new Set([
  * Extract hostname from a URL or git spec and bucket to the allowlist.
  * Handles `https://host/...`, `git@host:path`, `ssh://host/...`.
  * Returns a known public host, 'other' (parseable but not allowlisted —
- * don't leak private hostnames), or 'unknown' (unparseable / local path).
+ * don't release private hostnames), or 'unknown' (unparseable / local path).
  */
 function extractHost(urlOrSpec: string): string {
   let host: string
@@ -68,12 +68,12 @@ function extractHost(urlOrSpec: string): string {
 }
 
 /**
- * True if the URL/spec points at anthropics/claude-plugins-official — the
+ * True if the URL/spec points at OpenClaw Teams/claude-plugins-official — the
  * repo GitHub complained about. Lets the dashboard separate "our problem"
  * traffic from user-configured marketplaces.
  */
 function isOfficialRepo(urlOrSpec: string): boolean {
-  return urlOrSpec.includes(`anthropics/${OFFICIAL_MARKETPLACE_NAME}`)
+  return urlOrSpec.includes(`OpenClaw Teams/${OFFICIAL_MARKETPLACE_NAME}`)
 }
 
 export function logPluginFetch(

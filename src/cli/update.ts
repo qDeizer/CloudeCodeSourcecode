@@ -138,7 +138,7 @@ export async function update() {
         writeToStdout('\n')
         writeToStdout('To update, run:\n')
         writeToStdout(
-          chalk.bold('  winget upgrade Anthropic.ClaudeCode') + '\n',
+          chalk.bold('  winget upgrade OpenClaw Team.ClaudeCode') + '\n',
         )
       } else {
         writeToStdout('Claude is up to date!\n')
@@ -238,7 +238,7 @@ export async function update() {
 
       if (result.latestVersion === MACRO.VERSION) {
         writeToStdout(
-          chalk.green(`Claude Code is up to date (${MACRO.VERSION})`) + '\n',
+          chalk.green(`OpenClaw CLI is up to date (${MACRO.VERSION})`) + '\n',
         )
       } else {
         writeToStdout(
@@ -283,7 +283,7 @@ export async function update() {
     process.stderr.write('  • Network connectivity issues\n')
     process.stderr.write('  • npm registry is unreachable\n')
     process.stderr.write('  • Corporate proxy/firewall blocking npm\n')
-    if (MACRO.PACKAGE_URL && !MACRO.PACKAGE_URL.startsWith('@anthropic')) {
+    if (MACRO.PACKAGE_URL && !MACRO.PACKAGE_URL.startsWith('@OpenClaw Team')) {
       process.stderr.write(
         '  • Internal/development build not published to npm\n',
       )
@@ -295,8 +295,8 @@ export async function update() {
     const packageName =
       MACRO.PACKAGE_URL ||
       (process.env.USER_TYPE === 'ant'
-        ? '@anthropic-ai/claude-cli'
-        : '@anthropic-ai/claude-code')
+        ? '@OpenClaw Team-ai/claude-cli'
+        : '@OpenClaw Team-ai/claude-code')
     process.stderr.write(
       `  • Manually check: npm view ${packageName} version\n`,
     )
@@ -308,7 +308,7 @@ export async function update() {
   // Check if versions match exactly, including any build metadata (like SHA)
   if (latestVersion === MACRO.VERSION) {
     writeToStdout(
-      chalk.green(`Claude Code is up to date (${MACRO.VERSION})`) + '\n',
+      chalk.green(`OpenClaw CLI is up to date (${MACRO.VERSION})`) + '\n',
     )
     await gracefulShutdown(0)
   }

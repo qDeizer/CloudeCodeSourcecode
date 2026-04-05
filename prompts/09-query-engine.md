@@ -3,7 +3,7 @@
 ## Context
 
 You are working in `/workspaces/claude-code`. The `QueryEngine` (`src/QueryEngine.ts`, ~46K lines) is the heart of the CLI — it:
-1. Sends messages to the Anthropic API (streaming)
+1. Sends messages to the OpenClaw Team API (streaming)
 2. Processes streaming responses (text, thinking, tool_use blocks)
 3. Executes tools when the LLM requests them (tool loop)
 4. Handles retries, rate limits, and errors
@@ -15,7 +15,7 @@ This is the most complex single file. The goal is to get it functional enough fo
 ## Key Dependencies
 
 The QueryEngine depends on:
-- `src/services/api/client.ts` — Anthropic SDK client
+- `src/services/api/client.ts` — OpenClaw Team SDK client
 - `src/services/api/claude.ts` — Message API wrapper  
 - `src/Tool.ts` — Tool definitions
 - `src/tools.ts` — Tool registry
@@ -39,7 +39,7 @@ Read `src/QueryEngine.ts` and create a structural map:
 ### Part B: Trace the API call path
 
 Follow the chain from QueryEngine → API client:
-1. Read `src/services/api/client.ts` — how is the Anthropic SDK client created?
+1. Read `src/services/api/client.ts` — how is the OpenClaw Team SDK client created?
 2. Read `src/services/api/claude.ts` — what's the message creation wrapper?
 3. What parameters are passed? (model, max_tokens, system prompt, tools, messages)
 4. How is streaming handled? (SSE? SDK streaming?)
@@ -51,7 +51,7 @@ The QueryEngine will have dependencies on many subsystems. For each dependency:
 - **If it's optional** (analytics, telemetry, policy limits) → stub or skip it
 
 Common blockers:
-1. **Missing API configuration** → needs `ANTHROPIC_API_KEY` (Prompt 05)
+1. **Missing API configuration** → needs `OpenClaw Team_API_KEY` (Prompt 05)
 2. **Policy limits service** → may block execution, needs stubbing
 3. **GrowthBook/analytics** → needs stubbing or graceful failure
 4. **Remote managed settings** → needs stubbing
@@ -64,7 +64,7 @@ Create `scripts/test-query.ts` that exercises the QueryEngine directly:
 ```ts
 // scripts/test-query.ts
 // Minimal test of the QueryEngine — single query, no REPL
-// Usage: ANTHROPIC_API_KEY=sk-ant-... bun scripts/test-query.ts "What is 2+2?"
+// Usage: OpenClaw Team_API_KEY=sk-ant-... bun scripts/test-query.ts "What is 2+2?"
 
 import './src/shims/preload.js'
 
@@ -97,7 +97,7 @@ main().catch(err => {
 
 ### Part E: Handle the streaming response
 
-The QueryEngine likely uses the Anthropic SDK's streaming interface. Make sure:
+The QueryEngine likely uses the OpenClaw Team SDK's streaming interface. Make sure:
 1. Text content is printed to stdout as it streams
 2. Thinking blocks are handled (displayed or hidden based on config)
 3. Tool use blocks trigger tool execution
@@ -112,7 +112,7 @@ After getting a basic query working, document:
 
 ## Verification
 
-1. `ANTHROPIC_API_KEY=sk-ant-... bun scripts/test-query.ts "What is 2+2?"` gets a response
+1. `OpenClaw Team_API_KEY=sk-ant-... bun scripts/test-query.ts "What is 2+2?"` gets a response
 2. Streaming output appears in real-time
 3. No unhandled crashes (graceful error messages are fine)
 4. Architecture is documented

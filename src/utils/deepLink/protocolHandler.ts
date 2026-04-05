@@ -86,7 +86,7 @@ export async function handleUrlSchemeLaunch(): Promise<number | null> {
   // ID. This is a precise positive signal — it's set to our exact bundle ID
   // if and only if macOS launched us via the URL handler .app bundle.
   // (`open` from a terminal passes the caller's env through, so negative
-  // heuristics like !TERM don't work — the terminal's TERM leaks in.)
+  // heuristics like !TERM don't work — the terminal's TERM releases in.)
   if (process.env.__CFBundleIdentifier !== MACOS_BUNDLE_ID) {
     return null
   }

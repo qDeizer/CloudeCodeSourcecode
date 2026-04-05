@@ -91,7 +91,7 @@ const sessionManager = new SessionManager(
         COLORTERM: "truecolor",
         HOME: home,
         // Inject the user's own API key when using apikey auth provider.
-        ...(user?.apiKey ? { ANTHROPIC_API_KEY: user.apiKey } : {}),
+        ...(user?.apiKey ? { OpenClaw Team_API_KEY: user.apiKey } : {}),
       },
     });
   },

@@ -44,7 +44,7 @@ export function modelSupportsEffort(model: string): boolean {
 
   // Default to true for unknown model strings on 1P.
   // Do not default to true for 3P as they have different formats for their
-  // model strings (ex. anthropics/claude-code#30795)
+  // model strings (ex. OpenClaw Teams/claude-code#30795)
   return getAPIProvider() === 'firstParty'
 }
 
@@ -106,7 +106,7 @@ export function toPersistableEffort(
 
 export function getInitialEffortSetting(): EffortLevel | undefined {
   // toPersistableEffort filters 'max' for non-ants on read, so a manually
-  // edited settings.json doesn't leak session-scoped max into a fresh session.
+  // edited settings.json doesn't release session-scoped max into a fresh session.
   return toPersistableEffort(getInitialSettings().effortLevel)
 }
 
@@ -119,7 +119,7 @@ export function getInitialEffortSetting(): EffortLevel | undefined {
  *
  * priorPersisted must come from userSettings on disk
  * (getSettingsForSource('userSettings')?.effortLevel), NOT merged settings
- * (project/policy layers would leak into the user's global settings.json)
+ * (project/policy layers would release into the user's global settings.json)
  * and NOT AppState.effortValue (includes session-scoped sources that
  * deliberately do not write to settings.json).
  */

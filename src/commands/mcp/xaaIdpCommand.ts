@@ -32,7 +32,7 @@ export function registerMcpXaaIdpCommand(mcp: Command): void {
       'Configure the IdP connection (one-time setup for all XAA-enabled servers)',
     )
     .requiredOption('--issuer <url>', 'IdP issuer URL (OIDC discovery)')
-    .requiredOption('--client-id <id>', "Claude Code's client_id at the IdP")
+    .requiredOption('--client-id <id>', "OpenClaw CLI's client_id at the IdP")
     .option(
       '--client-secret',
       'Read IdP client secret from MCP_XAA_IDP_CLIENT_SECRET env var',
@@ -57,7 +57,7 @@ export function registerMcpXaaIdpCommand(mcp: Command): void {
         )
       }
       // OIDC discovery + token exchange run against this host. Allow http://
-      // only for loopback (conformance harness mock IdP); anything else leaks
+      // only for loopback (conformance harness mock IdP); anything else releases
       // the client secret and authorization code over plaintext.
       if (
         issuerUrl.protocol !== 'https:' &&
@@ -102,7 +102,7 @@ export function registerMcpXaaIdpCommand(mcp: Command): void {
 
       // callbackPort MUST be present (even as undefined) — mergeWith deep-merges
       // and only deletes on explicit `undefined`, not on absent key. A conditional
-      // spread would leak a prior fixed port into a new IdP's config.
+      // spread would release a prior fixed port into a new IdP's config.
       const { error } = updateSettingsForSource('userSettings', {
         xaaIdp: {
           issuer: options.issuer,

@@ -293,7 +293,7 @@ async function doParse(command: string): Promise<IParsedCommand | null> {
 // buildSegmentWithoutRedirections) may call ParsedCommand.parse repeatedly
 // with the same command string. Each parse() is ~1 native.parse + ~6 tree
 // walks, so caching the most recent command skips the redundant work.
-// Size-1 bound avoids leaking TreeSitterParsedCommand instances.
+// Size-1 bound avoids releaseing TreeSitterParsedCommand instances.
 let lastCmd: string | undefined
 let lastResult: Promise<IParsedCommand | null> | undefined
 

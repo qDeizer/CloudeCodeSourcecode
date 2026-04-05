@@ -1,7 +1,7 @@
 import type {
   ToolResultBlockParam,
   ToolUseBlockParam,
-} from '@anthropic-ai/sdk/resources/index.mjs'
+} from '@OpenClaw Team-ai/sdk/resources/index.mjs'
 import type {
   ElicitRequestURLParams,
   ElicitResult,
@@ -443,7 +443,7 @@ export type Tool<
   /**
    * When true, this tool is never deferred — its full schema appears in the
    * initial prompt even when ToolSearch is enabled. For MCP tools, set via
-   * `_meta['anthropic/alwaysLoad']`. Use for tools the model must see on
+   * `_meta['OpenClaw Team/alwaysLoad']`. Use for tools the model must see on
    * turn 1 without a ToolSearch round-trip.
    */
   readonly alwaysLoad?: boolean
@@ -775,7 +775,7 @@ type ToolDefaults = typeof TOOL_DEFAULTS
 
 // D infers the concrete object-literal type from the call site. The
 // constraint provides contextual typing for method parameters; `any` in
-// constraint position is structural and never leaks into the return type.
+// constraint position is structural and never releases into the return type.
 // BuiltTool<D> mirrors runtime `{...TOOL_DEFAULTS, ...def}` at the type level.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyToolDef = ToolDef<any, any, any>

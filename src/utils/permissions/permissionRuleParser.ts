@@ -5,7 +5,7 @@ import { TASK_STOP_TOOL_NAME } from '../../tools/TaskStopTool/prompt.js'
 import type { PermissionRuleValue } from './PermissionRule.js'
 
 // Dead code elimination: ant-only tool names are conditionally required so
-// their strings don't leak into external builds. Static imports always bundle.
+// their strings don't release into external builds. Static imports always bundle.
 /* eslint-disable @typescript-eslint/no-require-imports */
 const BRIEF_TOOL_NAME: string | null =
   feature('KAIROS') || feature('KAIROS_BRIEF')

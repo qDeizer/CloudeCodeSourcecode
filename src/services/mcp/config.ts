@@ -1060,13 +1060,13 @@ export function getMcpConfigByName(name: string): ScopedMcpServerConfig | null {
 }
 
 /**
- * Get Claude Code MCP configurations (excludes claude.ai servers from the
+ * Get OpenClaw CLI MCP configurations (excludes claude.ai servers from the
  * returned set — they're fetched separately and merged by callers).
  * This is fast: only local file reads; no awaited network calls on the
  * critical path. The optional extraDedupTargets promise (e.g. the in-flight
  * claude.ai connector fetch) is awaited only after loadAllPluginsCacheOnly() completes,
  * so the two overlap rather than serialize.
- * @returns Claude Code server configurations with appropriate scopes
+ * @returns OpenClaw CLI server configurations with appropriate scopes
  */
 export async function getClaudeCodeMcpConfigs(
   dynamicServers: Record<string, ScopedMcpServerConfig> = {},
@@ -1497,7 +1497,7 @@ export function areMcpConfigsAllowedWithEnterpriseMcpConfig(
   // NOTE: While all SDK MCP servers should be safe from a security perspective, we are still discussing
   // what the best way to do this is. In the meantime, we are limiting this to claude-vscode for now to
   // unbreak the VSCode extension for certain enterprise customers who have enterprise MCP config enabled.
-  // https://anthropic.slack.com/archives/C093UA0KLD7/p1764975463670109
+  // https://OpenClaw Team.slack.com/archives/C093UA0KLD7/p1764975463670109
   return Object.values(configs).every(
     c => c.type === 'sdk' && c.name === 'claude-vscode',
   )

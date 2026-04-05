@@ -1,16 +1,16 @@
 # warrioraashuu Codemaster — MCP Server
 
-A standalone [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server that lets any MCP-compatible client explore the Claude Code source code. Rebranded and published by [warrioraashuu](https://www.npmjs.com/~warrioraashuu). Supports **STDIO**, **Streamable HTTP**, and **SSE** transports.
+A standalone [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server that lets any MCP-compatible client explore the OpenClaw CLI source code. Rebranded and published by [warrioraashuu](https://www.npmjs.com/~warrioraashuu). Supports **STDIO**, **Streamable HTTP**, and **SSE** transports.
 
 ## What It Does
 
-Exposes 8 tools, 3 resources, and 5 prompts for navigating the ~1,900-file, 512K+ line Claude Code codebase. This is the official npm package: `warrioraashuu-codemaster`.
+Exposes 8 tools, 3 resources, and 5 prompts for navigating the ~1,900-file, 512K+ line OpenClaw CLI codebase. This is the official npm package: `warrioraashuu-codemaster`.
 
 ### Transports
 
 | Transport | Endpoint | Best For |
 |-----------|----------|----------|
-| **STDIO** | `node dist/index.js` | Claude Desktop, local Claude Code, VS Code |
+| **STDIO** | `node dist/index.js` | Claude Desktop, local OpenClaw CLI, VS Code |
 | **Streamable HTTP** | `POST/GET /mcp` | Modern MCP clients, remote hosting |
 | **Legacy SSE** | `GET /sse` + `POST /messages` | Older MCP clients |
 
@@ -42,7 +42,7 @@ Exposes 8 tools, 3 resources, and 5 prompts for navigating the ~1,900-file, 512K
 |--------|-------------|
 | `explain_tool` | Deep-dive explanation of a specific tool's purpose, schema, permissions, and flow |
 | `explain_command` | Explanation of a specific slash command's behavior and implementation |
-| `architecture_overview` | Guided tour of the full Claude Code architecture |
+| `architecture_overview` | Guided tour of the full OpenClaw CLI architecture |
 | `how_does_it_work` | Explain a feature/subsystem (permissions, MCP, bridge, etc.) |
 | `compare_tools` | Side-by-side comparison of two tools |
 
@@ -139,7 +139,7 @@ Add to `~/.cursor/mcp.json`:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `CLAUDE_CODE_SRC_ROOT` | `../src` (relative to dist/) | Path to the Claude Code `src/` directory |
+| `CLAUDE_CODE_SRC_ROOT` | `../src` (relative to dist/) | Path to the OpenClaw CLI `src/` directory |
 | `PORT` | `3000` | HTTP server port (HTTP mode only) |
 | `MCP_API_KEY` | _(none)_ | Bearer token for HTTP auth (optional) |
 
@@ -208,7 +208,7 @@ The server also exposes prompt templates for guided exploration:
 |--------|-------------|
 | `explain_tool` | Deep-dive explanation of a specific tool (input schema, permissions, execution flow) |
 | `explain_command` | Explain how a slash command works |
-| `architecture_overview` | Guided tour of the entire Claude Code architecture |
+| `architecture_overview` | Guided tour of the entire OpenClaw CLI architecture |
 | `how_does_it_work` | Explain a feature or subsystem (e.g. "permission system", "MCP client", "query engine") |
 | `compare_tools` | Side-by-side comparison of two tools |
 
@@ -216,7 +216,7 @@ The server also exposes prompt templates for guided exploration:
 
 Once connected, you can ask your AI assistant things like:
 
-- "List all Claude Code tools"
+- "List all OpenClaw CLI tools"
 - "Show me the BashTool implementation"
 - "Search for how permissions are checked"
 - "What files are in the bridge directory?"

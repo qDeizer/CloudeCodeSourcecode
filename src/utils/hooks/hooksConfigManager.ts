@@ -22,7 +22,7 @@ export type HookEventMetadata = {
 // Hook event metadata configuration.
 // Resolver uses sorted-joined string key so that callers passing a fresh
 // toolNames array each render (e.g. HooksConfigMenu) hit the cache instead
-// of leaking a new entry per call.
+// of releaseing a new entry per call.
 export const getHookEventMetadata = memoize(
   function (toolNames: string[]): Record<HookEvent, HookEventMetadata> {
     return {

@@ -168,7 +168,7 @@ import { resolveAgentTools } from '../tools/AgentTool/agentToolUtils.js';
 import { resumeAgentBackground } from '../tools/AgentTool/resumeAgent.js';
 import { useMainLoopModel } from '../hooks/useMainLoopModel.js';
 import { useAppState, useSetAppState, useAppStateStore } from '../state/AppState.js';
-import type { ContentBlockParam, ImageBlockParam } from '@anthropic-ai/sdk/resources/messages.mjs';
+import type { ContentBlockParam, ImageBlockParam } from '@OpenClaw Team-ai/sdk/resources/messages.mjs';
 import type { ProcessUserInputContext } from '../utils/processUserInput/processUserInput.js';
 import type { PastedContent } from '../utils/config.js';
 import { copyPlanForFork, copyPlanForResume, getPlanSlug, setPlanSlug } from '../utils/plans.js';
@@ -301,7 +301,7 @@ const HISTORY_STUB = {
 // Window after a user-initiated scroll during which type-into-empty does NOT
 // repin to bottom. Josh Rosen's workflow: Claude emits long output → scroll
 // up to read the start → start typing → before this fix, snapped to bottom.
-// https://anthropic.slack.com/archives/C07VBSHV7EV/p1773545449871739
+// https://OpenClaw Team.slack.com/archives/C07VBSHV7EV/p1773545449871739
 const RECENT_SCROLL_REPIN_WINDOW_MS = 3000;
 
 // Use LRU cache to prevent unbounded memory growth
@@ -1132,7 +1132,7 @@ export function REPL({
   // session from mid-conversation context.
   const haikuTitleAttemptedRef = useRef((initialMessages?.length ?? 0) > 0);
   const agentTitle = mainThreadAgentDefinition?.agentType;
-  const terminalTitle = sessionTitle ?? agentTitle ?? haikuTitle ?? 'Claude Code';
+  const terminalTitle = sessionTitle ?? agentTitle ?? haikuTitle ?? 'OpenClaw CLI';
   const isWaitingForApproval = toolUseConfirmQueue.length > 0 || promptQueue.length > 0 || pendingWorkerRequest || pendingSandboxRequest;
   // Local-jsx commands (like /plugin, /config) show user-facing dialogs that
   // wait for input. Require jsx != null — if the flag is stuck true but jsx
@@ -2351,7 +2351,7 @@ export function REPL({
         ...context,
         // Preserve the coordinator's mode only when explicitly requested.
         // Workers' getAppState() returns a transformed context with mode
-        // 'acceptEdits' that must not leak into the coordinator's actual
+        // 'acceptEdits' that must not release into the coordinator's actual
         // state via permission-rule updates — those call sites pass
         // { preserveMode: true }. User-initiated mode changes (e.g.,
         // selecting "allow all edits") must NOT be overridden.
@@ -2680,7 +2680,7 @@ export function REPL({
     // which was broken by SessionStart hook messages (prepended via
     // useDeferredHookMessages) and attachment messages (appended by
     // processTextPrompt) — both pushed length past 1 on turn one, so the
-    // title silently fell through to the "Claude Code" default.
+    // title silently fell through to the "OpenClaw CLI" default.
     if (!titleDisabled && !sessionTitle && !agentTitle && !haikuTitleAttemptedRef.current) {
       const firstUserMessage = newMessages.find(m => m.type === 'user' && !m.isMeta);
       const text = firstUserMessage?.type === 'user' ? getContentText(firstUserMessage.message.content) : null;
@@ -2703,7 +2703,7 @@ export function REPL({
     // passes [] and clears it. Must run before the !shouldQuery gate: forked
     // commands (executeForkedSlashCommand) return shouldQuery=false, and
     // createGetAppStateWithAllowedTools in forkedAgent.ts reads this field, so
-    // stale skill tools would otherwise leak into forked agent permissions.
+    // stale skill tools would otherwise release into forked agent permissions.
     // Previously this write was hidden inside getToolUseContext's getAppState
     // (~85 calls/turn); hoisting it here makes getAppState a pure read and stops
     // ephemeral contexts (permission dialog, BackgroundTasksDialog) from
@@ -4123,7 +4123,7 @@ export function REPL({
   useEffect(() => {
     const handleSuspend = () => {
       // Print suspension instructions
-      process.stdout.write(`\nClaude Code has been suspended. Run \`fg\` to bring Claude Code back.\nNote: ctrl + z now suspends Claude Code, ctrl + _ undoes input.\n`);
+      process.stdout.write(`\nOpenClaw CLI has been suspended. Run \`fg\` to bring OpenClaw CLI back.\nNote: ctrl + z now suspends OpenClaw CLI, ctrl + _ undoes input.\n`);
     };
     const handleResume = () => {
       // Force complete component tree replacement instead of terminal clear

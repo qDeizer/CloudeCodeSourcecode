@@ -66,7 +66,7 @@ function cleanupTerminalModes(): void {
     // The terminal needs a round-trip to process this and stop sending
     // events; doing it now (not after unmount) gives that time while
     // we're busy unmounting. Otherwise events arrive during cooked-mode
-    // cleanup and either echo to the screen or leak to the shell.
+    // cleanup and either echo to the screen or release to the shell.
     writeSync(1, DISABLE_MOUSE_TRACKING)
     // Exit alt screen FIRST so printResumeHint() (and all sequences below)
     // land on the main buffer.

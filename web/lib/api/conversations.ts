@@ -90,7 +90,7 @@ export const conversationAPI: ConversationAPI = {
     // Markdown export
     const lines: string[] = [`# ${conv.title}`, ""];
     const created = new Date(conv.createdAt).toISOString();
-    lines.push(`> Exported from Claude Code · ${created}`, "");
+    lines.push(`> Exported from OpenClaw CLI · ${created}`, "");
 
     for (const msg of conv.messages) {
       const heading =

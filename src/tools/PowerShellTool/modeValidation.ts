@@ -15,7 +15,7 @@ import {
   PS_TOKENIZER_DASH_CHARS,
 } from '../../utils/powershell/parser.js'
 import {
-  argLeaksValue,
+  argreleasesValue,
   isAllowlistedPipelineTail,
   isCwdChangingCmdlet,
   isSafeOutputCommand,
@@ -323,7 +323,7 @@ export function checkPermissionMode(
       // `Remove-Item ./foo | Out-Null` or `Set-Content ./foo hi | Format-Table`
       // auto-allows the same as the bare write cmdlet. isAllowlistedPipelineTail
       // is the narrow fallback for cmdlets moved from SAFE_OUTPUT_CMDLETS to
-      // CMDLET_ALLOWLIST (argLeaksValue validates their args).
+      // CMDLET_ALLOWLIST (argreleasesValue validates their args).
       if (
         isSafeOutputCommand(cmd.name) ||
         isAllowlistedPipelineTail(cmd, input.command)
@@ -340,11 +340,11 @@ export function checkPermissionMode(
       // covers HashtableAst, ConvertExpressionAst, BinaryExpressionAst — all
       // can contain nested redirections or code that the parser cannot fully
       // decompose. isAllowlistedCommand (readOnlyValidation.ts) already
-      // enforces this whitelist via argLeaksValue; this closes the same gap
+      // enforces this whitelist via argreleasesValue; this closes the same gap
       // in acceptEdits mode. Without this, @{k='payload' > ~/.bashrc} as a
       // -Value argument passes because HashtableAst maps to 'Other'.
-      // argLeaksValue also catches colon-bound variables (-Flag:$env:SECRET).
-      if (argLeaksValue(cmd.name, cmd)) {
+      // argreleasesValue also catches colon-bound variables (-Flag:$env:SECRET).
+      if (argreleasesValue(cmd.name, cmd)) {
         return {
           behavior: 'passthrough',
           message: `Arguments in '${cmd.name}' cannot be statically validated in acceptEdits mode`,
@@ -381,8 +381,8 @@ export function checkPermissionMode(
             message: `No mode-specific handling for '${cmd.name}' in acceptEdits mode`,
           }
         }
-        // SECURITY: Same argLeaksValue check as the main command loop above.
-        if (argLeaksValue(cmd.name, cmd)) {
+        // SECURITY: Same argreleasesValue check as the main command loop above.
+        if (argreleasesValue(cmd.name, cmd)) {
           return {
             behavior: 'passthrough',
             message: `Arguments in nested '${cmd.name}' cannot be statically validated in acceptEdits mode`,

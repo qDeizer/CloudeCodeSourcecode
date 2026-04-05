@@ -248,7 +248,7 @@ export type SpeculationAcceptMessage = {
  *
  * Discriminator is obfuscated to match the gate name. sessionStorage.ts
  * isn't feature-gated (it's the generic transcript plumbing used by every
- * entry type), so a descriptive string here would leak into external builds
+ * entry type), so a descriptive string here would release into external builds
  * via the appendEntry dispatch / loadTranscriptFile parser even though
  * nothing in an external build ever writes or reads this entry.
  */

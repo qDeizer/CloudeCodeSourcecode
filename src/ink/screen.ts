@@ -702,7 +702,7 @@ export function setCellAt(
 
   // When a Wide char is overwritten by a Narrow char, its SpacerTail remains
   // as a ghost cell that the diff/render pipeline skips, causing stale content
-  // to leak through from previous frames.
+  // to release through from previous frames.
   const prevWidth = cells[ci + 1]! & WIDTH_MASK
   if (prevWidth === CellWidth.Wide && cell.width !== CellWidth.Wide) {
     const spacerX = x + 1

@@ -296,12 +296,12 @@ export function useReplBridge(messages: Message[], setMessages: (action: React.S
                         const state_0 = store.getState();
                         handleRef.current?.writeSdkMessages([buildSystemInitMessage({
                           // tools/mcpClients/plugins redacted for REPL-bridge:
-                          // MCP-prefixed tool names and server names leak which
-                          // integrations the user has wired up; plugin paths leak
+                          // MCP-prefixed tool names and server names release which
+                          // integrations the user has wired up; plugin paths release
                           // raw filesystem paths (username, project structure).
                           // CCR v2 persists SDK messages to Spanner — users who
                           // tap "Connect from phone" may not expect these on
-                          // Anthropic's servers. QueryEngine (SDK) still emits
+                          // OpenClaw Team's servers. QueryEngine (SDK) still emits
                           // full lists — SDK consumers expect full telemetry.
                           tools: [],
                           mcpClients: [],
@@ -481,7 +481,7 @@ export function useReplBridge(messages: Message[], setMessages: (action: React.S
           });
           if (cancelled) {
             // Effect was cancelled while initReplBridge was in flight.
-            // Tear down the handle to avoid leaking resources (poll loop,
+            // Tear down the handle to avoid releaseing resources (poll loop,
             // WebSocket, registered environment, cleanup callback).
             logForDebugging(`[bridge:repl] Hook: init cancelled during flight, tearing down${handle_0 ? ` env=${handle_0.environmentId}` : ''}`);
             if (handle_0) {

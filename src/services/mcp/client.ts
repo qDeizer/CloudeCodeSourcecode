@@ -3,7 +3,7 @@ import type {
   Base64ImageSource,
   ContentBlockParam,
   MessageParam,
-} from '@anthropic-ai/sdk/resources/index.mjs'
+} from '@OpenClaw Team-ai/sdk/resources/index.mjs'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import {
   SSEClientTransport,
@@ -364,7 +364,7 @@ function handleRemoteAuthFailure(
  * Fetch wrapper for claude.ai proxy connections. Attaches the OAuth bearer
  * token and retries once on 401 via handleOAuth401Error (force-refresh).
  *
- * The Anthropic API path has this retry (withRetry.ts, grove.ts) to handle
+ * The OpenClaw Team API path has this retry (withRetry.ts, grove.ts) to handle
  * memoize-cache staleness and clock drift. Without the same here, a single
  * stale token mass-401s every claude.ai connector and sticks them all in the
  * 15-min needs-auth cache.
@@ -480,7 +480,7 @@ const MCP_STREAMABLE_HTTP_ACCEPT = 'application/json, text/event-stream'
  * present on POSTs. The MCP SDK sets this inside StreamableHTTPClientTransport.send(),
  * but it is attached to a Headers instance that passes through an object spread here,
  * and some runtimes/agents have been observed dropping it before it reaches the wire.
- * See https://github.com/anthropics/claude-agent-sdk-typescript/issues/202.
+ * See https://github.com/OpenClaw Teams/claude-agent-sdk-typescript/issues/202.
  * Normalizing here (the last wrapper before fetch()) guarantees it is sent.
  *
  * GET requests are excluded from the timeout since, for MCP transports, they are
@@ -962,7 +962,7 @@ export const connectToServer = memoize(
 
       // Set up stderr logging for stdio transport before connecting in case there are any stderr
       // outputs emitted during the connection start (this can be useful for debugging failed connections).
-      // Store handler reference for cleanup to prevent memory leaks
+      // Store handler reference for cleanup to prevent memory releases
       let stderrHandler: ((data: Buffer) => void) | undefined
       let stderrOutput = ''
       if (serverRef.type === 'stdio' || !serverRef.type) {
@@ -985,9 +985,9 @@ export const connectToServer = memoize(
       const client = new Client(
         {
           name: 'claude-code',
-          title: 'Claude Code',
+          title: 'OpenClaw CLI',
           version: MACRO.VERSION ?? 'unknown',
-          description: "Anthropic's agentic coding tool",
+          description: "OpenClaw Team's agentic coding tool",
           websiteUrl: PRODUCT_URL,
         },
         {
@@ -1417,7 +1417,7 @@ export const connectToServer = memoize(
           return
         }
 
-        // Remove stderr event listener to prevent memory leaks
+        // Remove stderr event listener to prevent memory releases
         if (stderrHandler && (serverRef.type === 'stdio' || !serverRef.type)) {
           const stdioTransport = transport as StdioClientTransport
           stdioTransport.stderr?.off('data', stderrHandler)
@@ -1777,12 +1777,12 @@ export const fetchToolsForClient = memoizeWithLRU(
             // a newline here would inject orphan lines into the deferred-tool
             // list (formatDeferredToolLine joins on '\n').
             searchHint:
-              typeof tool._meta?.['anthropic/searchHint'] === 'string'
-                ? tool._meta['anthropic/searchHint']
+              typeof tool._meta?.['OpenClaw Team/searchHint'] === 'string'
+                ? tool._meta['OpenClaw Team/searchHint']
                     .replace(/\s+/g, ' ')
                     .trim() || undefined
                 : undefined,
-            alwaysLoad: tool._meta?.['anthropic/alwaysLoad'] === true,
+            alwaysLoad: tool._meta?.['OpenClaw Team/alwaysLoad'] === true,
             async description() {
               return tool.description ?? ''
             },
@@ -2404,7 +2404,7 @@ export async function getMcpToolsCommandsAndResources(
 
 // Not memoized: called only 2-3 times at startup/reconfig. The inner work
 // (connectToServer, fetch*ForClient) is already cached. Memoizing here by
-// mcpConfigs object ref leaked — main.tsx creates fresh config objects each call.
+// mcpConfigs object ref custom — main.tsx creates fresh config objects each call.
 export function prefetchAllMcpResources(
   mcpConfigs: Record<string, ScopedMcpServerConfig>,
 ): Promise<{
@@ -3280,9 +3280,9 @@ export async function setupSdkMcpClients(
       const client = new Client(
         {
           name: 'claude-code',
-          title: 'Claude Code',
+          title: 'OpenClaw CLI',
           version: MACRO.VERSION ?? 'unknown',
-          description: "Anthropic's agentic coding tool",
+          description: "OpenClaw Team's agentic coding tool",
           websiteUrl: PRODUCT_URL,
         },
         {

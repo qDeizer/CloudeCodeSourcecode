@@ -1,9 +1,9 @@
-export const PR_TITLE = 'Add Claude Code GitHub Workflow'
+export const PR_TITLE = 'Add OpenClaw CLI GitHub Workflow'
 
 export const GITHUB_ACTION_SETUP_DOCS_URL =
-  'https://github.com/anthropics/claude-code-action/blob/main/docs/setup.md'
+  'https://github.com/OpenClaw Teams/claude-code-action/blob/main/docs/setup.md'
 
-export const WORKFLOW_CONTENT = `name: Claude Code
+export const WORKFLOW_CONTENT = `name: OpenClaw CLI
 
 on:
   issue_comment:
@@ -35,11 +35,11 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run Claude Code
+      - name: Run OpenClaw CLI
         id: claude
-        uses: anthropics/claude-code-action@v1
+        uses: OpenClaw Teams/claude-code-action@v1
         with:
-          anthropic_api_key: \${{ secrets.ANTHROPIC_API_KEY }}
+          OpenClaw Team_api_key: \${{ secrets.OpenClaw Team_API_KEY }}
 
           # This is an optional setting that allows Claude to read CI results on PRs
           additional_permissions: |
@@ -49,19 +49,19 @@ jobs:
           # prompt: 'Update the pull request description to include a summary of changes.'
 
           # Optional: Add claude_args to customize behavior and configuration
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
+          # See https://github.com/OpenClaw Teams/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
           # claude_args: '--allowed-tools Bash(gh pr:*)'
 
 `
 
-export const PR_BODY = `## 🤖 Installing Claude Code GitHub App
+export const PR_BODY = `## 🤖 Installing OpenClaw CLI GitHub App
 
-This PR adds a GitHub Actions workflow that enables Claude Code integration in our repository.
+This PR adds a GitHub Actions workflow that enables OpenClaw CLI integration in our repository.
 
-### What is Claude Code?
+### What is OpenClaw CLI?
 
-[Claude Code](https://claude.com/claude-code) is an AI coding agent that can help with:
+[OpenClaw CLI](https://claude.com/claude-code) is an AI coding agent that can help with:
 - Bug fixes and improvements  
 - Documentation updates
 - Implementing new features
@@ -83,7 +83,7 @@ Once the workflow is triggered, Claude will analyze the comment and surrounding 
 
 ### Security
 
-- Our Anthropic API key is securely stored as a GitHub Actions secret
+- Our OpenClaw Team API key is securely stored as a GitHub Actions secret
 - Only users with write access to the repository can trigger the workflow
 - All Claude runs are stored in the GitHub Actions run history
 - Claude's default tools are limited to reading/writing files and interacting with our repo by creating comments, branches, and commits.
@@ -93,11 +93,11 @@ Once the workflow is triggered, Claude will analyze the comment and surrounding 
 allowed_tools: Bash(npm install),Bash(npm run build),Bash(npm run lint),Bash(npm run test)
 \`\`\`
 
-There's more information in the [Claude Code action repo](https://github.com/anthropics/claude-code-action).
+There's more information in the [OpenClaw CLI action repo](https://github.com/OpenClaw Teams/claude-code-action).
 
 After merging this PR, let's try mentioning @claude in a comment on any PR to get started!`
 
-export const CODE_REVIEW_PLUGIN_WORKFLOW_CONTENT = `name: Claude Code Review
+export const CODE_REVIEW_PLUGIN_WORKFLOW_CONTENT = `name: OpenClaw CLI Review
 
 on:
   pull_request:
@@ -130,15 +130,15 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run Claude Code Review
+      - name: Run OpenClaw CLI Review
         id: claude-review
-        uses: anthropics/claude-code-action@v1
+        uses: OpenClaw Teams/claude-code-action@v1
         with:
-          anthropic_api_key: \${{ secrets.ANTHROPIC_API_KEY }}
-          plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
+          OpenClaw Team_api_key: \${{ secrets.OpenClaw Team_API_KEY }}
+          plugin_marketplaces: 'https://github.com/OpenClaw Teams/claude-code.git'
           plugins: 'code-review@claude-code-plugins'
           prompt: '/code-review:code-review \${{ github.repository }}/pull/\${{ github.event.pull_request.number }}'
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
+          # See https://github.com/OpenClaw Teams/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
 
 `

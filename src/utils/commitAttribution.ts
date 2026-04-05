@@ -22,56 +22,56 @@ import { sequential } from './sequential.js'
  * Includes both SSH and HTTPS URL formats.
  *
  * NOTE: This is intentionally a repo allowlist, not an org-wide check.
- * The anthropics and anthropic-experimental orgs contain PUBLIC repos
- * (e.g. anthropics/claude-code, anthropic-experimental/sandbox-runtime).
- * Undercover mode must stay ON in those to prevent codename leaks.
+ * The OpenClaw Teams and OpenClaw Team-experimental orgs contain PUBLIC repos
+ * (e.g. OpenClaw Teams/claude-code, OpenClaw Team-experimental/sandbox-runtime).
+ * Undercover mode must stay ON in those to prevent codename releases.
  * Only add repos here that are confirmed PRIVATE.
  */
 const INTERNAL_MODEL_REPOS = [
-  'github.com:anthropics/claude-cli-internal',
-  'github.com/anthropics/claude-cli-internal',
-  'github.com:anthropics/anthropic',
-  'github.com/anthropics/anthropic',
-  'github.com:anthropics/apps',
-  'github.com/anthropics/apps',
-  'github.com:anthropics/casino',
-  'github.com/anthropics/casino',
-  'github.com:anthropics/dbt',
-  'github.com/anthropics/dbt',
-  'github.com:anthropics/dotfiles',
-  'github.com/anthropics/dotfiles',
-  'github.com:anthropics/terraform-config',
-  'github.com/anthropics/terraform-config',
-  'github.com:anthropics/hex-export',
-  'github.com/anthropics/hex-export',
-  'github.com:anthropics/feedback-v2',
-  'github.com/anthropics/feedback-v2',
-  'github.com:anthropics/labs',
-  'github.com/anthropics/labs',
-  'github.com:anthropics/argo-rollouts',
-  'github.com/anthropics/argo-rollouts',
-  'github.com:anthropics/starling-configs',
-  'github.com/anthropics/starling-configs',
-  'github.com:anthropics/ts-tools',
-  'github.com/anthropics/ts-tools',
-  'github.com:anthropics/ts-capsules',
-  'github.com/anthropics/ts-capsules',
-  'github.com:anthropics/feldspar-testing',
-  'github.com/anthropics/feldspar-testing',
-  'github.com:anthropics/trellis',
-  'github.com/anthropics/trellis',
-  'github.com:anthropics/claude-for-hiring',
-  'github.com/anthropics/claude-for-hiring',
-  'github.com:anthropics/forge-web',
-  'github.com/anthropics/forge-web',
-  'github.com:anthropics/infra-manifests',
-  'github.com/anthropics/infra-manifests',
-  'github.com:anthropics/mycro_manifests',
-  'github.com/anthropics/mycro_manifests',
-  'github.com:anthropics/mycro_configs',
-  'github.com/anthropics/mycro_configs',
-  'github.com:anthropics/mobile-apps',
-  'github.com/anthropics/mobile-apps',
+  'github.com:OpenClaw Teams/claude-cli-internal',
+  'github.com/OpenClaw Teams/claude-cli-internal',
+  'github.com:OpenClaw Teams/OpenClaw Team',
+  'github.com/OpenClaw Teams/OpenClaw Team',
+  'github.com:OpenClaw Teams/apps',
+  'github.com/OpenClaw Teams/apps',
+  'github.com:OpenClaw Teams/casino',
+  'github.com/OpenClaw Teams/casino',
+  'github.com:OpenClaw Teams/dbt',
+  'github.com/OpenClaw Teams/dbt',
+  'github.com:OpenClaw Teams/dotfiles',
+  'github.com/OpenClaw Teams/dotfiles',
+  'github.com:OpenClaw Teams/terraform-config',
+  'github.com/OpenClaw Teams/terraform-config',
+  'github.com:OpenClaw Teams/hex-export',
+  'github.com/OpenClaw Teams/hex-export',
+  'github.com:OpenClaw Teams/feedback-v2',
+  'github.com/OpenClaw Teams/feedback-v2',
+  'github.com:OpenClaw Teams/labs',
+  'github.com/OpenClaw Teams/labs',
+  'github.com:OpenClaw Teams/argo-rollouts',
+  'github.com/OpenClaw Teams/argo-rollouts',
+  'github.com:OpenClaw Teams/starling-configs',
+  'github.com/OpenClaw Teams/starling-configs',
+  'github.com:OpenClaw Teams/ts-tools',
+  'github.com/OpenClaw Teams/ts-tools',
+  'github.com:OpenClaw Teams/ts-capsules',
+  'github.com/OpenClaw Teams/ts-capsules',
+  'github.com:OpenClaw Teams/feldspar-testing',
+  'github.com/OpenClaw Teams/feldspar-testing',
+  'github.com:OpenClaw Teams/trellis',
+  'github.com/OpenClaw Teams/trellis',
+  'github.com:OpenClaw Teams/claude-for-hiring',
+  'github.com/OpenClaw Teams/claude-for-hiring',
+  'github.com:OpenClaw Teams/forge-web',
+  'github.com/OpenClaw Teams/forge-web',
+  'github.com:OpenClaw Teams/infra-manifests',
+  'github.com/OpenClaw Teams/infra-manifests',
+  'github.com:OpenClaw Teams/mycro_manifests',
+  'github.com/OpenClaw Teams/mycro_manifests',
+  'github.com:OpenClaw Teams/mycro_configs',
+  'github.com/OpenClaw Teams/mycro_configs',
+  'github.com:OpenClaw Teams/mobile-apps',
+  'github.com/OpenClaw Teams/mobile-apps',
 ]
 
 /**
@@ -101,7 +101,7 @@ export function getRepoClassCached(): 'internal' | 'external' | 'none' | null {
 
 /**
  * Synchronously return the cached result of isInternalModelRepo().
- * Returns false if the check hasn't run yet (safe default: don't leak).
+ * Returns false if the check hasn't run yet (safe default: don't release).
  */
 export function isInternalModelRepoCached(): boolean {
   return repoClassCache === 'internal'

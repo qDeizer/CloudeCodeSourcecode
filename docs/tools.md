@@ -1,6 +1,6 @@
 # Tools Reference
 
-> Complete catalog of all ~40 agent tools in Claude Code.
+> Complete catalog of all ~40 agent tools in OpenClaw CLI.
 
 ---
 
@@ -133,7 +133,7 @@ src/tools/MyTool/
 |------|-------------|-----------|
 | **AskUserQuestionTool** | Prompt the user for input during execution | Yes |
 | **BriefTool** | Generate a brief/summary | Yes |
-| **ConfigTool** | Read or modify Claude Code configuration | No |
+| **ConfigTool** | Read or modify OpenClaw CLI configuration | No |
 
 ---
 

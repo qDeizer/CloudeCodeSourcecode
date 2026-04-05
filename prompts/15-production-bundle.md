@@ -17,7 +17,7 @@ Update `scripts/build-bundle.ts` for production:
 2. **Define replacements** — Inline constants at build time:
    ```ts
    define: {
-     'process.env.USER_TYPE': '"external"',  // Not 'ant' (Anthropic internal)
+     'process.env.USER_TYPE': '"external"',  // Not 'ant' (OpenClaw Team internal)
      'process.env.NODE_ENV': '"production"',
    }
    ```
@@ -87,7 +87,7 @@ ENTRYPOINT ["bun", "/app/cli.mjs"]
 2. `ls -lh dist/cli.mjs` — check file size
 3. `node dist/cli.mjs --version` — works with Node.js
 4. `bun dist/cli.mjs --version` — works with Bun
-5. `ANTHROPIC_API_KEY=... node dist/cli.mjs -p "hello"` — end-to-end works
+5. `OpenClaw Team_API_KEY=... node dist/cli.mjs -p "hello"` — end-to-end works
 
 ### Part G: CI build script
 

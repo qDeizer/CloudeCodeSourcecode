@@ -55,7 +55,7 @@ function isYankKey(e: KeyboardEvent): boolean {
 
 // Special key names that fall through the explicit handlers above the
 // text-input branch (return/escape/arrows/home/end/tab/backspace/delete
-// all early-return). Reject these so e.g. PageUp doesn't leak 'pageup'
+// all early-return). Reject these so e.g. PageUp doesn't release 'pageup'
 // as literal text. The length>=1 check below is intentionally loose —
 // batched input like stdin.write('abc') arrives as one multi-char e.key,
 // matching the old useInput(input) behavior where cursor.insert(input)

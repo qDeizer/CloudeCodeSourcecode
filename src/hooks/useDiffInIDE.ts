@@ -60,7 +60,7 @@ export function useDiffInIDE({
 
   const sha = useMemo(() => randomUUID().slice(0, 6), [])
   const tabName = useMemo(
-    () => `✻ [Claude Code] ${basename(filePath)} (${sha}) ⧉`,
+    () => `✻ [OpenClaw CLI] ${basename(filePath)} (${sha}) ⧉`,
     [filePath, sha],
   )
 

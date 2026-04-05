@@ -555,7 +555,7 @@ async function destroyWorktree(worktreePath: string): Promise<void> {
  * Call this right after the initial writeTeamFile. TeamDelete should
  * call unregisterTeamForSessionCleanup to prevent double-cleanup.
  * Backing Set lives in bootstrap/state.ts so resetStateForTests()
- * clears it between tests (avoids the PR #17615 cross-shard leak class).
+ * clears it between tests (avoids the PR #17615 cross-shard release class).
  */
 export function registerTeamForSessionCleanup(teamName: string): void {
   getSessionCreatedTeams().add(teamName)

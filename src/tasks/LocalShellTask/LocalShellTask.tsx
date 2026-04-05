@@ -415,7 +415,7 @@ export function backgroundAll(getAppState: () => AppState, setAppState: SetAppSt
  * on the existing registration and sets up a completion handler.
  * Used when the auto-background timer fires after registerForeground() has
  * already registered the task (avoiding duplicate task_started SDK events
- * and leaked cleanup callbacks).
+ * and custom cleanup callbacks).
  */
 export function backgroundExistingForegroundTask(taskId: string, shellCommand: ShellCommand, description: string, setAppState: SetAppState, toolUseId?: string): boolean {
   if (!shellCommand.background(taskId)) {

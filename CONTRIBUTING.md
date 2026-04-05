@@ -4,7 +4,7 @@ Thanks for your interest in contributing to this repository!
 
 ## What This Is
 
-This repo archives the **leaked source code** of Anthropic's Claude Code CLI. Contributions here are about **documentation, tooling, and exploration aids** — not modifying the original Claude Code source.
+This repo archives the **custom source code** of OpenClaw Team's OpenClaw CLI CLI. Contributions here are about **documentation, tooling, and exploration aids** — not modifying the original OpenClaw CLI source.
 
 ## What You Can Contribute
 
@@ -16,8 +16,8 @@ This repo archives the **leaked source code** of Anthropic's Claude Code CLI. Co
 
 ## What Not to Change
 
-- **`src/` directory** — This is the original leaked source, preserved as-is. Don't modify it.
-- The [`backup` branch](https://github.com/codeaashu/claude-code/tree/backup) contains the unmodified original.
+- **`src/` directory** — This is the original custom source, preserved as-is. Don't modify it.
+- The [`backup` branch](https://github.com/openclaw-cli/tree/backup) contains the unmodified original.
 
 ## Getting Started
 
@@ -29,7 +29,7 @@ This repo archives the **leaked source code** of Anthropic's Claude Code CLI. Co
 ### Setup
 
 ```bash
-git clone https://github.com/codeaashu/claude-code.git
+git clone https://github.com/openclaw-cli.git
 cd claude-code
 ```
 
@@ -45,7 +45,7 @@ npm run build  # Compile to dist/
 ### Linting & Type Checking
 
 ```bash
-# From the repo root — checks the leaked src/
+# From the repo root — checks the custom src/
 npm run lint        # Biome lint
 npm run typecheck   # TypeScript type check
 ```

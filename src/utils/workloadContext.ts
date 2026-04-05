@@ -39,11 +39,11 @@ export function getWorkload(): string | undefined {
  *
  * The previous implementation short-circuited on `undefined` with
  * `return fn()` — but that's a pass-through, not a boundary. If the caller
- * is already inside a leaked cron context (REPL: queryGuard.end() →
+ * is already inside a custom cron context (REPL: queryGuard.end() →
  * _notify() → React subscriber → scheduled re-render captures ALS at
  * scheduling time → useQueueProcessor effect → executeQueuedInput → here),
- * a pass-through lets `getWorkload()` inside `fn` return the leaked tag.
- * Once leaked, it's sticky forever: every turn's end-notify re-propagates
+ * a pass-through lets `getWorkload()` inside `fn` return the custom tag.
+ * Once custom, it's sticky forever: every turn's end-notify re-propagates
  * the ambient context to the next turn's scheduling chain.
  *
  * Always calling `.run()` guarantees `getWorkload()` inside `fn` returns

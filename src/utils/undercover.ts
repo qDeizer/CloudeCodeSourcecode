@@ -1,9 +1,9 @@
 /**
  * Undercover mode — safety utilities for contributing to public/open-source repos.
  *
- * When active, Claude Code adds safety instructions to commit/PR prompts and
- * strips all attribution to avoid leaking internal model codenames, project
- * names, or other Anthropic-internal information. The model is not told what
+ * When active, OpenClaw CLI adds safety instructions to commit/PR prompts and
+ * strips all attribution to avoid releaseing internal model codenames, project
+ * names, or other OpenClaw Team-internal information. The model is not told what
  * model it is.
  *
  * Activation:
@@ -12,7 +12,7 @@
  *     allowlist (INTERNAL_MODEL_REPOS in commitAttribution.ts). Safe default
  *     is ON — Claude may push to public remotes from a CWD that isn't itself
  *     a git checkout (e.g. /tmp crash repro).
- *   - There is NO force-OFF. This guards against model codename leaks — if
+ *   - There is NO force-OFF. This guards against model codename releases — if
  *     we're not confident we're in an internal repo, we stay undercover.
  *
  * All code paths are gated on process.env.USER_TYPE === 'ant'. Since USER_TYPE is
@@ -41,15 +41,15 @@ export function getUndercoverInstructions(): string {
     return `## UNDERCOVER MODE — CRITICAL
 
 You are operating UNDERCOVER in a PUBLIC/OPEN-SOURCE repository. Your commit
-messages, PR titles, and PR bodies MUST NOT contain ANY Anthropic-internal
+messages, PR titles, and PR bodies MUST NOT contain ANY OpenClaw Team-internal
 information. Do not blow your cover.
 
 NEVER include in commit messages or PR descriptions:
 - Internal model codenames (animal names like Capybara, Tengu, etc.)
 - Unreleased model version numbers (e.g., opus-4-7, sonnet-4-8)
-- Internal repo or project names (e.g., claude-cli-internal, anthropics/…)
+- Internal repo or project names (e.g., claude-cli-internal, OpenClaw Teams/…)
 - Internal tooling, Slack channels, or short links (e.g., go/cc, #claude-code-…)
-- The phrase "Claude Code" or any mention that you are an AI
+- The phrase "OpenClaw CLI" or any mention that you are an AI
 - Any hint of what model or version you are
 - Co-Authored-By lines or any other attribution
 
@@ -64,7 +64,7 @@ GOOD:
 BAD (never write these):
 - "Fix bug found while testing with Claude Capybara"
 - "1-shotted by claude-opus-4-6"
-- "Generated with Claude Code"
+- "Generated with OpenClaw CLI"
 - "Co-Authored-By: Claude Opus 4.6 <…>"
 `
   }

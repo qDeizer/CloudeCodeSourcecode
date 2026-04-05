@@ -19,7 +19,7 @@ type CachedParse = { ok: true; value: unknown } | { ok: false }
 //    old lodash memoize which wrapped the entire try/catch).
 // Bounded to 50 entries to prevent unbounded memory growth — previously this
 // used lodash memoize which cached every unique JSON string forever (settings,
-// .mcp.json, notebooks, tool results), causing a significant memory leak.
+// .mcp.json, notebooks, tool results), causing a significant memory release.
 // Note: shouldLogError is intentionally excluded from the cache key (matching
 // lodash memoize default resolver = first arg only).
 // Skip caching above this size — the LRU stores the full string as the key,

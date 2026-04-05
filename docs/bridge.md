@@ -2,7 +2,7 @@
 
 ## Architecture Overview
 
-The bridge (`src/bridge/`, ~31 files) connects Claude Code CLI sessions to
+The bridge (`src/bridge/`, ~31 files) connects OpenClaw CLI CLI sessions to
 remote IDE extensions (VS Code, JetBrains) and the claude.ai web UI. It is
 gated behind `feature('BRIDGE_MODE')` which defaults to `false`.
 
@@ -160,7 +160,7 @@ export CLAUDE_CODE_BRIDGE_MODE=true
 - GrowthBook gate `tengu_ccr_bridge` must be enabled for the user's org
 
 ### 3. IDE Extension
-- VS Code: Claude Code extension (connects via the bridge's Session-Ingress layer)
+- VS Code: OpenClaw CLI extension (connects via the bridge's Session-Ingress layer)
 - JetBrains: Similar integration (same protocol)
 - Web: `claude.ai/code?bridge={environmentId}` URL
 
@@ -198,7 +198,7 @@ Launches a **Claude-in-Chrome MCP server** via `runClaudeInChromeMcpServer()` fr
 `src/utils/claudeInChrome/mcpServer.ts`. This:
 - Creates a `StdioServerTransport` (MCP over stdin/stdout)
 - Uses `@ant/claude-for-chrome-mcp` package to create an MCP server
-- Bridges between Claude Code and the Chrome extension
+- Bridges between OpenClaw CLI and the Chrome extension
 - Supports both native socket (local) and WebSocket bridge (`wss://bridge.claudeusercontent.com`)
 - Gated by `tengu_copper_bridge` GrowthBook flag (or `USER_TYPE=ant`)
 
@@ -211,7 +211,7 @@ Launches the **Chrome Native Messaging Host** via `runChromeNativeHost()` from
 `src/utils/claudeInChrome/chromeNativeHost.ts`. This:
 - Implements Chrome's native messaging protocol (4-byte length prefix + JSON over stdin/stdout)
 - Creates a Unix domain socket server at a secure path
-- Proxies MCP messages between Chrome extension and local Claude Code instances
+- Proxies MCP messages between Chrome extension and local OpenClaw CLI instances
 - Has its own debug logging to `~/.claude/debug/chrome-native-host.txt` (ant-only)
 
 **Not gated by `feature('BRIDGE_MODE')`** — separate entry point. Only activated

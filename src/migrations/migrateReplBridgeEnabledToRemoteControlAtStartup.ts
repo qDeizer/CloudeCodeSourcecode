@@ -3,7 +3,7 @@ import { saveGlobalConfig } from '../utils/config.js'
 /**
  * Migrate the `replBridgeEnabled` config key to `remoteControlAtStartup`.
  *
- * The old key was an implementation detail that leaked into user-facing config.
+ * The old key was an implementation detail that custom into user-facing config.
  * This migration copies the value to the new key and removes the old one.
  * Idempotent — only acts when the old key exists and the new one doesn't.
  */

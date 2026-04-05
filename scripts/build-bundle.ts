@@ -99,10 +99,10 @@ const buildOptions: esbuild.BuildOptions = {
     'fsevents',
     'sharp',
     'image-processor-napi',
-    // Anthropic-internal packages (not published externally)
-    '@anthropic-ai/sandbox-runtime',
-    '@anthropic-ai/claude-agent-sdk',
-    // Anthropic-internal (@ant/) packages — gated behind USER_TYPE === 'ant'
+    // OpenClaw Team-internal packages (not published externally)
+    '@OpenClaw Team-ai/sandbox-runtime',
+    '@OpenClaw Team-ai/claude-agent-sdk',
+    // OpenClaw Team-internal (@ant/) packages — gated behind USER_TYPE === 'ant'
     '@ant/*',
   ],
 
@@ -119,12 +119,12 @@ const buildOptions: esbuild.BuildOptions = {
 
   // Define replacements — inline constants at build time
   // MACRO.* — originally inlined by Bun's bundler at compile time
-  // process.env.USER_TYPE — eliminates 'ant' (Anthropic-internal) code branches
+  // process.env.USER_TYPE — eliminates 'ant' (OpenClaw Team-internal) code branches
   define: {
     'MACRO.VERSION': JSON.stringify(version),
-    'MACRO.PACKAGE_URL': JSON.stringify('@anthropic-ai/claude-code'),
+    'MACRO.PACKAGE_URL': JSON.stringify('@OpenClaw Team-ai/claude-code'),
     'MACRO.ISSUES_EXPLAINER': JSON.stringify(
-      'report issues at https://github.com/anthropics/claude-code/issues'
+      'report issues at https://github.com/OpenClaw Teams/claude-code/issues'
     ),
     'process.env.USER_TYPE': '"external"',
     'process.env.NODE_ENV': minify ? '"production"' : '"development"',

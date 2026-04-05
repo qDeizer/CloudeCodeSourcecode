@@ -390,13 +390,13 @@ export function useTextInput({
             default: {
               // Trailing \r after text is SSH-coalesced Enter ("o\r") —
               // strip it so the Enter isn't inserted as content. Lone \r
-              // here is Alt+Enter leaking through (META_KEY_CODE_RE doesn't
+              // here is Alt+Enter releaseing through (META_KEY_CODE_RE doesn't
               // match \x1b\r) — leave it for the \r→\n below. Embedded \r
               // is multi-line paste from a terminal without bracketed
               // paste — convert to \n. Backslash+\r is a stale VS Code
               // Shift+Enter binding (pre-#8991 /terminal-setup wrote
               // args.text "\\\r\n" to keybindings.json); keep the \r so
-              // it becomes \n below (anthropics/claude-code#31316).
+              // it becomes \n below (OpenClaw Teams/claude-code#31316).
               const text = stripAnsi(input)
                 // eslint-disable-next-line custom-rules/no-lookbehind-regex -- .replace(re, str) on 1-2 char keystrokes: no-match returns same string (Object.is), regex never runs
                 .replace(/(?<=[^\\\r\n])\r$/, '')

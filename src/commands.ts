@@ -168,7 +168,7 @@ import {
 } from './utils/plugins/loadPluginCommands.js'
 import memoize from 'lodash-es/memoize.js'
 import { isUsing3PServices, isClaudeAISubscriber } from './utils/auth.js'
-import { isFirstPartyAnthropicBaseUrl } from './utils/model/providers.js'
+import { isFirstPartyOpenClaw TeamBaseUrl } from './utils/model/providers.js'
 import env from './commands/env/index.js'
 import exit from './commands/exit/index.js'
 import exportCommand from './commands/export/index.js'
@@ -190,7 +190,7 @@ import stats from './commands/stats/index.js'
 const usageReport: Command = {
   type: 'prompt',
   name: 'insights',
-  description: 'Generate a report analyzing your Claude Code sessions',
+  description: 'Generate a report analyzing your OpenClaw CLI sessions',
   contentLength: 0,
   progressMessage: 'analyzing your sessions',
   source: 'builtin',
@@ -425,12 +425,12 @@ export function meetsAvailabilityRequirement(cmd: Command): boolean {
         break
       case 'console':
         // Console API key user = direct 1P API customer (not 3P, not claude.ai).
-        // Excludes 3P (Bedrock/Vertex/Foundry) who don't set ANTHROPIC_BASE_URL
+        // Excludes 3P (Bedrock/Vertex/Foundry) who don't set OpenClaw Team_BASE_URL
         // and gateway users who proxy through a custom base URL.
         if (
           !isClaudeAISubscriber() &&
           !isUsing3PServices() &&
-          isFirstPartyAnthropicBaseUrl()
+          isFirstPartyOpenClaw TeamBaseUrl()
         )
           return true
         break

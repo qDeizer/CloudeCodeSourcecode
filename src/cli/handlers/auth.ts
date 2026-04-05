@@ -22,7 +22,7 @@ import { OAuthService } from '../../services/oauth/index.js'
 import type { OAuthTokens } from '../../services/oauth/types.js'
 import {
   clearOAuthTokenCache,
-  getAnthropicApiKeyWithSource,
+  getOpenClaw TeamApiKeyWithSource,
   getAuthTokenSource,
   getOauthAccountInfo,
   getSubscriptionType,
@@ -234,9 +234,9 @@ export async function authStatus(opts: {
   text?: boolean
 }): Promise<void> {
   const { source: authTokenSource, hasToken } = getAuthTokenSource()
-  const { source: apiKeySource } = getAnthropicApiKeyWithSource()
+  const { source: apiKeySource } = getOpenClaw TeamApiKeyWithSource()
   const hasApiKeyEnvVar =
-    !!process.env.ANTHROPIC_API_KEY && !isRunningOnHomespace()
+    !!process.env.OpenClaw Team_API_KEY && !isRunningOnHomespace()
   const oauthAccount = getOauthAccountInfo()
   const subscriptionType = getSubscriptionType()
   const using3P = isUsing3PServices()
@@ -253,7 +253,7 @@ export async function authStatus(opts: {
     authMethod = 'api_key_helper'
   } else if (authTokenSource !== 'none') {
     authMethod = 'oauth_token'
-  } else if (apiKeySource === 'ANTHROPIC_API_KEY' || hasApiKeyEnvVar) {
+  } else if (apiKeySource === 'OpenClaw Team_API_KEY' || hasApiKeyEnvVar) {
     authMethod = 'api_key'
   } else if (apiKeySource === '/login managed key') {
     authMethod = 'claude.ai'
@@ -283,7 +283,7 @@ export async function authStatus(opts: {
       }
     }
     if (!hasAuthProperty && hasApiKeyEnvVar) {
-      process.stdout.write('API key: ANTHROPIC_API_KEY\n')
+      process.stdout.write('API key: OpenClaw Team_API_KEY\n')
     }
     if (!loggedIn) {
       process.stdout.write(
@@ -296,7 +296,7 @@ export async function authStatus(opts: {
       apiKeySource !== 'none'
         ? apiKeySource
         : hasApiKeyEnvVar
-          ? 'ANTHROPIC_API_KEY'
+          ? 'OpenClaw Team_API_KEY'
           : null
     const output: Record<string, string | boolean | null> = {
       loggedIn,
@@ -325,7 +325,7 @@ export async function authLogout(): Promise<void> {
     process.stderr.write('Failed to log out.\n')
     process.exit(1)
   }
-  process.stdout.write('Successfully logged out from your Anthropic account.\n')
+  process.stdout.write('Successfully logged out from your OpenClaw Team account.\n')
   process.exit(0)
 }
 

@@ -1,5 +1,5 @@
 /**
- * Claude Code — terminal-in-browser
+ * OpenClaw CLI — terminal-in-browser
  *
  * WebSocket protocol (matches src/server/web/session-manager.ts):
  *

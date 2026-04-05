@@ -1,6 +1,6 @@
 # Exploration Guide
 
-> How to navigate and study the Claude Code source code.
+> How to navigate and study the OpenClaw CLI source code.
 
 ---
 
@@ -70,8 +70,8 @@ Trace from user input to API response:
 src/main.tsx                    ← CLI parsing
   → src/replLauncher.tsx        ← REPL session start
     → src/QueryEngine.ts        ← Core engine
-      → src/services/api/       ← Anthropic SDK client
-        → (Anthropic API)       ← HTTP/streaming
+      → src/services/api/       ← OpenClaw Team SDK client
+        → (OpenClaw Team API)       ← HTTP/streaming
       ← Tool use response
       → src/tools/{ToolName}/   ← Tool execution
       ← Tool result
@@ -105,11 +105,11 @@ if (feature('VOICE_MODE')) {
 }
 ```
 
-### Anthropic-Internal Gates
+### OpenClaw Team-Internal Gates
 
 ```typescript
 if (process.env.USER_TYPE === 'ant') {
-  // Anthropic employee-only features
+  // OpenClaw Team employee-only features
 }
 ```
 
@@ -177,7 +177,7 @@ The largest files contain the most logic and are worth studying:
 3. See `bridgePermissionCallbacks.ts` for how permissions route to the IDE
 4. Check `replBridge.ts` for REPL session bridging
 
-### Path 4: "How do plugins extend Claude Code?"
+### Path 4: "How do plugins extend OpenClaw CLI?"
 
 1. Read `src/types/plugin.ts` — the plugin API surface
 2. See `src/services/plugins/` — how plugins are loaded
@@ -188,7 +188,7 @@ The largest files contain the most logic and are worth studying:
 
 1. Read `src/services/mcp/` — the MCP client
 2. See `src/tools/MCPTool/` — how MCP tools are invoked
-3. Check `src/entrypoints/mcp.ts` — Claude Code as an MCP server
+3. Check `src/entrypoints/mcp.ts` — OpenClaw CLI as an MCP server
 4. Look at `src/skills/mcpSkillBuilders.ts` — skills from MCP
 
 ---
@@ -220,7 +220,7 @@ rg "satisfies Command" src/commands/
 # Find feature flag usage
 rg "feature\(" src/
 
-# Find Anthropic-internal gates
+# Find OpenClaw Team-internal gates
 rg "USER_TYPE.*ant" src/
 
 # Find all React hooks

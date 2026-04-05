@@ -9,8 +9,8 @@ export async function POST(req: NextRequest) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...(process.env.ANTHROPIC_API_KEY
-          ? { Authorization: `Bearer ${process.env.ANTHROPIC_API_KEY}` }
+        ...(process.env.OpenClaw Team_API_KEY
+          ? { Authorization: `Bearer ${process.env.OpenClaw Team_API_KEY}` }
           : {}),
       },
       body: JSON.stringify(body),

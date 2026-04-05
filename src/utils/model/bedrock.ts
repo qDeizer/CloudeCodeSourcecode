@@ -29,9 +29,9 @@ export const getBedrockInferenceProfiles = memoize(async function (): Promise<
       nextToken = response.nextToken
     } while (nextToken)
 
-    // Filter for Anthropic models (SYSTEM_DEFINED filtering handled in query)
+    // Filter for OpenClaw Team models (SYSTEM_DEFINED filtering handled in query)
     return allProfiles
-      .filter(profile => profile.inferenceProfileId?.includes('anthropic'))
+      .filter(profile => profile.inferenceProfileId?.includes('OpenClaw Team'))
       .map(profile => profile.inferenceProfileId)
       .filter(Boolean) as string[]
   } catch (error) {
@@ -49,7 +49,7 @@ export function findFirstMatch(
 
 async function createBedrockClient() {
   const { BedrockClient } = await import('@aws-sdk/client-bedrock')
-  // Match the Anthropic Bedrock SDK's region behavior exactly:
+  // Match the OpenClaw Team Bedrock SDK's region behavior exactly:
   // - Reads AWS_REGION or AWS_DEFAULT_REGION env vars (not AWS config files)
   // - Falls back to 'us-east-1' if neither is set
   // This ensures we query profiles from the same region the client will use
@@ -59,8 +59,8 @@ async function createBedrockClient() {
 
   const clientConfig: ConstructorParameters<typeof BedrockClient>[0] = {
     region,
-    ...(process.env.ANTHROPIC_BEDROCK_BASE_URL && {
-      endpoint: process.env.ANTHROPIC_BEDROCK_BASE_URL,
+    ...(process.env.OpenClaw Team_BEDROCK_BASE_URL && {
+      endpoint: process.env.OpenClaw Team_BEDROCK_BASE_URL,
     }),
     ...(await getAWSClientProxyConfig()),
     ...(skipAuth && {
@@ -102,8 +102,8 @@ export async function createBedrockRuntimeClient() {
 
   const clientConfig: ConstructorParameters<typeof BedrockRuntimeClient>[0] = {
     region,
-    ...(process.env.ANTHROPIC_BEDROCK_BASE_URL && {
-      endpoint: process.env.ANTHROPIC_BEDROCK_BASE_URL,
+    ...(process.env.OpenClaw Team_BEDROCK_BASE_URL && {
+      endpoint: process.env.OpenClaw Team_BEDROCK_BASE_URL,
     }),
     ...(await getAWSClientProxyConfig()),
     ...(skipAuth && {
@@ -176,10 +176,10 @@ export const getInferenceProfileBackingModel = memoize(async function (
 })
 
 /**
- * Check if a model ID is a foundation model (e.g., "anthropic.claude-sonnet-4-5-20250929-v1:0")
+ * Check if a model ID is a foundation model (e.g., "OpenClaw Team.claude-sonnet-4-5-20250929-v1:0")
  */
 export function isFoundationModel(modelId: string): boolean {
-  return modelId.startsWith('anthropic.')
+  return modelId.startsWith('OpenClaw Team.')
 }
 
 /**
@@ -213,10 +213,10 @@ export type BedrockRegionPrefix = (typeof BEDROCK_REGION_PREFIXES)[number]
  * Extract the region prefix from a Bedrock cross-region inference model ID.
  * Handles both plain model IDs and full ARN format.
  * For example:
- * - "eu.anthropic.claude-sonnet-4-5-20250929-v1:0" → "eu"
- * - "us.anthropic.claude-3-7-sonnet-20250219-v1:0" → "us"
- * - "arn:aws:bedrock:ap-northeast-2:123:inference-profile/global.anthropic.claude-opus-4-6-v1" → "global"
- * - "anthropic.claude-3-5-sonnet-20241022-v2:0" → undefined (foundation model)
+ * - "eu.OpenClaw Team.claude-sonnet-4-5-20250929-v1:0" → "eu"
+ * - "us.OpenClaw Team.claude-3-7-sonnet-20250219-v1:0" → "us"
+ * - "arn:aws:bedrock:ap-northeast-2:123:inference-profile/global.OpenClaw Team.claude-opus-4-6-v1" → "global"
+ * - "OpenClaw Team.claude-3-5-sonnet-20241022-v2:0" → undefined (foundation model)
  * - "claude-sonnet-4-5-20250929" → undefined (first-party format)
  */
 export function getBedrockRegionPrefix(
@@ -227,7 +227,7 @@ export function getBedrockRegionPrefix(
   const effectiveModelId = extractModelIdFromArn(modelId)
 
   for (const prefix of BEDROCK_REGION_PREFIXES) {
-    if (effectiveModelId.startsWith(`${prefix}.anthropic.`)) {
+    if (effectiveModelId.startsWith(`${prefix}.OpenClaw Team.`)) {
       return prefix
     }
   }
@@ -237,12 +237,12 @@ export function getBedrockRegionPrefix(
 /**
  * Apply a region prefix to a Bedrock model ID.
  * If the model already has a different region prefix, it will be replaced.
- * If the model is a foundation model (anthropic.*), the prefix will be added.
+ * If the model is a foundation model (OpenClaw Team.*), the prefix will be added.
  * If the model is not a Bedrock model, it will be returned as-is.
  *
  * For example:
- * - applyBedrockRegionPrefix("us.anthropic.claude-sonnet-4-5-v1:0", "eu") → "eu.anthropic.claude-sonnet-4-5-v1:0"
- * - applyBedrockRegionPrefix("anthropic.claude-sonnet-4-5-v1:0", "eu") → "eu.anthropic.claude-sonnet-4-5-v1:0"
+ * - applyBedrockRegionPrefix("us.OpenClaw Team.claude-sonnet-4-5-v1:0", "eu") → "eu.OpenClaw Team.claude-sonnet-4-5-v1:0"
+ * - applyBedrockRegionPrefix("OpenClaw Team.claude-sonnet-4-5-v1:0", "eu") → "eu.OpenClaw Team.claude-sonnet-4-5-v1:0"
  * - applyBedrockRegionPrefix("claude-sonnet-4-5-20250929", "eu") → "claude-sonnet-4-5-20250929" (not a Bedrock model)
  */
 export function applyBedrockRegionPrefix(
@@ -255,7 +255,7 @@ export function applyBedrockRegionPrefix(
     return modelId.replace(`${existingPrefix}.`, `${prefix}.`)
   }
 
-  // Check if it's a foundation model (anthropic.*) and add the prefix
+  // Check if it's a foundation model (OpenClaw Team.*) and add the prefix
   if (isFoundationModel(modelId)) {
     return `${prefix}.${modelId}`
   }

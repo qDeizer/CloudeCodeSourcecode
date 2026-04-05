@@ -12,7 +12,7 @@ Key files:
 - `src/ink/dom.ts` — Terminal DOM implementation
 - `src/ink/renderer.ts` — Renders virtual DOM to terminal strings
 - `src/ink/components/` — Built-in Ink components (Box, Text, etc.)
-- `src/components/` — Claude Code's ~140 custom components
+- `src/components/` — OpenClaw CLI's ~140 custom components
 
 ## Task
 
@@ -61,7 +61,7 @@ import { render } from './src/ink.js'
 
 // Minimal component
 function Hello() {
-  return <Text>Hello from Claude Code Ink UI!</Text>
+  return <Text>Hello from OpenClaw CLI Ink UI!</Text>
 }
 
 // Need to import Text from Ink
@@ -105,6 +105,6 @@ Read their imports and verify nothing is missing.
 
 ## Verification
 
-1. `scripts/test-ink.tsx` renders "Hello from Claude Code Ink UI!" to the terminal
+1. `scripts/test-ink.tsx` renders "Hello from OpenClaw CLI Ink UI!" to the terminal
 2. No new TypeScript errors introduced
 3. You've documented the render pipeline flow

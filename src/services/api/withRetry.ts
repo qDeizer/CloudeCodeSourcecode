@@ -1,10 +1,10 @@
 import { feature } from 'bun:bundle'
-import type Anthropic from '@anthropic-ai/sdk'
+import type OpenClaw Team from '@OpenClaw Team-ai/sdk'
 import {
   APIConnectionError,
   APIError,
   APIUserAbortError,
-} from '@anthropic-ai/sdk'
+} from '@OpenClaw Team-ai/sdk'
 import type { QuerySource } from 'src/constants/querySource.js'
 import type { SystemAPIErrorMessage } from 'src/types/message.js'
 import { isAwsCredentialsProviderError } from 'src/utils/aws.js'
@@ -168,9 +168,9 @@ export class FallbackTriggeredError extends Error {
 }
 
 export async function* withRetry<T>(
-  getClient: () => Promise<Anthropic>,
+  getClient: () => Promise<OpenClaw Team>,
   operation: (
-    client: Anthropic,
+    client: OpenClaw Team,
     attempt: number,
     context: RetryContext,
   ) => Promise<T>,
@@ -182,7 +182,7 @@ export async function* withRetry<T>(
     thinkingConfig: options.thinkingConfig,
     ...(isFastModeEnabled() && { fastMode: options.fastMode }),
   }
-  let client: Anthropic | null = null
+  let client: OpenClaw Team | null = null
   let consecutive529Errors = options.initialConsecutive529Errors ?? 0
   let lastError: unknown
   let persistentAttempt = 0
@@ -273,7 +273,7 @@ export async function* withRetry<T>(
         // If the 429 is specifically because extra usage (overage) is not
         // available, permanently disable fast mode with a specific message.
         const overageReason = error.headers?.get(
-          'anthropic-ratelimit-unified-overage-disabled-reason',
+          'OpenClaw Team-ratelimit-unified-overage-disabled-reason',
         )
         if (overageReason !== null && overageReason !== undefined) {
           handleFastModeOverageRejection(overageReason)
@@ -327,7 +327,7 @@ export async function* withRetry<T>(
       if (
         is529Error(error) &&
         // If FALLBACK_FOR_ALL_PRIMARY_MODELS is not set, fall through only if the primary model is a non-custom Opus model.
-        // TODO: Revisit if the isNonCustomOpusModel check should still exist, or if isNonCustomOpusModel is a stale artifact of when Claude Code was hardcoded on Opus.
+        // TODO: Revisit if the isNonCustomOpusModel check should still exist, or if isNonCustomOpusModel is a stale artifact of when OpenClaw CLI was hardcoded on Opus.
         (process.env.FALLBACK_FOR_ALL_PRIMARY_MODELS ||
           (!isClaudeAISubscriber() && isNonCustomOpusModel(options.model)))
       ) {
@@ -812,7 +812,7 @@ function getRetryAfterMs(error: APIError): number | null {
 }
 
 function getRateLimitResetDelayMs(error: APIError): number | null {
-  const resetHeader = error.headers?.get?.('anthropic-ratelimit-unified-reset')
+  const resetHeader = error.headers?.get?.('OpenClaw Team-ratelimit-unified-reset')
   if (!resetHeader) return null
   const resetUnixSec = Number(resetHeader)
   if (!Number.isFinite(resetUnixSec)) return null

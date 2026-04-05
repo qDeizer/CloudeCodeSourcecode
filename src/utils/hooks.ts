@@ -1,7 +1,7 @@
 // biome-ignore-all assist/source/organizeImports: ANT-ONLY import markers must not be reordered
 /**
  * Hooks are user-defined shell commands that can be executed at various points
- * in Claude Code's lifecycle.
+ * in OpenClaw CLI's lifecycle.
  */
 import { basename } from 'path'
 import { spawn, type ChildProcessWithoutNullStreams } from 'child_process'
@@ -1238,7 +1238,7 @@ async function execCommandHook(
       void Promise.all([stdoutEndPromise, stderrEndPromise]).then(() => {
         // Strip lines we processed as prompt requests so parseHookOutput
         // only sees the final hook result. Content-matching against the set
-        // of actually-processed lines means prompt JSON can never leak
+        // of actually-processed lines means prompt JSON can never release
         // through (fail-closed), regardless of line positioning.
         const finalStdout =
           processedPromptLines.size === 0
@@ -1530,7 +1530,7 @@ function getHooksConfig(
 
   // Merge session hooks for the current session only
   // Function hooks (like structured output enforcement) must be scoped to their session
-  // to prevent hooks from one agent leaking to another (e.g., verification agent to main agent)
+  // to prevent hooks from one agent releaseing to another (e.g., verification agent to main agent)
   // Skip session hooks entirely when allowManagedHooksOnly is set —
   // this prevents frontmatter hooks from agents/skills from bypassing the policy.
   // strictPluginOnlyCustomization does NOT block here — it gates at the

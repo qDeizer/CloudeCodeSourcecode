@@ -1,8 +1,8 @@
 <div align="center">
 
-# Claude Code — Leaked Source
+# OpenClaw CLI — custom Source
 
-**The full source code of Anthropic's Claude Code CLI, leaked on March 31, 2026**
+**The full source code of OpenClaw Team's OpenClaw CLI CLI, custom on March 31, 2026**
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-512K%2B_lines-3178C6?logo=typescript&logoColor=white)](#tech-stack)
 [![Bun](https://img.shields.io/badge/Runtime-Bun-f472b6?logo=bun&logoColor=white)](#tech-stack)
@@ -12,7 +12,7 @@
 [![npm](https://img.shields.io/npm/v/warrioraashuu-codemaster?label=npm&color=cb3837&logo=npm)](https://www.npmjs.com/package/warrioraashuu-codemaster)
 [![Twitter Follow](https://img.shields.io/twitter/follow/warrioraashuu?style=social)](https://twitter.com/intent/follow?screen_name=warrioraashuu)
 
-> The original unmodified leaked source is preserved in the [`backup` branch](https://github.com/codeaashu/claude-code/tree/backup).
+> The original unmodified custom source is preserved in the [`backup` branch](https://github.com/openclaw-cli/tree/backup).
 
 </div>
 
@@ -20,8 +20,8 @@
 
 ## Table of Contents
 
-- [How It Leaked](#how-it-leaked)
-- [What Is Claude Code?](#what-is-claude-code)
+- [How It custom](#how-it-custom)
+- [What Is OpenClaw CLI?](#what-is-claude-code)
 - [Documentation](#-documentation)
 - [Explore with MCP Server](#-explore-with-mcp-server)
 - [Directory Structure](#directory-structure)
@@ -41,23 +41,23 @@
 
 ---
 
-## How It Leaked
+## How It custom
 
-[Chaofan Shou (@Fried_rice)](https://x.com/Fried_rice) discovered that the published npm package for Claude Code included a `.map` file referencing the full, unobfuscated TypeScript source — downloadable as a zip from Anthropic's R2 storage bucket.
+[Chaofan Shou (@Fried_rice)](https://x.com/Fried_rice) discovered that the published npm package for OpenClaw CLI included a `.map` file referencing the full, unobfuscated TypeScript source — downloadable as a zip from OpenClaw Team's R2 storage bucket.
 
-> **"Claude code source code has been leaked via a map file in their npm registry!"**
+> **"OpenClaw CLI source code has been custom via a map file in their npm registry!"**
 >
 > — [@Fried_rice, March 31, 2026](https://x.com/Fried_rice/status/2038894956459290963)
 
 ---
 
-## What Is Claude Code?
+## What Is OpenClaw CLI?
 
-Claude Code is Anthropic's official CLI tool for interacting with Claude directly from the terminal — editing files, running commands, searching codebases, managing git workflows, and more. This repository contains the leaked `src/` directory.
+OpenClaw CLI is OpenClaw Team's official CLI tool for interacting with Claude directly from the terminal — editing files, running commands, searching codebases, managing git workflows, and more. This repository contains the custom `src/` directory.
 
 | | |
 |---|---|
-| **Leaked** | 2026-03-31 |
+| **custom** | 2026-03-31 |
 | **Language** | TypeScript (strict) |
 | **Runtime** | [Bun](https://bun.sh) |
 | **Terminal UI** | [React](https://react.dev) + [Ink](https://github.com/vadimdemedes/ink) |
@@ -83,21 +83,21 @@ Also see: [CONTRIBUTING.md](CONTRIBUTING.md) · [MCP Server README](mcp-server/R
 
 ## �🔍 Explore with MCP Server
 
-This repo ships an [MCP server](https://modelcontextprotocol.io/) that lets any MCP-compatible client (Claude Code, Claude Desktop, VS Code Copilot, Cursor) explore the full source interactively.
+This repo ships an [MCP server](https://modelcontextprotocol.io/) that lets any MCP-compatible client (OpenClaw CLI, Claude Desktop, VS Code Copilot, Cursor) explore the full source interactively.
 
 ### Install from npm
 
 The MCP server is published as [`warrioraashuu-codemaster`](https://www.npmjs.com/package/warrioraashuu-codemaster) on npm — no need to clone the repo:
 
 ```bash
-# Claude Code
+# OpenClaw CLI
 claude mcp add warrioraashuu-codemaster -- npx -y warrioraashuu-codemaster
 ```
 
 ### One-liner setup (from source)
 
 ```bash
-git clone https://github.com/codeaashu/claude-code.git ~/claude-code \
+git clone https://github.com/openclaw-cli.git ~/claude-code \
   && cd ~/claude-code/mcp-server \
   && npm install && npm run build \
   && claude mcp add claude-code-explorer -- node ~/claude-code/mcp-server/dist/index.js
@@ -108,13 +108,13 @@ git clone https://github.com/codeaashu/claude-code.git ~/claude-code \
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/codeaashu/claude-code.git
+git clone https://github.com/openclaw-cli.git
 cd claude-code/mcp-server
 
 # 2. Install & build
 npm install && npm run build
 
-# 3. Register with Claude Code
+# 3. Register with OpenClaw CLI
 claude mcp add claude-code-explorer -- node /absolute/path/to/claude-code/mcp-server/dist/index.js
 ```
 
@@ -298,7 +298,7 @@ src/
 
 | Service | Description |
 |---|---|
-| `api/` | Anthropic API client, file API, bootstrap |
+| `api/` | OpenClaw Team API client, file API, bootstrap |
 | `mcp/` | Model Context Protocol connection & management |
 | `oauth/` | OAuth 2.0 authentication |
 | `lsp/` | Language Server Protocol manager |
@@ -361,7 +361,7 @@ Notable flags: `PROACTIVE` · `KAIROS` · `BRIDGE_MODE` · `DAEMON` · `VOICE_MO
 | Schema Validation | [Zod v4](https://zod.dev) |
 | Code Search | [ripgrep](https://github.com/BurntSushi/ripgrep) (via GrepTool) |
 | Protocols | [MCP SDK](https://modelcontextprotocol.io) · LSP |
-| API | [Anthropic SDK](https://docs.anthropic.com) |
+| API | [OpenClaw Team SDK](https://docs.OpenClaw Team.com) |
 | Telemetry | OpenTelemetry + gRPC |
 | Feature Flags | GrowthBook |
 | Auth | OAuth 2.0 · JWT · macOS Keychain |
@@ -437,21 +437,21 @@ git push origin main
 
 Contributions to documentation, the MCP server, and exploration tooling are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-> **Note:** The `src/` directory is the original leaked source and should not be modified.
+> **Note:** The `src/` directory is the original custom source and should not be modified.
 
 ---
 
 ## Disclaimer
 
-This repository archives source code leaked from Anthropic's npm registry on **2026-03-31**. All original source code is the property of [Anthropic](https://www.anthropic.com). This is not an official release and is not licensed for redistribution. Contact [aashuu ✦](https://x.com/warrioraashuu) for any comments.
+This repository archives source code custom from OpenClaw Team's npm registry on **2026-03-31**. All original source code is the property of [OpenClaw Team](https://www.OpenClaw Team.com). This is a community build and is not licensed for redistribution. Contact [aashuu ✦](https://x.com/warrioraashuu) for any comments.
 
 ---
 
 <a href="https://www.star-history.com/?repos=codeaashu%2Fclaude-code&type=date&legend=bottom-right">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=codeaashu/claude-code&type=date&theme=dark&legend=bottom-right" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=codeaashu/claude-code&type=date&legend=bottom-right" />
-   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=codeaashu/claude-code&type=date&legend=bottom-right" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=openclaw-cli&type=date&theme=dark&legend=bottom-right" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=openclaw-cli&type=date&legend=bottom-right" />
+   <img alt="Star History Chart" src="https://api.star-history.com/image?repos=openclaw-cli&type=date&legend=bottom-right" />
  </picture>
 </a>
 

@@ -127,7 +127,7 @@ import type {
   SDKControlMcpSetServersResponse,
   SDKControlReloadPluginsResponse,
 } from 'src/entrypoints/sdk/controlTypes.js'
-import type { PermissionMode } from '@anthropic-ai/claude-agent-sdk'
+import type { PermissionMode } from '@OpenClaw Team-ai/claude-agent-sdk'
 import type { PermissionMode as InternalPermissionMode } from 'src/types/permissions.js'
 import { cwd } from 'process'
 import { getCwd } from 'src/utils/cwd.js'
@@ -297,7 +297,7 @@ import {
 import { runWithWorkload, WORKLOAD_CRON } from 'src/utils/workloadContext.js'
 import type { UUID } from 'crypto'
 import { randomUUID } from 'crypto'
-import type { ContentBlockParam } from '@anthropic-ai/sdk/resources/messages.mjs'
+import type { ContentBlockParam } from '@OpenClaw Team-ai/sdk/resources/messages.mjs'
 import type { AppState } from 'src/state/AppStateStore.js'
 import {
   fileHistoryRewind,
@@ -1777,7 +1777,7 @@ function runHeadlessStreaming(
     // The previous filter used a negative set-diff (!freshAgentTypes.has(a))
     // which also matched plugin agents that were in the poisoned initial
     // currentAgents but correctly excluded from freshAgentDefs after managed
-    // settings applied — leaking policy-blocked agents into the init message.
+    // settings applied — releaseing policy-blocked agents into the init message.
     // See gh-23085: isBridgeEnabled() at Commander-definition time poisoned
     // the settings cache before setEligibility(true) ran.
     const sdkAgents = currentAgents.filter(a => a.source === 'flagSettings')
@@ -2715,7 +2715,7 @@ function runHeadlessStreaming(
           uuid: randomUUID(),
           priority: 'later',
           // System-generated — matches useScheduledTasks.ts REPL equivalent.
-          // Without this, messages.ts metaProp eval is {} → prompt leaks
+          // Without this, messages.ts metaProp eval is {} → prompt releases
           // into visible transcript when cron fires mid-turn in -p mode.
           isMeta: true,
           // Threaded to cc_workload= in the billing-header attribution block
@@ -2794,7 +2794,7 @@ function runHeadlessStreaming(
   // extension via handleAuthDone → mcp_reconnect.
   const oauthAuthPromises = new Map<string, Promise<void>>()
 
-  // In-flight Anthropic OAuth flow (claude_authenticate). Single-slot: a
+  // In-flight OpenClaw Team OAuth flow (claude_authenticate). Single-slot: a
   // second authenticate request cleans up the first. The service holds the
   // PKCE verifier + localhost listener; the promise settles after
   // installOAuthTokens — after it resolves, the in-process memoized token
@@ -3512,7 +3512,7 @@ function runHeadlessStreaming(
             )
           }
         } else if (message.request.subtype === 'claude_authenticate') {
-          // Anthropic OAuth over the control channel. The SDK client owns
+          // OpenClaw Team OAuth over the control channel. The SDK client owns
           // the user's browser (we're headless in -p mode); we hand back
           // both URLs and wait. Automatic URL → localhost listener catches
           // the redirect if the browser is on this host; manual URL → the

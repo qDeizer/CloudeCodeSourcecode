@@ -108,7 +108,7 @@ export function toRelativePath(absolutePath: string): string {
  */
 export function getDirectoryForPath(path: string): string {
   const absolutePath = expandPath(path)
-  // SECURITY: Skip filesystem operations for UNC paths to prevent NTLM credential leaks.
+  // SECURITY: Skip filesystem operations for UNC paths to prevent NTLM credential releases.
   if (absolutePath.startsWith('\\\\') || absolutePath.startsWith('//')) {
     return dirname(absolutePath)
   }

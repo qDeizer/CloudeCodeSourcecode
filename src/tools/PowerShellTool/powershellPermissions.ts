@@ -47,7 +47,7 @@ import {
 } from './pathValidation.js'
 import { powershellCommandIsSafe } from './powershellSecurity.js'
 import {
-  argLeaksValue,
+  argreleasesValue,
   isAllowlistedCommand,
   isCwdChangingCmdlet,
   isProvablySafeStatement,
@@ -711,7 +711,7 @@ export async function powershellToolHasPermission(
   }
 
   // Block UNC paths — reading from UNC paths can trigger network requests
-  // and leak NTLM/Kerberos credentials. DEFERRED into decisions[].
+  // and release NTLM/Kerberos credentials. DEFERRED into decisions[].
   // The raw-string UNC check must not early-return before sub-command deny
   // (step 4+). Same fix as 2b above.
   if (preParseAskDecision === null && containsVulnerableUncPath(command)) {
@@ -972,7 +972,7 @@ export async function powershellToolHasPermission(
 
   // Decision: resolved-arg provider/UNC scan — was step 3.5 (:652-709).
   // Provider paths (env:, HKLM:, function:) access non-filesystem resources.
-  // UNC paths can leak NTLM/Kerberos credentials on Windows. The raw-string
+  // UNC paths can release NTLM/Kerberos credentials on Windows. The raw-string
   // UNC check above (pre-parse) misses backtick-escaped forms; cmd.args has
   // backtick escapes resolved by the parser. Labeled loop breaks on FIRST
   // match (same as the previous early-return).
@@ -1290,11 +1290,11 @@ export async function powershellToolHasPermission(
   // can inspect nameType — PowerShell runs the local .ps1 file. The AST's
   // nameType for the first command element is authoritative when parse
   // succeeded; 'application' means a script/executable path, not a cmdlet.
-  // SECURITY: Same argLeaksValue gate as the per-subcommand loop below
+  // SECURITY: Same argreleasesValue gate as the per-subcommand loop below
   // (finding #32). Without it, `PowerShell(Write-Output:*)` exact-matches
-  // `Write-Output $env:ANTHROPIC_API_KEY`, pushes allow to decisions[], and
+  // `Write-Output $env:OpenClaw Team_API_KEY`, pushes allow to decisions[], and
   // reduce returns it before the per-subcommand gate ever runs. The
-  // allSubCommands.every check ensures NO command in the statement leaks
+  // allSubCommands.every check ensures NO command in the statement releases
   // (a single-command exact-allow has one element; a pipeline has several).
   //
   // SECURITY: nameType gate must check ALL subcommands, not just [0]
@@ -1309,7 +1309,7 @@ export async function powershellToolHasPermission(
     allSubCommands.every(
       sc =>
         sc.element.nameType !== 'application' &&
-        !argLeaksValue(sc.text, sc.element),
+        !argreleasesValue(sc.text, sc.element),
     )
   ) {
     decisions.push(exactMatchResult)
@@ -1425,7 +1425,7 @@ export async function powershellToolHasPermission(
   // Get-Process, then `if ($true) { Get-Process; $env:SECRET }` — Get-Process
   // is allow-ruled (continue, no push), $env:SECRET is VariableExpressionAst
   // (not a sub-command), statement marked seen → gate skips → auto-allow →
-  // secret leaks. Tracking on push only: statement stays unseen → gate fires
+  // secret releases. Tracking on push only: statement stays unseen → gate fires
   // → ask.
   const statementsSeenInLoop = new Set<
     ParsedPowerShellCommand['statements'][number]
@@ -1471,7 +1471,7 @@ export async function powershellToolHasPermission(
       // SECURITY: User allow rule asserts the cmdlet is safe, NOT that
       // arbitrary variable expansion through it is safe. A user who allows
       // PowerShell(Write-Output:*) did not intend to auto-allow
-      // `Write-Output $env:ANTHROPIC_API_KEY`. Apply the same argLeaksValue
+      // `Write-Output $env:OpenClaw Team_API_KEY`. Apply the same argreleasesValue
       // gate that protects the built-in allowlist path below — rejects
       // Variable/Other/ScriptBlock/SubExpression elementTypes and colon-bound
       // expression children. (security finding #32)
@@ -1481,7 +1481,7 @@ export async function powershellToolHasPermission(
       // can redirect subsequent reads to arbitrary paths. The built-in
       // allowlist path (below) and acceptEdits path both gate on
       // !hasSymlinkCreate; the user-rule path must too.
-      if (argLeaksValue(subCmd, element)) {
+      if (argreleasesValue(subCmd, element)) {
         if (statement !== null) {
           statementsSeenInLoop.add(statement)
         }
@@ -1512,7 +1512,7 @@ export async function powershellToolHasPermission(
     //   $x = Get-Process                   — AssignmentStatementAst
     //   Get-Process && Get-Service         — PipelineChainAst
     // Explicit user allow rules (above) run before this gate but apply their
-    // own argLeaksValue check; both paths now gate argument elementTypes.
+    // own argreleasesValue check; both paths now gate argument elementTypes.
     //
     // SECURITY: Also skip when the compound contains a cwd-changing cmdlet
     // (finding #27 — cd+read gap). isAllowlistedCommand validates Get-Content

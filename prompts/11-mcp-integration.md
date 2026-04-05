@@ -4,9 +4,9 @@
 
 You are working in `/workspaces/claude-code`. The CLI has built-in MCP (Model Context Protocol) support:
 - **MCP Client** — connects to external MCP servers (tools, resources)
-- **MCP Server** — exposes Claude Code itself as an MCP server
+- **MCP Server** — exposes OpenClaw CLI itself as an MCP server
 
-MCP lets the CLI use tools provided by external servers and lets other clients use Claude Code as a tool provider.
+MCP lets the CLI use tools provided by external servers and lets other clients use OpenClaw CLI as a tool provider.
 
 ## Key Files
 

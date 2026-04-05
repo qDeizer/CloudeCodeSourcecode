@@ -334,7 +334,7 @@ export type CronJitterConfig = {
    * Recurring tasks auto-expire this many ms after creation (unless marked
    * `permanent`). Cron is the primary driver of multi-day sessions (p99
    * uptime 61min → 53h post-#19931), and unbounded recurrence lets Tier-1
-   * heap leaks compound indefinitely. The default (7 days) covers "check
+   * heap releases compound indefinitely. The default (7 days) covers "check
    * my PRs every hour this week" workflows while capping worst-case
    * session lifetime. Permanent tasks (assistant mode's catch-up/
    * morning-checkin/dream) never age out — they can't be recreated if

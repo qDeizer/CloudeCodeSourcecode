@@ -77,8 +77,8 @@ export function createBridgeApiClient(deps: BridgeApiDeps): BridgeApiClient {
     const headers: Record<string, string> = {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
-      'anthropic-version': '2023-06-01',
-      'anthropic-beta': BETA_HEADER,
+      'OpenClaw Team-version': '2023-06-01',
+      'OpenClaw Team-beta': BETA_HEADER,
       'x-environment-runner-version': deps.runnerVersion,
     }
     const deviceToken = deps.getTrustedDeviceToken?.()

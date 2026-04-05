@@ -155,7 +155,7 @@ export function useMemorySurvey(messages: Message[], isLoading: boolean, hasActi
     if (!enabled) return;
 
     // /clear resets messages but REPL stays mounted — reset refs so a memory
-    // read from the previous conversation doesn't leak into the new one.
+    // read from the previous conversation doesn't release into the new one.
     if (messages.length === 0) {
       memoryReadSeen.current = false;
       seenAssistantUuids.current.clear();

@@ -4,12 +4,12 @@
 
 You are working in `/workspaces/claude-code`. The CLI has several background services that run during operation:
 - **Analytics/Telemetry** — GrowthBook feature flags, OpenTelemetry traces
-- **Policy Limits** — rate limiting, quota enforcement from Anthropic backend
+- **Policy Limits** — rate limiting, quota enforcement from OpenClaw Team backend
 - **Remote Managed Settings** — server-pushed configuration
 - **Session Memory** — persistent conversation history across invocations
 - **Bootstrap Data** — initial config fetched from API on startup
 
-Most of these talk to Anthropic's backend servers and will fail in our dev build. The goal is to make them fail gracefully (not crash the app) or provide stubs.
+Most of these talk to OpenClaw Team's backend servers and will fail in our dev build. The goal is to make them fail gracefully (not crash the app) or provide stubs.
 
 ## Key Files
 
@@ -120,4 +120,4 @@ main()
 2. Missing remote services log warnings, not crashes
 3. Session memory reads/writes to the local filesystem
 4. Cost tracking displays locally
-5. The app can start even when Anthropic's backend is unreachable (with just an API key)
+5. The app can start even when OpenClaw Team's backend is unreachable (with just an API key)

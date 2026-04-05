@@ -2,7 +2,7 @@
 import type {
   ToolResultBlockParam,
   ToolUseBlock,
-} from '@anthropic-ai/sdk/resources/index.mjs'
+} from '@OpenClaw Team-ai/sdk/resources/index.mjs'
 import type { CanUseToolFn } from './hooks/useCanUseTool.js'
 import { FallbackTriggeredError } from './services/api/withRetry.js'
 import {
@@ -166,7 +166,7 @@ const MAX_OUTPUT_TOKENS_RECOVERY_LIMIT = 3
 /**
  * Is this a max_output_tokens error message? If so, the streaming loop should
  * withhold it from SDK callers until we know whether the recovery loop can
- * continue. Yielding early leaks an intermediate error to SDK callers (e.g.
+ * continue. Yielding early releases an intermediate error to SDK callers (e.g.
  * cowork/desktop) that terminate the session on any `error` field — the
  * recovery loop keeps running but nobody is listening.
  *
@@ -908,7 +908,7 @@ async function* queryLoop(
 
             // Discard pending results from the failed attempt and create a
             // fresh executor. This prevents orphan tool_results (with old
-            // tool_use_ids) from leaking into the retry.
+            // tool_use_ids) from releaseing into the retry.
             if (streamingToolExecutor) {
               streamingToolExecutor.discard()
               streamingToolExecutor = new StreamingToolExecutor(

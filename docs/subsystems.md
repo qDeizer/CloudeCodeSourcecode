@@ -1,6 +1,6 @@
 # Subsystems Guide
 
-> Detailed documentation of Claude Code's major subsystems.
+> Detailed documentation of OpenClaw CLI's major subsystems.
 
 ---
 
@@ -23,7 +23,7 @@
 
 **Location:** `src/bridge/`
 
-The bridge is a bidirectional communication layer connecting Claude Code's CLI with IDE extensions (VS Code, JetBrains). It allows the CLI to run as a backend for IDE-based interfaces.
+The bridge is a bidirectional communication layer connecting OpenClaw CLI's CLI with IDE extensions (VS Code, JetBrains). It allows the CLI to run as a backend for IDE-based interfaces.
 
 ### Architecture
 
@@ -39,7 +39,7 @@ The bridge is a bidirectional communication layer connecting Claude Code's CLI w
                                         │
                                         ▼
                               ┌──────────────────────┐
-                              │   Claude Code Core   │
+                              │   OpenClaw CLI Core   │
                               │  (QueryEngine, Tools) │
                               └──────────────────────┘
 ```
@@ -73,7 +73,7 @@ The bridge is gated behind the `BRIDGE_MODE` feature flag and is stripped from n
 
 **Location:** `src/services/mcp/`
 
-Claude Code acts as both an **MCP client** (consuming tools/resources from MCP servers) and can run as an **MCP server** (exposing its own tools via `src/entrypoints/mcp.ts`).
+OpenClaw CLI acts as both an **MCP client** (consuming tools/resources from MCP servers) and can run as an **MCP server** (exposing its own tools via `src/entrypoints/mcp.ts`).
 
 ### Client Features
 
@@ -85,7 +85,7 @@ Claude Code acts as both an **MCP client** (consuming tools/resources from MCP s
 
 ### Server Mode
 
-When launched via `src/entrypoints/mcp.ts`, Claude Code exposes its own tools and resources via the MCP protocol, allowing other AI agents to use Claude Code as a tool server.
+When launched via `src/entrypoints/mcp.ts`, OpenClaw CLI exposes its own tools and resources via the MCP protocol, allowing other AI agents to use OpenClaw CLI as a tool server.
 
 ### Related Tools
 
@@ -151,14 +151,14 @@ FileRead(*)           # Allow reading any file
 
 **Location:** `src/plugins/`, `src/services/plugins/`
 
-Claude Code supports installable plugins that can extend its capabilities.
+OpenClaw CLI supports installable plugins that can extend its capabilities.
 
 ### Structure
 
 | Component | Location | Purpose |
 |-----------|----------|---------|
 | Plugin loader | `src/services/plugins/` | Discovers and loads plugins |
-| Built-in plugins | `src/plugins/builtinPlugins.ts` | Plugins that ship with Claude Code |
+| Built-in plugins | `src/plugins/builtinPlugins.ts` | Plugins that ship with OpenClaw CLI |
 | Bundled plugins | `src/plugins/bundled/` | Plugin code bundled into the binary |
 | Plugin types | `src/types/plugin.ts` | TypeScript types for plugin API |
 
@@ -189,7 +189,7 @@ Skills are reusable, named workflows that bundle prompts and tool configurations
 
 | Component | Location | Purpose |
 |-----------|----------|---------|
-| Bundled skills | `src/skills/bundled/` | Skills that ship with Claude Code |
+| Bundled skills | `src/skills/bundled/` | Skills that ship with OpenClaw CLI |
 | Skill loader | `src/skills/loadSkillsDir.ts` | Loads skills from disk |
 | MCP skill builders | `src/skills/mcpSkillBuilders.ts` | Creates skills from MCP resources |
 | Skill registry | `src/skills/bundledSkills.ts` | Registration of all bundled skills |
@@ -199,7 +199,7 @@ Skills are reusable, named workflows that bundle prompts and tool configurations
 | Skill | Purpose |
 |-------|---------|
 | `batch` | Batch operations across multiple files |
-| `claudeApi` | Direct Anthropic API interaction |
+| `claudeApi` | Direct OpenClaw Team API interaction |
 | `claudeInChrome` | Chrome extension integration |
 | `debug` | Debugging workflows |
 | `keybindings` | Keybinding configuration |
@@ -253,7 +253,7 @@ Manages background and parallel work items — shell tasks, agent tasks, and tea
 
 **Location:** `src/memdir/`
 
-Claude Code's persistent memory system, based on `CLAUDE.md` files.
+OpenClaw CLI's persistent memory system, based on `CLAUDE.md` files.
 
 ### Memory Hierarchy
 
@@ -317,7 +317,7 @@ External integrations and shared services.
 
 | Service | Path | Purpose |
 |---------|------|---------|
-| **API** | `api/` | Anthropic SDK client, file uploads, bootstrap |
+| **API** | `api/` | OpenClaw Team SDK client, file uploads, bootstrap |
 | **MCP** | `mcp/` | MCP client connections and tool discovery |
 | **OAuth** | `oauth/` | OAuth 2.0 authentication flow |
 | **LSP** | `lsp/` | Language Server Protocol manager |

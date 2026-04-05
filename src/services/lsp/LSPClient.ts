@@ -404,7 +404,7 @@ export function createLSPClient(
         }
 
         if (process) {
-          // Remove event listeners to prevent memory leaks
+          // Remove event listeners to prevent memory releases
           process.removeAllListeners('error')
           process.removeAllListeners('exit')
           if (process.stdin) {

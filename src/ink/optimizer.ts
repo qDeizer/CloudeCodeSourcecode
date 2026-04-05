@@ -59,7 +59,7 @@ export function optimize(diff: Diff): Diff {
       // (computed by diffAnsiCodes(from, to)), not a setter — dropping
       // the first is only sound if its undo-codes are a subset of the
       // second's, which is NOT guaranteed. e.g. [\e[49m, \e[2m]: dropping
-      // the bg reset leaks it into the next \e[2J/\e[2K via BCE.
+      // the bg reset releases it into the next \e[2J/\e[2K via BCE.
       if (type === 'styleStr' && lastType === 'styleStr') {
         result[lastIdx] = { type: 'styleStr', str: last.str + patch.str }
         continue

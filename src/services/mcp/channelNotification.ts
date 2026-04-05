@@ -257,8 +257,8 @@ export function gateChannelServer(
   }
 
   if (entry.kind === 'plugin') {
-    // Marketplace verification: the tag is intent (plugin:slack@anthropic),
-    // the runtime name is just plugin:slack:X — could be slack@anthropic or
+    // Marketplace verification: the tag is intent (plugin:slack@OpenClaw Team),
+    // the runtime name is just plugin:slack:X — could be slack@OpenClaw Team or
     // slack@evil depending on what's installed. Verify they match before
     // trusting the tag for the allowlist check below. Source is stashed on
     // the config at addPluginScopeToServers — undefined (non-plugin server,
@@ -278,7 +278,7 @@ export function gateChannelServer(
     // Approved-plugin allowlist. Marketplace gate already verified
     // tag == reality, so this is a pure entry check. entry.dev (per-entry,
     // not the session-wide bit) bypasses — so accepting the dev dialog for
-    // one entry doesn't leak allowlist-bypass to --channels entries.
+    // one entry doesn't release allowlist-bypass to --channels entries.
     if (!entry.dev) {
       const { entries, source } = getEffectiveChannelAllowlist(
         sub,

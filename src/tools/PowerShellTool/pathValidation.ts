@@ -1096,7 +1096,7 @@ function validatePath(
   }
 
   // SECURITY: Block UNC paths — they can trigger network requests and
-  // leak NTLM/Kerberos credentials
+  // release NTLM/Kerberos credentials
   if (
     normalizedPath.startsWith('//') ||
     /DavWWWRoot/i.test(normalizedPath) ||
@@ -1108,7 +1108,7 @@ function validatePath(
       decisionReason: {
         type: 'other',
         reason:
-          'UNC paths are blocked because they can trigger network requests and credential leakage',
+          'UNC paths are blocked because they can trigger network requests and credential releaseage',
       },
     }
   }
@@ -1439,7 +1439,7 @@ function extractPathsFromCommand(cmd: ParsedCommandElement): {
       } else if (matchesParam(paramLower, valueParams)) {
         // Known value-taking non-path parameter (e.g., -Encoding UTF8, -Filter *.txt).
         // Consume its value; do NOT validate as path, but DO check elementType.
-        // SECURITY: A Variable elementType (e.g., $env:ANTHROPIC_API_KEY) in any
+        // SECURITY: A Variable elementType (e.g., $env:OpenClaw Team_API_KEY) in any
         // argument position means the runtime value is not statically knowable.
         // Without this check, `-Value $env:SECRET` would be silently auto-allowed
         // in acceptEdits mode because the Variable elementType was never examined.
@@ -1599,7 +1599,7 @@ function checkPathConstraintsForStatement(
   // Unlike BashTool which gates on `operationType !== 'read'`, we also block
   // READS (finding #27): `Set-Location ~; Get-Content ./.ssh/id_rsa` bypasses
   // Read(~/.ssh/**) deny rules because the validator matched the deny against
-  // /project/.ssh/id_rsa. Reads from mis-resolved paths leak data just as
+  // /project/.ssh/id_rsa. Reads from mis-resolved paths release data just as
   // writes destroy it. We still run deny-rule matching below (via firstAsk,
   // not early return) so explicit deny rules on the stale-resolved path are
   // honored — deny > ask in the caller's reduce.
@@ -1623,7 +1623,7 @@ function checkPathConstraintsForStatement(
   // but Remove-Item has no explicit args so extractPathsFromCommand returns
   // zero paths and the command would passthrough. If ANY downstream cmdlet
   // appears alongside an expression source, we force an ask — the piped
-  // path is unvalidatable regardless of operation type (reads leak data;
+  // path is unvalidatable regardless of operation type (reads release data;
   // writes destroy it).
   let hasExpressionPipelineSource = false
   // Track the non-CommandAst element's text for deny-rule guessing (finding #23).
@@ -1760,7 +1760,7 @@ function checkPathConstraintsForStatement(
           decisionReason?.type === 'other' ||
           decisionReason?.type === 'safetyCheck'
             ? decisionReason.reason
-            : `${canonical} targeting '${resolvedPath}' was blocked. For security, Claude Code may only access files in the allowed working directories for this session: ${dirListStr}.`
+            : `${canonical} targeting '${resolvedPath}' was blocked. For security, OpenClaw CLI may only access files in the allowed working directories for this session: ${dirListStr}.`
 
         if (decisionReason?.type === 'rule') {
           return {
@@ -1873,7 +1873,7 @@ function checkPathConstraintsForStatement(
             decisionReason?.type === 'other' ||
             decisionReason?.type === 'safetyCheck'
               ? decisionReason.reason
-              : `${canonical} targeting '${resolvedPath}' was blocked. For security, Claude Code may only access files in the allowed working directories for this session: ${dirListStr}.`
+              : `${canonical} targeting '${resolvedPath}' was blocked. For security, OpenClaw CLI may only access files in the allowed working directories for this session: ${dirListStr}.`
 
           if (decisionReason?.type === 'rule') {
             return {
@@ -1960,7 +1960,7 @@ function checkPathConstraintsForStatement(
               decisionReason?.type === 'other' ||
               decisionReason?.type === 'safetyCheck'
                 ? decisionReason.reason
-                : `Output redirection to '${resolvedPath}' was blocked. For security, Claude Code may only write to files in the allowed working directories for this session: ${dirListStr}.`
+                : `Output redirection to '${resolvedPath}' was blocked. For security, OpenClaw CLI may only write to files in the allowed working directories for this session: ${dirListStr}.`
 
             if (decisionReason?.type === 'rule') {
               return {
@@ -2013,7 +2013,7 @@ function checkPathConstraintsForStatement(
           decisionReason?.type === 'other' ||
           decisionReason?.type === 'safetyCheck'
             ? decisionReason.reason
-            : `Output redirection to '${resolvedPath}' was blocked. For security, Claude Code may only write to files in the allowed working directories for this session: ${dirListStr}.`
+            : `Output redirection to '${resolvedPath}' was blocked. For security, OpenClaw CLI may only write to files in the allowed working directories for this session: ${dirListStr}.`
 
         if (decisionReason?.type === 'rule') {
           return {

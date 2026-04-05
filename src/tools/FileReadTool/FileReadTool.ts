@@ -1,4 +1,4 @@
-import type { Base64ImageSource } from '@anthropic-ai/sdk/resources/index.mjs'
+import type { Base64ImageSource } from '@OpenClaw Team-ai/sdk/resources/index.mjs'
 import { readdir, readFile as readFileAsync } from 'fs/promises'
 import * as path from 'path'
 import { posix, win32 } from 'path'
@@ -459,7 +459,7 @@ export const FileReadTool = buildTool({
     }
 
     // SECURITY: UNC path check (no I/O) — defer filesystem operations
-    // until after user grants permission to prevent NTLM credential leaks
+    // until after user grants permission to prevent NTLM credential releases
     const isUncPath =
       fullFilePath.startsWith('\\\\') || fullFilePath.startsWith('//')
     if (isUncPath) {

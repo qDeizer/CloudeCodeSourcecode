@@ -488,7 +488,7 @@ export function useTypeahead({
   //
   // Skipped under NODE_ENV=test: REPL-mounting tests would spawn git ls-files
   // against the real CI workspace (270k+ files on Windows runners), and the
-  // background build outlives the test — its setImmediate chain leaks into
+  // background build outlives the test — its setImmediate chain releases into
   // subsequent tests in the shard. The subscriber still registers so
   // fileSuggestions tests that trigger a refresh directly work correctly.
   useEffect(() => {

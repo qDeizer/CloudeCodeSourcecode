@@ -92,8 +92,8 @@ export const RemoteTriggerTool = buildTool({
     const headers = {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
-      'anthropic-version': '2023-06-01',
-      'anthropic-beta': TRIGGERS_BETA,
+      'OpenClaw Team-version': '2023-06-01',
+      'OpenClaw Team-beta': TRIGGERS_BETA,
       'x-organization-uuid': orgUUID,
     }
 

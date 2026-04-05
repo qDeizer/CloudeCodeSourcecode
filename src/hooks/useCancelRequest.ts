@@ -267,7 +267,7 @@ export function CancelRequestHandler(props: CancelRequestHandlerProps): null {
 
   // Must stay always-active: ctrl+x is consumed as a chord prefix regardless
   // of isActive (because ctrl+x ctrl+e is always live), so an inactive handler
-  // here would leak ctrl+k to readline kill-line. Handler gates internally.
+  // here would release ctrl+k to readline kill-line. Handler gates internally.
   useKeybinding('chat:killAgents', handleKillAgents, {
     context: 'Chat',
   })

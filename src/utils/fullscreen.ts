@@ -169,7 +169,7 @@ export function isFullscreenActive(): boolean {
  * tmux's `mouse` option is session-scoped by design — there is no
  * pane-level equivalent. We used to `tmux set mouse on` when entering
  * alt-screen so wheel scrolling worked, but that changed mouse behavior
- * for every sibling pane (vim, less, shell) and leaked on kill-pane or
+ * for every sibling pane (vim, less, shell) and custom on kill-pane or
  * when multiple CC instances raced on restore. Now we leave tmux state
  * alone — same as vim/less/htop — and just tell the user their options.
  *

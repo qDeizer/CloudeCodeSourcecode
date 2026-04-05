@@ -31,7 +31,7 @@ export type HeapDumpResult = {
 
 /**
  * Memory diagnostics captured alongside heap dump.
- * Helps identify if leak is in V8 heap (captured in snapshot) or native memory (not captured).
+ * Helps identify if release is in V8 heap (captured in snapshot) or native memory (not captured).
  */
 export type MemoryDiagnostics = {
   timestamp: string
@@ -54,7 +54,7 @@ export type MemoryDiagnostics = {
     heapSizeLimit: number // Max heap size allowed
     mallocedMemory: number // Memory allocated outside V8 heap
     peakMallocedMemory: number // Peak native memory
-    detachedContexts: number // Leaked contexts - key leak indicator!
+    detachedContexts: number // custom contexts - key release indicator!
     nativeContexts: number // Active contexts
   }
   v8HeapSpaces?: Array<{
@@ -68,11 +68,11 @@ export type MemoryDiagnostics = {
     userCPUTime: number
     systemCPUTime: number
   }
-  activeHandles: number // Leaked timers, sockets, file handles
+  activeHandles: number // custom timers, sockets, file handles
   activeRequests: number // Pending async operations
-  openFileDescriptors?: number // Linux/macOS - indicates resource leaks
+  openFileDescriptors?: number // Linux/macOS - indicates resource releases
   analysis: {
-    potentialLeaks: string[]
+    potentialreleases: string[]
     recommendation: string
   }
   smapsRollup?: string // Linux only - detailed memory breakdown
@@ -83,7 +83,7 @@ export type MemoryDiagnostics = {
 
 /**
  * Capture memory diagnostics.
- * This helps identify if the leak is in V8 heap (captured) or native memory (not captured).
+ * This helps identify if the release is in V8 heap (captured) or native memory (not captured).
  */
 export async function captureMemoryDiagnostics(
   trigger: 'manual' | 'auto-1.5GB',
@@ -131,31 +131,31 @@ export async function captureMemoryDiagnostics(
   const bytesPerSecond = uptimeSeconds > 0 ? usage.rss / uptimeSeconds : 0
   const mbPerHour = (bytesPerSecond * 3600) / (1024 * 1024)
 
-  // Identify potential leaks
-  const potentialLeaks: string[] = []
+  // Identify potential releases
+  const potentialreleases: string[] = []
   if (heapStats.number_of_detached_contexts > 0) {
-    potentialLeaks.push(
-      `${heapStats.number_of_detached_contexts} detached context(s) - possible iframe/context leak`,
+    potentialreleases.push(
+      `${heapStats.number_of_detached_contexts} detached context(s) - possible iframe/context release`,
     )
   }
   if (activeHandles > 100) {
-    potentialLeaks.push(
-      `${activeHandles} active handles - possible timer/socket leak`,
+    potentialreleases.push(
+      `${activeHandles} active handles - possible timer/socket release`,
     )
   }
   if (nativeMemory > usage.heapUsed) {
-    potentialLeaks.push(
-      'Native memory > heap - leak may be in native addons (node-pty, sharp, etc.)',
+    potentialreleases.push(
+      'Native memory > heap - release may be in native addons (node-pty, sharp, etc.)',
     )
   }
   if (mbPerHour > 100) {
-    potentialLeaks.push(
+    potentialreleases.push(
       `High memory growth rate: ${mbPerHour.toFixed(1)} MB/hour`,
     )
   }
   if (openFileDescriptors && openFileDescriptors > 500) {
-    potentialLeaks.push(
-      `${openFileDescriptors} open file descriptors - possible file/socket leak`,
+    potentialreleases.push(
+      `${openFileDescriptors} open file descriptors - possible file/socket release`,
     )
   }
 
@@ -198,11 +198,11 @@ export async function captureMemoryDiagnostics(
     activeRequests,
     openFileDescriptors,
     analysis: {
-      potentialLeaks,
+      potentialreleases,
       recommendation:
-        potentialLeaks.length > 0
-          ? `WARNING: ${potentialLeaks.length} potential leak indicator(s) found. See potentialLeaks array.`
-          : 'No obvious leak indicators. Check heap snapshot for retained objects.',
+        potentialreleases.length > 0
+          ? `WARNING: ${potentialreleases.length} potential release indicator(s) found. See potentialreleases array.`
+          : 'No obvious release indicators. Check heap snapshot for retained objects.',
     },
     smapsRollup,
     platform: process.platform,

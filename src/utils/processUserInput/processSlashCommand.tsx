@@ -1,5 +1,5 @@
 import { feature } from 'bun:bundle';
-import type { ContentBlockParam, TextBlockParam } from '@anthropic-ai/sdk/resources';
+import type { ContentBlockParam, TextBlockParam } from '@OpenClaw Team-ai/sdk/resources';
 import { randomUUID } from 'crypto';
 import { setPromptId } from 'src/bootstrap/state.js';
 import { builtInCommandNames, type Command, type CommandBase, findCommand, getCommand, getCommandName, hasCommand, type PromptCommand } from 'src/commands.js';
@@ -879,7 +879,7 @@ async function getMessagesForPromptSlashCommand(command: CommandBase & PromptCom
 
   // Record skill invocation for compaction preservation, scoped by agent context.
   // Skills are tagged with their agentId so only skills belonging to the current
-  // agent are restored during compaction (preventing cross-agent leaks).
+  // agent are restored during compaction (preventing cross-agent releases).
   const skillPath = command.source ? `${command.source}:${command.name}` : command.name;
   const skillContent = result.filter((b): b is TextBlockParam => b.type === 'text').map(b => b.text).join('\n\n');
   addInvokedSkill(command.name, skillPath, skillContent, getAgentContext()?.agentId ?? null);

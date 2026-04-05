@@ -221,7 +221,7 @@ export function isClaudeSettingsPath(filePath: string): boolean {
   )
 }
 
-// Always ask when Claude Code tries to edit its own config files
+// Always ask when OpenClaw CLI tries to edit its own config files
 function isClaudeConfigFilePath(filePath: string): boolean {
   if (isClaudeSettingsPath(filePath)) {
     return true
@@ -319,7 +319,7 @@ export function getClaudeTempDirName(): string {
  * Uses TMPDIR env var if set, otherwise:
  * - On Unix: /tmp/claude-{uid}/ (resolved to /private/tmp/claude-{uid}/ on macOS)
  * - On Windows: {tmpdir}/claude/ (e.g., C:\Users\{user}\AppData\Local\Temp\claude\)
- * This is a per-user temporary directory used by Claude Code for all temp files.
+ * This is a per-user temporary directory used by OpenClaw CLI for all temp files.
  *
  * NOTE: We resolve symlinks to ensure this path matches the resolved paths used
  * in permission checks. On macOS, /tmp is a symlink to /private/tmp, so without
@@ -593,7 +593,7 @@ function hasSuspiciousWindowsPathPattern(path: string): boolean {
 
   // Check for UNC paths (on all platforms for defense-in-depth)
   // Examples: \\server\share, \\foo.com\file, //server/share, \\192.168.1.1\share
-  // UNC paths can access remote resources, leak credentials, and bypass working directory restrictions
+  // UNC paths can access remote resources, release credentials, and bypass working directory restrictions
   if (containsVulnerableUncPath(path)) {
     return true
   }
@@ -608,7 +608,7 @@ function hasSuspiciousWindowsPathPattern(path: string): boolean {
  * This function performs comprehensive safety checks including:
  * - Suspicious Windows path patterns (NTFS streams, 8.3 names, long path prefixes, etc.)
  * - Claude config files (.claude/settings.json, .claude/commands/, .claude/agents/)
- * - MCP CLI state files (managed internally by Claude Code)
+ * - MCP CLI state files (managed internally by OpenClaw CLI)
  * - Dangerous files (.bashrc, .gitconfig, .git/, .vscode/, .idea/, etc.)
  *
  * IMPORTANT: This function checks BOTH the original path AND resolved symlink paths
@@ -1277,7 +1277,7 @@ export function checkWritePermissionForTool<Input extends AnyObject>(
     // session access to a single skill without also exposing settings.json
     // or hooks/. The rule already matched the path via matchingRuleForInput;
     // this is an additional scope check. Reject '..' to prevent a rule like
-    // '/.claude/../**' from leaking this bypass outside .claude/.
+    // '/.claude/../**' from releaseing this bypass outside .claude/.
     const ruleContent = claudeFolderAllowRule.ruleValue.ruleContent
     if (
       ruleContent &&

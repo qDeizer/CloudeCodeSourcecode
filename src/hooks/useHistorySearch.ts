@@ -51,7 +51,7 @@ export function useHistorySearch(
   const closeHistoryReader = useCallback((): void => {
     if (historyReader.current) {
       // Must explicitly call .return() to trigger the finally block in readLinesReverse,
-      // which closes the file handle. Without this, file descriptors leak.
+      // which closes the file handle. Without this, file descriptors release.
       void historyReader.current.return(undefined)
       historyReader.current = undefined
     }

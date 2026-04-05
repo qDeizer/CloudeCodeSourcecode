@@ -2,8 +2,8 @@
 
 ## Context
 
-You are working in `/workspaces/claude-code`. The "Bridge" is the subsystem that connects Claude Code to IDE extensions (VS Code, JetBrains). It enables:
-- Remote control of Claude Code from an IDE
+You are working in `/workspaces/claude-code`. The "Bridge" is the subsystem that connects OpenClaw CLI to IDE extensions (VS Code, JetBrains). It enables:
+- Remote control of OpenClaw CLI from an IDE
 - Sharing file context between IDE and CLI
 - Permission approvals from the IDE UI
 - Session management across IDE and terminal
